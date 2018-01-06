@@ -6,10 +6,11 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 17:51:41 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/06 18:31:34 by mploux           ###   ########.fr       */
+/*   Updated: 2018/01/06 18:50:07 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 int main(int av, char **ac)
