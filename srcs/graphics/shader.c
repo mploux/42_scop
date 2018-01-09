@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/07 15:28:48 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/07 18:34:52 by mploux           ###   ########.fr       */
+/*   Updated: 2018/01/09 19:26:26 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ t_shader		*new_shader(const char *vertex_path, const char *fragment_path)
 	GLuint		vertex;
 	GLuint		fragment;
 
-	if (!(result = (t_shader *) malloc(sizeof(t_shader))))
+	if (!(result = (t_shader *)malloc(sizeof(t_shader))))
 		error("Malloc error !");
 	if ((result->program = glCreateProgram()) == GL_FALSE)
 		error("Unable to create shader program");
-	vertex = createShader(load_file(vertex_path), GL_VERTEX_SHADER);
-	fragment = createShader(load_file(fragment_path), GL_FRAGMENT_SHADER);
+	vertex = create_shader(load_file(vertex_path), GL_VERTEX_SHADER);
+	fragment = create_shader(load_file(fragment_path), GL_FRAGMENT_SHADER);
 	glAttachShader(result->program, vertex);
 	glAttachShader(result->program, fragment);
 	glLinkProgram(result->program);
@@ -33,11 +33,12 @@ t_shader		*new_shader(const char *vertex_path, const char *fragment_path)
 	return (result);
 }
 
-GLuint			createShader(const char *source, int type)
+GLuint			create_shader(const char *source, int type)
 {
 	GLuint		shader;
 	GLint		result;
 	GLchar		*err;
+	GLint		length;
 
 	shader = glCreateShader(type);
 	if (shader == GL_FALSE)
@@ -47,7 +48,6 @@ GLuint			createShader(const char *source, int type)
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &result);
 	if (result == GL_FALSE)
 	{
-		GLint length;
 		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
 		err = ft_strnew(length);
 		glGetShaderInfoLog(shader, length, &length, err);

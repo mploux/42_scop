@@ -14,7 +14,6 @@ NAME = scop
 CC = gcc
 FILES =\
 error.c\
-graphics/mesh.c\
 graphics/shader.c\
 main.c\
 maths/mat4.c\

@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/07 15:24:55 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/07 18:24:14 by mploux           ###   ########.fr       */
+/*   Updated: 2018/01/09 19:48:01 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct	s_shader
 }				t_shader;
 
 t_shader		*new_shader(const char *vertex_path, const char *fragment_path);
-GLuint			createShader(const char *source, int type);
+void			delete_shader(t_shader *shader);
+GLuint			create_shader(const char *source, int type);
 
 #endif

@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mesh.h                                             :+:      :+:    :+:   */
+/*   buffers.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/07 18:35:53 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/09 19:49:07 by mploux           ###   ########.fr       */
+/*   Created: 2018/01/09 19:27:52 by mploux            #+#    #+#             */
+/*   Updated: 2018/01/09 19:47:26 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MESH_H
-# define MESH_H
+#ifndef BUFFERS_H
+# define BUFFERS_H
 
-# include <GL/glew.h>
-
-# include "error.h"
-# include "maths.h"
-# include "buffers.h"
-
-typedef struct		s_mesh
+typedef struct		s_glfloatbuffer
 {
-	GLuint			vao;
-	GLuint			vbo;
-	GLuint			ibo;
-	t_glfloatbuffer	vertices;
-	t_gluintbuffer	indices;
-}					t_mesh;
+	int				size;
+	GLfloat			*buffer;
+}					t_glfloatbuffer;
 
-t_mesh				*new_mesh(t_glfloatbuffer v, t_gluintbuffer i);
-void				delete_mesh(t_mesh *mesh);
-void				draw(t_mesh *mesh);
+typedef struct		s_gluintbuffer
+{
+	int				size;
+	GLuint			*buffer;
+}					t_gluintbuffer;
 
 #endif
