@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:57:27 by mploux            #+#    #+#             */
-/*   Updated: 2016/12/12 14:31:36 by mploux           ###   ########.fr       */
+/*   Updated: 2018/01/09 20:25:38 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,37 @@ t_mat4		mat4_ortho(t_vec2 w, t_vec2 h, t_vec2 d)
 	return (result);
 }
 
-t_mat4		mat4_persp(double fov, double aspect, double near, double far)
+t_mat4		mat4_persp(float fov, float aspect, float near, float far)
 {
 	t_mat4 result;
-	double tfov;
+	float tfov;
 
 	tfov = tan(DTR(fov) / 2.0);
 	result = mat4_identity();
-	result.m[0] = 1.0 / (aspect * tfov);
-	result.m[5] = 1.0 / tfov;
-	result.m[10] = -(far + near) / (far - near);
-	result.m[11] = -(2 * far * near) / (far - near);
-	result.m[14] = -1;
-	result.m[15] = 0;
+	result.m[0 + 0 * 4] = 1.0 / (aspect * tfov);
+	result.m[1 + 1 * 4] = 1.0 / tfov;
+	result.m[2 + 2 * 4] = (-far - near) / (near - far);
+	result.m[2 + 3 * 4] = (2 * far * near) / (near - far);
+	result.m[3 + 2 * 4] = 1;
+	result.m[3 + 3 * 4] = 0;
 	return (result);
 }
 
-t_mat4		mat4_screen_space(double h_width, double h_height)
+// mat4 result = identity();
+//
+// float FOV = TAN(TO_RADIANS(fov / 2));
+// float r = near - far;
+//
+// result.m_matrix[0 + 0 * 4] = 1.0f / (FOV * aspect);
+// result.m_matrix[1 + 1 * 4] = 1.0f / FOV;
+//
+// result.m_matrix[2 + 2 * 4] = (-near - far) / r;
+// result.m_matrix[2 + 3 * 4] = 2 * far * near / r;
+//
+// result.m_matrix[3 + 2 * 4] = 1;
+// result.m_matrix[3 + 3 * 4] = 0;
+
+t_mat4		mat4_screen_space(float h_width, float h_height)
 {
 	t_mat4 result;
 

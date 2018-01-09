@@ -12,7 +12,7 @@
 
 #include "maths.h"
 
-double		clamp(double a, double min, double max)
+float		clamp(float a, float min, float max)
 {
 	if (a < min)
 		a = min;

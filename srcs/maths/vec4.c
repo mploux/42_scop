@@ -12,7 +12,7 @@
 
 #include "maths.h"
 
-t_vec4		vec4(double x, double y, double z, double w)
+t_vec4		vec4(float x, float y, float z, float w)
 {
 	t_vec4 v;
 

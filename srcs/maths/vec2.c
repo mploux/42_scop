@@ -12,7 +12,7 @@
 
 #include "maths.h"
 
-t_vec2		vec2(double x, double y)
+t_vec2		vec2(float x, float y)
 {
 	t_vec2 v;
 

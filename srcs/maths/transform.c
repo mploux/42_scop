@@ -23,12 +23,12 @@ t_mat4		mat4_translate(t_vec3 v)
 	return (result);
 }
 
-t_mat4		mat4_rotate(t_vec3 axis, double angle)
+t_mat4		mat4_rotate(t_vec3 axis, float angle)
 {
 	t_mat4	rx;
 	t_mat4	ry;
 	t_mat4	rz;
-	double	rad;
+	float	rad;
 
 	rad = DTR(angle);
 	rx = mat4_identity();
@@ -49,7 +49,7 @@ t_mat4		mat4_rotate(t_vec3 axis, double angle)
 	return (mat4_mul(rx, mat4_mul(ry, rz)));
 }
 
-t_mat4		mat4_rotate_xyz(double rx, double ry, double rz)
+t_mat4		mat4_rotate_xyz(float rx, float ry, float rz)
 {
 	t_mat4	x;
 	t_mat4	y;

@@ -6,13 +6,13 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/18 14:27:37 by mploux            #+#    #+#             */
-/*   Updated: 2016/12/13 13:36:29 by mploux           ###   ########.fr       */
+/*   Updated: 2018/01/09 20:06:08 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "maths.h"
 
-t_vec3		vec3(double x, double y, double z)
+t_vec3		vec3(float x, float y, float z)
 {
 	t_vec3 v;
 

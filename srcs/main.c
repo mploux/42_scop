@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 17:51:41 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/09 19:50:00 by mploux           ###   ########.fr       */
+/*   Updated: 2018/01/09 20:40:39 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,26 @@ int main(int av, char **ac)
 
 	t_mesh *mesh = new_mesh(verticesBuffer, indicesBuffer);
 
+	int x, y, z;
+
+	x = 0;
+	y = 0;
+	z = 0;
+
 	while (!glfwWindowShouldClose(window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(0.5, 0, 0, 1);
 
-
 		glUseProgram(mainShader->program);
+
+		x++;
+		y++;
+		z++;
+
+		glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "projectionMatrix"), 1, GL_FALSE, mat4_persp(70.0f, 640.0f / 480.0f, 0.1f, 100.0f).m);
+		glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "viewMatrix"), 1, GL_TRUE, mat4_mul(mat4_translate(vec3(0, 0, 2)), mat4_rotate_xyz(0, y, 0)).m);
+
 		draw(mesh);
 
 		glfwSwapBuffers(window);
