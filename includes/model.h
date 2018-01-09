@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   buffers.h                                          :+:      :+:    :+:   */
+/*   model.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/09 19:27:52 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/09 21:13:36 by mploux           ###   ########.fr       */
+/*   Created: 2018/01/09 21:06:53 by mploux            #+#    #+#             */
+/*   Updated: 2018/01/09 21:11:55 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUFFERS_H
-# define BUFFERS_H
+#ifndef MODEL_H
+# define MODEL_H
 
-#include <GL/glew.h>
+#include "error.h"
+#include "maths.h"
 #include <libft.h>
+#include <fcntl.h>
+#include "buffers.h"
+#include "mesh.h"
 
-typedef struct		s_glfloatbuffer
-{
-	int				size;
-	GLfloat			*buffer;
-}					t_glfloatbuffer;
-
-typedef struct		s_gluintbuffer
-{
-	int				size;
-	GLuint			*buffer;
-}					t_gluintbuffer;
-
-t_glfloatbuffer		ltfb(t_list *list);
-t_gluintbuffer		ltib(t_list *list);
+static void		parse_line(
+	char *line,
+	t_list **positions_list,
+	t_list **indices_list);
+	
+t_mesh			*model(char *file);
 
 #endif

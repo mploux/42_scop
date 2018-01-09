@@ -15,6 +15,7 @@ CC = gcc
 FILES =\
 error.c\
 graphics/mesh.c\
+graphics/model.c\
 graphics/shader.c\
 main.c\
 maths/mat4.c\
@@ -23,7 +24,8 @@ maths/projection.c\
 maths/transform.c\
 maths/vec2.c\
 maths/vec3.c\
-maths/vec4.c
+maths/vec4.c\
+utils/buffers.c
 
 SRC = srcs/
 DIRS = bin

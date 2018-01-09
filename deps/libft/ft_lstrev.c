@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   buffers.h                                          :+:      :+:    :+:   */
+/*   ft_lstrev.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/09 19:27:52 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/09 21:13:36 by mploux           ###   ########.fr       */
+/*   Created: 2018/01/09 21:18:01 by mploux            #+#    #+#             */
+/*   Updated: 2018/01/09 21:18:12 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUFFERS_H
-# define BUFFERS_H
+#include "libft.h"
 
-#include <GL/glew.h>
-#include <libft.h>
-
-typedef struct		s_glfloatbuffer
+t_list	*ft_lstrev(t_list **lst)
 {
-	int				size;
-	GLfloat			*buffer;
-}					t_glfloatbuffer;
+	t_list	*l_prev;
+	t_list	*l_cur;
+	t_list	*l_next;
 
-typedef struct		s_gluintbuffer
-{
-	int				size;
-	GLuint			*buffer;
-}					t_gluintbuffer;
-
-t_glfloatbuffer		ltfb(t_list *list);
-t_gluintbuffer		ltib(t_list *list);
-
-#endif
+	l_prev = NULL;
+	if (lst)
+	{
+		l_cur = *lst;
+		while (l_cur)
+		{
+			l_next = l_cur->next;
+			l_cur->next = l_prev;
+			l_prev = l_cur;
+			l_cur = l_next;
+		}
+		*lst = l_prev;
+	}
+	return (l_prev);
+}

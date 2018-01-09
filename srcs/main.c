@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 17:51:41 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/09 20:40:39 by mploux           ###   ########.fr       */
+/*   Updated: 2018/01/09 21:13:07 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "shader.h"
 #include "mesh.h"
 #include "buffers.h"
+#include "model.h"
 
 int main(int av, char **ac)
 {
@@ -63,6 +64,7 @@ int main(int av, char **ac)
 	t_gluintbuffer indicesBuffer = {sizeof(indices), indices};
 
 	t_mesh *mesh = new_mesh(verticesBuffer, indicesBuffer);
+	t_mesh *model_42 = model("");
 
 	int x, y, z;
 

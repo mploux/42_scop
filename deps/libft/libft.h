@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 17:37:53 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/07 15:53:39 by mploux           ###   ########.fr       */
+/*   Updated: 2018/01/09 21:24:42 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 
 # include <string.h>
+# include <stdlib.h>
 
 # define BUFF_SIZE 96
 
@@ -105,5 +106,7 @@ int				ft_ishex(char *str);
 int				ft_iterative_power(int nb, int power);
 int				ft_htoi(char *hex);
 char			*load_file(const char *path);
+t_list			*ft_lstrev(t_list **lst);
+void			ft_tabdel(char ***mytab);
 
 #endif

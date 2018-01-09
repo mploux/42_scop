@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   buffers.h                                          :+:      :+:    :+:   */
+/*   ft_tabdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/09 19:27:52 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/09 21:13:36 by mploux           ###   ########.fr       */
+/*   Created: 2018/01/09 21:19:16 by mploux            #+#    #+#             */
+/*   Updated: 2018/01/09 21:19:17 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUFFERS_H
-# define BUFFERS_H
+#include "libft.h"
 
-#include <GL/glew.h>
-#include <libft.h>
-
-typedef struct		s_glfloatbuffer
+void	ft_tabdel(char ***mytab)
 {
-	int				size;
-	GLfloat			*buffer;
-}					t_glfloatbuffer;
+	char	**erase;
+	int		i;
 
-typedef struct		s_gluintbuffer
-{
-	int				size;
-	GLuint			*buffer;
-}					t_gluintbuffer;
-
-t_glfloatbuffer		ltfb(t_list *list);
-t_gluintbuffer		ltib(t_list *list);
-
-#endif
+	if (!mytab || !*mytab)
+		return ;
+	erase = *mytab;
+	i = 0;
+	while (erase[i])
+	{
+		ft_strdel(&erase[i]);
+		++i;
+	}
+	free(*mytab);
+	*mytab = NULL;
+}
