@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 17:51:41 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/09 21:13:07 by mploux           ###   ########.fr       */
+/*   Updated: 2018/01/10 21:09:37 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,25 +46,11 @@ int main(int av, char **ac)
 	if (glewInit() != GLEW_OK)
 		return (-1);
 
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+
 	t_shader *mainShader = new_shader("data/shaders/main.vert", "data/shaders/main.frag");
-
-	GLfloat vertices[] = {
-		-0.5f, -0.5f, 0,
-		0.5f, -0.5f, 0,
-		0.5f, 0.5f, 0,
-		-0.5f, 0.5f, 0
-	};
-
-	GLuint indices[] = {
-		0, 1, 2,
-		0, 2, 3
-	};
-
-	t_glfloatbuffer verticesBuffer = {sizeof(vertices), vertices};
-	t_gluintbuffer indicesBuffer = {sizeof(indices), indices};
-
-	t_mesh *mesh = new_mesh(verticesBuffer, indicesBuffer);
-	t_mesh *model_42 = model("");
+	t_mesh *model_42 = new_model("data/models/suzanne.obj");
 
 	int x, y, z;
 
@@ -74,7 +60,7 @@ int main(int av, char **ac)
 
 	while (!glfwWindowShouldClose(window))
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.5, 0, 0, 1);
 
 		glUseProgram(mainShader->program);
@@ -86,11 +72,14 @@ int main(int av, char **ac)
 		glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "projectionMatrix"), 1, GL_FALSE, mat4_persp(70.0f, 640.0f / 480.0f, 0.1f, 100.0f).m);
 		glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "viewMatrix"), 1, GL_TRUE, mat4_mul(mat4_translate(vec3(0, 0, 2)), mat4_rotate_xyz(0, y, 0)).m);
 
-		draw(mesh);
+		draw(model_42);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
+
+	delete_shader(mainShader);
+	delete_mesh(model_42);
 
 	glfwTerminate();
 	return 0;

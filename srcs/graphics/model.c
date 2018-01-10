@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 19:53:55 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/09 21:10:46 by mploux           ###   ########.fr       */
+/*   Updated: 2018/01/10 21:19:50 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ static void		parse_line(
 	t_list **indices_list)
 {
 	char	**tokens;
-	t_vec3	val;
-	int		indices[3];
+	GLfloat	vertices[3];
+	GLuint	indices[3];
 
 	if (!(tokens = ft_strsplit(line, ' ')))
 		error("Model parser error: Invalid tokens !");
@@ -27,8 +27,12 @@ static void		parse_line(
 	{
 		if (!tokens[1] || !tokens[2] || !tokens[3])
 			error("Model parser error: Invalid tokens !");
-		val = vec3(atof(tokens[1]), atof(tokens[2]), atof(tokens[3]));
-		ft_lstadd(positions_list, ft_lstnew(&val, sizeof(t_vec3)));
+		vertices[0] = atof(tokens[1]);
+		vertices[1] = atof(tokens[2]);
+		vertices[2] = atof(tokens[3]);
+		ft_lstadd(positions_list, ft_lstnew(&vertices[0], sizeof(GLfloat)));
+		ft_lstadd(positions_list, ft_lstnew(&vertices[1], sizeof(GLfloat)));
+		ft_lstadd(positions_list, ft_lstnew(&vertices[2], sizeof(GLfloat)));
 	}
 	else if (tokens[0] && ft_strcmp(tokens[0], "f") == 0)
 	{
@@ -37,14 +41,14 @@ static void		parse_line(
 		indices[0] = ft_atoi(tokens[1]) - 1;
 		indices[1] = ft_atoi(tokens[2]) - 1;
 		indices[2] = ft_atoi(tokens[3]) - 1;
-		ft_lstadd(indices_list, ft_lstnew(&indices[0], sizeof(int)));
-		ft_lstadd(indices_list, ft_lstnew(&indices[1], sizeof(int)));
-		ft_lstadd(indices_list, ft_lstnew(&indices[2], sizeof(int)));
+		ft_lstadd(indices_list, ft_lstnew(&indices[0], sizeof(GLuint)));
+		ft_lstadd(indices_list, ft_lstnew(&indices[1], sizeof(GLuint)));
+		ft_lstadd(indices_list, ft_lstnew(&indices[2], sizeof(GLuint)));
 	}
 	ft_tabdel(&tokens);
 }
 
-t_mesh			*model(char *file)
+t_mesh			*new_model(char *file)
 {
 	int		fd;
 	char	*line;
@@ -60,5 +64,7 @@ t_mesh			*model(char *file)
 		ft_strdel(&line);
 	}
 	ft_lstrev(&positions_list);
-	return (new_mesh(ltfb(positions_list), ltib(indices_list)));
+	t_glfloatbuffer vertices = ltfb(positions_list);
+	t_gluintbuffer indices = ltib(indices_list);
+	return (new_mesh(&vertices, &indices));
 }

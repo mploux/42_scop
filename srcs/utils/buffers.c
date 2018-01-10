@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 20:57:29 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/09 21:14:46 by mploux           ###   ########.fr       */
+/*   Updated: 2018/01/10 20:43:35 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_glfloatbuffer		ltfb(t_list *list)
 		list = list->next;
 		size++;
 	}
+	return (result);
 }
 
 t_gluintbuffer		ltib(t_list *list)
@@ -62,4 +63,5 @@ t_gluintbuffer		ltib(t_list *list)
 		list = list->next;
 		size++;
 	}
+	return (result);
 }

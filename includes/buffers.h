@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 19:27:52 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/09 21:13:36 by mploux           ###   ########.fr       */
+/*   Updated: 2018/01/10 19:11:03 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <GL/glew.h>
 #include <libft.h>
+#include "error.h"
 
 typedef struct		s_glfloatbuffer
 {

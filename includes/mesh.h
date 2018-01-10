@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/07 18:35:53 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/09 19:49:07 by mploux           ###   ########.fr       */
+/*   Updated: 2018/01/10 20:26:10 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct		s_mesh
 	t_gluintbuffer	indices;
 }					t_mesh;
 
-t_mesh				*new_mesh(t_glfloatbuffer v, t_gluintbuffer i);
+t_mesh				*new_mesh(t_glfloatbuffer *v, t_gluintbuffer *i);
 void				delete_mesh(t_mesh *mesh);
 void				draw(t_mesh *mesh);
 

@@ -6,7 +6,7 @@ in vec3 frag_pos;
 
 void main()
 {
-	float fog = 1.0 / distance(frag_pos, vec3(0,0,0)) * 0.5;
+	float fog = 1.0 / distance(frag_pos, vec3(0,0,0)) * 1;
 	if (fog > 1)
 		fog = 1;
 	if (fog < 0)
