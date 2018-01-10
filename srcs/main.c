@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 17:51:41 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/10 21:09:37 by mploux           ###   ########.fr       */
+/*   Updated: 2018/01/10 21:45:30 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,11 @@ int main(int av, char **ac)
 		z++;
 
 		glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "projectionMatrix"), 1, GL_FALSE, mat4_persp(70.0f, 640.0f / 480.0f, 0.1f, 100.0f).m);
-		glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "viewMatrix"), 1, GL_TRUE, mat4_mul(mat4_translate(vec3(0, 0, 2)), mat4_rotate_xyz(0, y, 0)).m);
+		glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "viewMatrix"), 1, GL_TRUE, mat4_mul(mat4_translate(vec3(-2, 0, 5)), mat4_rotate_xyz(0, y, 0)).m);
+
+		draw(model_42);
+
+		glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "viewMatrix"), 1, GL_TRUE, mat4_mul(mat4_translate(vec3(2, 0, 5)), mat4_rotate_xyz(x, 0, 0)).m);
 
 		draw(model_42);
 
@@ -78,8 +82,8 @@ int main(int av, char **ac)
 		glfwPollEvents();
 	}
 
-	delete_shader(mainShader);
-	delete_mesh(model_42);
+	// delete_shader(&mainShader);
+	// delete_mesh(&model_42);
 
 	glfwTerminate();
 	return 0;
