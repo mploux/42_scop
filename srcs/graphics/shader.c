@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/07 15:28:48 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/10 21:45:00 by mploux           ###   ########.fr       */
+/*   Updated: 2018/01/11 19:32:45 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,25 @@ t_shader		*new_shader(const char *vertex_path, const char *fragment_path)
 	t_shader	*result;
 	GLuint		vertex;
 	GLuint		fragment;
+	char		*vertex_source;
+	char		*fragment_source;
 
 	if (!(result = (t_shader *)malloc(sizeof(t_shader))))
 		error("Malloc error !");
 	if ((result->program = glCreateProgram()) == GL_FALSE)
 		error("Unable to create shader program");
-	vertex = create_shader(load_file(vertex_path), GL_VERTEX_SHADER);
-	fragment = create_shader(load_file(fragment_path), GL_FRAGMENT_SHADER);
+	vertex_source = load_file(vertex_path);
+	fragment_source = load_file(fragment_path);
+	vertex = create_shader(vertex_source, GL_VERTEX_SHADER);
+	fragment = create_shader(fragment_source, GL_FRAGMENT_SHADER);
 	glAttachShader(result->program, vertex);
 	glAttachShader(result->program, fragment);
 	glLinkProgram(result->program);
 	glValidateProgram(result->program);
 	glDeleteShader(vertex);
 	glDeleteShader(fragment);
+	ft_strdel(&vertex_source);
+	ft_strdel(&fragment_source);
 	return (result);
 }
 
@@ -52,6 +58,7 @@ GLuint			create_shader(const char *source, int type)
 		err = ft_strnew(length);
 		glGetShaderInfoLog(shader, length, &length, err);
 		ft_putstr(err);
+		ft_strdel(&err);
 		glDeleteShader(shader);
 		return (0);
 	}
@@ -60,6 +67,6 @@ GLuint			create_shader(const char *source, int type)
 
 void 			delete_shader(t_shader **shader)
 {
-	// glDeleteShader(shader->program);
-	// free(*shader);
+	glDeleteShader((*shader)->program);
+	free(*shader);
 }

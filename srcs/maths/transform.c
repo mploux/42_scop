@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 08:03:44 by mploux            #+#    #+#             */
-/*   Updated: 2016/12/12 15:12:17 by mploux           ###   ########.fr       */
+/*   Updated: 2018/01/11 19:25:34 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ t_mat4		mat4_rotate_xyz(float rx, float ry, float rz)
 	z.m[0] = cos(DTR(rz));
 	z.m[1] = -sin(DTR(rz));
 	z.m[4] = sin(DTR(rz));
+	z.m[5] = cos(DTR(rz));
 	return (mat4_mul(x, mat4_mul(y, z)));
 }
 
