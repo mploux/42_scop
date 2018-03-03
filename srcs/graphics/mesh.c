@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 19:22:31 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/11 20:41:19 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/03 18:04:40 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_mesh			*new_mesh(t_glfloatbuffer *v, t_glfloatbuffer *n, t_model_index *i)
 
 	if (!(result = (t_mesh *)malloc(sizeof(t_mesh))))
 		error("Malloc error !");
+
 	result->vertices = *v;
 	result->indices = *i;
 

@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 19:53:55 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/11 21:01:13 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/03 18:04:12 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static t_mesh	*convert_to_mesh(t_glfloatbuffer vertices, t_glfloatbuffer normals
 	t_mesh			result;
 	t_model_index	index
 
-	
+
 
 	i = 0;
 	while (++i < data.size)
@@ -112,7 +112,7 @@ t_mesh			*new_model(char *file)
 	data.positions = NULL;
 	data.normals = NULL;
 	data.indices = NULL;
-	data->size = 0;
+	data.size = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
 		parse_line(line, &data);
