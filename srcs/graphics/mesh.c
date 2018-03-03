@@ -6,13 +6,13 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 19:22:31 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/03 18:04:40 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/03 18:12:35 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mesh.h"
 
-t_mesh			*new_mesh(t_glfloatbuffer *v, t_glfloatbuffer *n, t_model_index *i)
+t_mesh			*new_mesh(t_glfloatbuffer *v, t_glfloatbuffer *n, t_gluintbuffer *i)
 {
 	t_mesh	*result;
 
@@ -20,6 +20,7 @@ t_mesh			*new_mesh(t_glfloatbuffer *v, t_glfloatbuffer *n, t_model_index *i)
 		error("Malloc error !");
 
 	result->vertices = *v;
+	result->normals = *n;
 	result->indices = *i;
 
 	glGenVertexArrays(1, &result->vao);

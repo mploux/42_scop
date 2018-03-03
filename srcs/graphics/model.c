@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 19:53:55 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/03 18:04:12 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/03 18:13:40 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void		parse_line(char *line, t_model_data *data)
 	ft_tabdel(&tokens);
 }
 
-static t_mesh	*convert_to_mesh(t_glfloatbuffer vertices, t_glfloatbuffer normals, t_gluintbuffer indices)
+static t_mesh	*convert_to_mesh(t_model_data data)
 {
 	int				i;
 
@@ -79,14 +79,14 @@ static t_mesh	*convert_to_mesh(t_glfloatbuffer vertices, t_glfloatbuffer normals
 	t_gluintbuffer	indices;
 
 	t_mesh			result;
-	t_model_index	index
+	t_model_index	index;
 
 
 
 	i = 0;
 	while (++i < data.size)
 	{
-		index = *((t_model_index *)data.indices.content);
+		index = *((t_model_index *)data.indices->content);
 
 		vertices.buffer[i * 3 + 0] = data.positions[index.position * 3 + 0];
 		vertices.buffer[i * 3 + 1] = data.positions[index.position * 3 + 1];
@@ -98,8 +98,10 @@ static t_mesh	*convert_to_mesh(t_glfloatbuffer vertices, t_glfloatbuffer normals
 
 		indices.buffer[i] = i;
 
-		data.indices = data.indices.next;
+		data.indices = data.indices->next;
 	}
+
+	return new_mesh(&vertices, &normals, &indices);
 }
 
 t_mesh			*new_model(char *file)
@@ -118,11 +120,12 @@ t_mesh			*new_model(char *file)
 		parse_line(line, &data);
 		ft_strdel(&line);
 	}
-	t_glfloatbuffer vertices = ltfb(data.positions);
-	t_glfloatbuffer normals = ltfb(data.normals);
-	t_model_index indices = ltib(data.indices);
+	// t_glfloatbuffer vertices = ltfb(data.positions);
+	// t_glfloatbuffer normals = ltfb(data.normals);
+	// t_model_index indices = ltib(data.indices);
+	t_mesh m = convert_to_mesh(data);
 	ft_lstclear(&data.positions);
 	ft_lstclear(&data.normals);
 	ft_lstclear(&data.indices);
-	return (new_mesh(&vertices, &normals, &indices));
+	return (m);
 }

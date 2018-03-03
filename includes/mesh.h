@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/07 18:35:53 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/03 17:18:46 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/03 18:12:37 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ struct		s_mesh
 
 typedef struct		s_mesh t_mesh;
 
-t_mesh				*new_mesh(t_glfloatbuffer *v, t_glfloatbuffer *n, t_model_index *i, int size);
+t_mesh				*new_mesh(t_glfloatbuffer *v, t_glfloatbuffer *n, t_gluintbuffer *i);
 void				delete_mesh(t_mesh **mesh);
 void				draw(t_mesh *mesh);
 
