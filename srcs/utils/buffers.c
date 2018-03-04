@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 20:57:29 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/11 21:04:20 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/04 15:51:51 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,26 +55,6 @@ t_gluintbuffer		ltib(t_list *list)
 		result.buffer[size++] = *((GLuint *)list->content);
 		list = list->next;
 	}
-	return (result);
-}
-
-t_gluintbuffer		*new_gluint_buff(int size)
-{
-	t_gluintbuffer	result;
-
-	result.size = sizeof(GLuint) * size;
-	if (!(result.buffer = (GLuint *)malloc(result.size)))
-		error("Malloc error !");
-	return (result);
-}
-
-t_glfloatbuffer		*new_glfloat_buff(int size)
-{
-	t_glfloatbuffer	result;
-
-	result.size = sizeof(GLfloat) * size;
-	if (!(result.buffer = (GLfloat *)malloc(result.size)))
-		error("Malloc error !");
 	return (result);
 }
 

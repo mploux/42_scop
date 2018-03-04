@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 19:53:55 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/03 18:13:40 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/04 18:11:03 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static void		parse_line(char *line, t_model_data *data)
 		ft_lstadd(&data->positions, ft_lstnew(&vertices[0], sizeof(GLfloat)));
 		ft_lstadd(&data->positions, ft_lstnew(&vertices[1], sizeof(GLfloat)));
 		ft_lstadd(&data->positions, ft_lstnew(&vertices[2], sizeof(GLfloat)));
+		data->positions_size += 3;
 	}
 	else if (tokens[0] && ft_strcmp(tokens[0], "vn") == 0)
 	{
@@ -42,6 +43,7 @@ static void		parse_line(char *line, t_model_data *data)
 		ft_lstadd(&data->normals, ft_lstnew(&normals[0], sizeof(GLfloat)));
 		ft_lstadd(&data->normals, ft_lstnew(&normals[1], sizeof(GLfloat)));
 		ft_lstadd(&data->normals, ft_lstnew(&normals[2], sizeof(GLfloat)));
+		data->normals_size += 3;
 	}
 	else if (tokens[0] && ft_strcmp(tokens[0], "f") == 0)
 	{
@@ -61,47 +63,100 @@ static void		parse_line(char *line, t_model_data *data)
 		indices[2].position = ft_atoi(toks3[0]) - 1;
 		indices[2].normal 	= ft_atoi(toks3[2]) - 1;
 
-		ft_lstadd(&data->indices, ft_lstnew(&indices[0], sizeof(GLuint)));
-		ft_lstadd(&data->indices, ft_lstnew(&indices[1], sizeof(GLuint)));
-		ft_lstadd(&data->indices, ft_lstnew(&indices[2], sizeof(GLuint)));
+		ft_putnbr(indices[0].position);
+		ft_putstr(" ");
+		ft_putnbr(indices[1].position);
+		ft_putstr(" ");
+		ft_putnbr(indices[2].position);
+		ft_putstr("   ");
 
+
+		ft_lstadd(&data->indices, ft_lstnew(&indices[0], sizeof(t_model_index)));
+		ft_putnbr(((t_model_index *) data->indices->content)->position);
+		ft_putstr(" ");
+		ft_lstadd(&data->indices, ft_lstnew(&indices[1], sizeof(t_model_index)));
+		ft_putnbr(((t_model_index *) data->indices->content)->position);
+		ft_putstr(" ");
+		ft_lstadd(&data->indices, ft_lstnew(&indices[2], sizeof(t_model_index)));
+		ft_putnbr(((t_model_index *) data->indices->content)->position);
+		ft_putstr("\n");
 		data->size += 3;
 	}
 	ft_tabdel(&tokens);
 }
 
-static t_mesh	*convert_to_mesh(t_model_data data)
+static t_mesh	*convert_to_mesh(t_glfloatbuffer *v, t_glfloatbuffer *n, t_model_index *i, int size)
 {
-	int				i;
+	int				j;
 
 	t_glfloatbuffer	vertices;
 	t_glfloatbuffer	normals;
 	t_gluintbuffer	indices;
 
-	t_mesh			result;
-	t_model_index	index;
+	j = -1;
 
+	vertices.size = sizeof(GLfloat) * (size * 3);
+	if (!(vertices.buffer = (GLfloat *)malloc(vertices.size)))
+		return (NULL);
+	normals.size = sizeof(GLfloat) * (size * 3);
+	if (!(normals.buffer = (GLfloat *)malloc(normals.size)))
+		return (NULL);
+	indices.size = sizeof(GLuint) * (size);
+	if (!(indices.buffer = (GLuint *)malloc(indices.size)))
+		return (NULL);
 
-
-	i = 0;
-	while (++i < data.size)
+	while (++j < size)
 	{
-		index = *((t_model_index *)data.indices->content);
+		vertices.buffer[j * 3 + 0] = v->buffer[i[j * 3 + 0].position];
+		vertices.buffer[j * 3 + 1] = v->buffer[i[j * 3 + 1].position];
 
-		vertices.buffer[i * 3 + 0] = data.positions[index.position * 3 + 0];
-		vertices.buffer[i * 3 + 1] = data.positions[index.position * 3 + 1];
-		vertices.buffer[i * 3 + 2] = data.positions[index.position * 3 + 2];
+		ft_putnbr(i[j * 3 + 0].position);
+		ft_putstr(" ");
+		ft_putnbr(i[j * 3 + 1].position);
+		ft_putstr(" ");
+		ft_putnbr(i[j * 3 + 2].position);
+		ft_putstr("\n");
 
-		normals.buffer[i * 3 + 0] = data.normals[index.normal * 3 + 0];
-		normals.buffer[i * 3 + 1] = data.normals[index.normal * 3 + 1];
-		normals.buffer[i * 3 + 2] = data.normals[index.normal * 3 + 2];
+		vertices.buffer[j * 3 + 2] = v->buffer[i[j * 3 + 2].position];
 
-		indices.buffer[i] = i;
+		normals.buffer[j * 3 + 0] = n->buffer[i[j * 3 + 0].normal];
+		normals.buffer[j * 3 + 1] = n->buffer[i[j * 3 + 1].normal];
+		normals.buffer[j * 3 + 2] = n->buffer[i[j * 3 + 2].normal];
 
-		data.indices = data.indices->next;
+		indices.buffer[j] = j;
 	}
 
 	return new_mesh(&vertices, &normals, &indices);
+}
+
+static t_model_index *get_indices(t_list *indices, int size)
+{
+	t_model_index	*result;
+	t_list			*list;
+	int				i;
+
+	if (!(result = (t_model_index *)malloc(sizeof(t_model_index) * (size))))
+		return (NULL);
+	list = indices;
+	i = 0;
+	ft_putstr("\n");
+	while (list->next)
+	{
+		t_model_index *index = (t_model_index *) list->content;
+		result[i].position = index->position;
+		result[i].normal = index->normal;
+		result[i].texture = index->texture;
+
+		ft_putnbr(index->position);
+
+		if (i % 3 == 2)
+			ft_putstr("\n");
+		else
+			ft_putstr(" ");
+		list = list->next;
+		i++;
+	}
+	return (result);
 }
 
 t_mesh			*new_model(char *file)
@@ -120,10 +175,14 @@ t_mesh			*new_model(char *file)
 		parse_line(line, &data);
 		ft_strdel(&line);
 	}
-	// t_glfloatbuffer vertices = ltfb(data.positions);
-	// t_glfloatbuffer normals = ltfb(data.normals);
-	// t_model_index indices = ltib(data.indices);
-	t_mesh m = convert_to_mesh(data);
+	t_glfloatbuffer vertices = ltfb(data.positions);
+	t_glfloatbuffer normals = ltfb(data.normals);
+	t_model_index *indices = get_indices(data.indices, data.size);
+
+	ft_putstr("\n\n");
+	t_mesh *m = convert_to_mesh(&vertices, &normals, indices, data.size);
+	ft_putstr("LOL 6\n");
+
 	ft_lstclear(&data.positions);
 	ft_lstclear(&data.normals);
 	ft_lstclear(&data.indices);

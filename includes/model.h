@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 21:06:53 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/03 17:18:13 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/04 17:19:10 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ typedef struct	s_model_data
 	t_list	*positions;
 	t_list	*normals;
 	t_list	*indices;
+	int		positions_size;
+	int		normals_size;
 	int		size;
 }				t_model_data;
 
