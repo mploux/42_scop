@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 17:51:41 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/04 17:24:44 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/11 17:34:24 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,56 +38,57 @@ int main(int av, char **ac)
 		return (-1);
 	}
 
-	glfwSwapInterval(0);
-	glfwMakeContextCurrent(window);
-	glViewport(0, 0, 640, 480);
-	glewExperimental = GL_TRUE;
-
-	if (glewInit() != GLEW_OK)
-		return (-1);
-
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-
-	t_shader *mainShader = new_shader("data/shaders/main.vert", "data/shaders/main.frag");
+	// glfwSwapInterval(0);
+	// glfwMakeContextCurrent(window);
+	// glViewport(0, 0, 640, 480);
+	// glewExperimental = GL_TRUE;
+	//
+	// if (glewInit() != GLEW_OK)
+	// 	return (-1);
+	//
+	// glEnable(GL_DEPTH_TEST);
+	// glEnable(GL_CULL_FACE);
+	//
+	// t_shader *mainShader = new_shader("data/shaders/main.vert", "data/shaders/main.frag");
 	// t_mesh *model_42 = new_model("data/models/42.obj");
-	t_mesh *box = new_model("data/models/block.obj");
-
-	int x, y, z;
-
-	x = 0;
-	y = 0;
-	z = 0;
-
-	while (!glfwWindowShouldClose(window))
-	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		glUseProgram(mainShader->program);
-
-		x++;
-		y++;
-		z++;
-
-		glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "projectionMatrix"), 1, GL_FALSE, mat4_persp(70.0f, 640.0f / 480.0f, 0.1f, 100.0f).m);
-
-		// glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "viewMatrix"), 1, GL_TRUE, mat4_mul(mat4_translate(vec3(-2, 0, 5)), mat4_rotate_xyz(0, y, 0)).m);
-		// draw(model_42);
-        //
-		// glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "viewMatrix"), 1, GL_TRUE, mat4_mul(mat4_translate(vec3(2, 0, 5)), mat4_rotate_xyz(x, 0, 0)).m);
-		// draw(model_42);
-
-		glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "viewMatrix"), 1, GL_TRUE, mat4_mul(mat4_translate(vec3(0, 0, 5)), mat4_rotate_xyz(z, y, z)).m);
-		draw(box);
-
-		glfwSwapBuffers(window);
-		glfwPollEvents();
-	}
-
-	delete_shader(&mainShader);
+	// t_mesh *box = new_model(ac[1]);
+	//
+	// int x, y, z;
+	//
+	// x = 0;
+	// y = 0;
+	// z = 0;
+	//
+	// while (!glfwWindowShouldClose(window))
+	// {
+	// 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//
+	// 	// glUseProgram(mainShader->program);
+	//
+	// 	x++;
+	// 	y++;
+	// 	z++;
+	//
+	// 	// glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "projectionMatrix"), 1, GL_FALSE, mat4_persp(70.0f, 640.0f / 480.0f, 0.1f, 100.0f).m);
+	//
+	// 	// glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "viewMatrix"), 1, GL_TRUE, mat4_mul(mat4_translate(vec3(-2, 0, 5)), mat4_rotate_xyz(0, y, 0)).m);
+	// 	// draw(model_42);
+    //     //
+	// 	// glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "viewMatrix"), 1, GL_TRUE, mat4_mul(mat4_translate(vec3(2, 0, 5)), mat4_rotate_xyz(x, 0, 0)).m);
+	// 	// draw(model_42);
+	//
+	// 	glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "viewMatrix"), 1, GL_TRUE, mat4_mul(mat4_translate(vec3(0, 0, 5)), mat4_rotate_xyz(z, y, z)).m);
+	// 	draw(box);
+	//
+	// 	glfwSwapBuffers(window);
+	// 	glfwPollEvents();
+	// }
+	//
+	// delete_shader(&mainShader);
 	// delete_mesh(&model_42);
-	delete_mesh(&box);
+	// delete_mesh(&box);
 
+	glfwDestroyWindow(window);
 	glfwTerminate();
 	return 0;
 }

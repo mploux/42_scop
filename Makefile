@@ -6,7 +6,7 @@
 #    By: mploux <mploux@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/06 18:10:48 by mploux            #+#    #+#              #
-#    Updated: 2018/03/11 15:32:00 by mploux           ###   ########.fr        #
+#    Updated: 2018/03/11 17:50:39 by mploux           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,11 +48,11 @@ ifeq (SYSTEM, Darwin)
 	DEPSFLAGS = -lft -lglfw3 -lGLEW -framework Cocoa -framework OpenGL\
 				-framework IOKit -framework CoreVideo
 else
-	DEPSFLAGS = -lft -lglfw3 -lGL -lm -lGLU -lGLEW -lXrandr -lXi -lX11\
+	DEPSFLAGS = -lft -lglfw3 -lmesa -lGL -lm -lGLU -lGLEW -lXrandr -lXi -lX11\
 				-lXxf86vm -lpthread -ldl -lXinerama -lXcursor -lrt
 endif
 
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -g
 FLAGS = $(CFLAGS) $(INCLUDES)
 
 MKDIR = mkdir -p
