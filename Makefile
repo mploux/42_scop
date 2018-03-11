@@ -6,7 +6,7 @@
 #    By: mploux <mploux@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/06 18:10:48 by mploux            #+#    #+#              #
-#    Updated: 2018/01/07 18:35:35 by mploux           ###   ########.fr        #
+#    Updated: 2018/03/11 15:32:00 by mploux           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,8 +44,13 @@ OBJS = $(addprefix bin/,$(FILES:.c=.o))
 DEPS = -L deps/libft -L deps/glfw/build/src/ -L deps/glew/build/cmake/build/lib/
 INCLUDES = -I includes/ -I deps/libft/ -I deps/glfw/include/ -I deps/glew/include/
 
-DEPSFLAGS = -lft -lglfw3 -lGLEW -framework Cocoa -framework OpenGL\
-			-framework IOKit -framework CoreVideo
+ifeq (SYSTEM, Darwin)
+	DEPSFLAGS = -lft -lglfw3 -lGLEW -framework Cocoa -framework OpenGL\
+				-framework IOKit -framework CoreVideo
+else
+	DEPSFLAGS = -lft -lglfw3 -lGL -lm -lGLU -lGLEW -lXrandr -lXi -lX11\
+				-lXxf86vm -lpthread -ldl -lXinerama -lXcursor -lrt
+endif
 
 CFLAGS = -Wall -Wextra
 FLAGS = $(CFLAGS) $(INCLUDES)
@@ -72,6 +77,7 @@ $(NAME): $(DIRS) $(OBJS)
 	@cd deps/glew/build/cmake/build && cmake .. > /dev/null
 	@make -C deps/glew/build/cmake/build > /dev/null
 	@rm -rf deps/glew/build/cmake/build/lib/*.dylib
+	@rm -rf deps/glew/build/cmake/build/lib/libGLEW.so.2.1.0
 	@printf "\r$(GREEN)Building libGLEW: DONE !$(NO_COLOR)\n";
 
 	@printf "Building objects...\r"
@@ -105,7 +111,7 @@ clean-libs: clean
 	@printf "\r$(GREEN)Cleaning libGLFW: DONE !$(NO_COLOR)\n";
 
 	@printf "Cleaning libGLEW..."
-	@$(RMDIR) deps/glew/cmake/build
+	@$(RMDIR) deps/glew/build/cmake/build
 	@printf "\r$(GREEN)Cleaning libGLEW: DONE !$(NO_COLOR)\n";
 
 fclean: clean clean-libs
