@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 17:51:41 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/20 22:39:46 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/20 23:05:03 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "mesh.h"
 #include "buffers.h"
 #include "model.h"
+#include "texture.h"
 
 int main(int av, char **ac)
 {
@@ -52,7 +53,9 @@ int main(int av, char **ac)
 
 	t_shader *mainShader = new_shader("data/shaders/main.vert", "data/shaders/main.frag");
 	// // t_mesh *model_42 = new_model("data/models/42.obj");
+	t_texture *tex = new_texture(ac[2]);
 	t_mesh *box = new_model(ac[1]);
+
 
 	int x, y, z;
 
@@ -68,6 +71,8 @@ int main(int av, char **ac)
 		x++;
 		y++;
 		z++;
+
+		bind_texture(tex);
 
 		glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "projectionMatrix"), 1, GL_FALSE, mat4_persp(70.0f, 1280.0f / 720.0f, 0.1f, 100.0f).m);
 
@@ -87,9 +92,10 @@ int main(int av, char **ac)
 		glfwPollEvents();
 	}
 
-	// delete_shader(&mainShader);
 	// delete_mesh(&model_42);
+	delete_shader(&mainShader);
 	delete_mesh(&box);
+	delete_texture(&tex);
 
 	glfwDestroyWindow(window);
 	glfwTerminate();

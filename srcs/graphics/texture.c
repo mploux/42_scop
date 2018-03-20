@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 21:39:10 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/20 22:30:07 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/20 23:40:58 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,34 +21,54 @@ t_texture		*new_texture(const char *path)
 
 	if (!(result = (t_texture *)malloc(sizeof(t_texture))))
 		return (NULL);
+
 	fd = open(path, O_RDONLY);
 	read(fd, header, 54);
+	write(1, header, 54);
+
 	result->width = *(int *)&(header[0x12]);
 	result->height = *(int *)&(header[0x16]);
-	data_size = sizeof(unsigned char) * (*(int *)&(header[0x22]));
+	data_size = (*(int *)&(header[0x22]));
 	if (!(result->data = (unsigned char *)malloc(data_size)))
 		return (NULL);
 	read(fd, result->data, data_size);
+
 	close(fd);
+
+	// printf("Loading texture %s  %u %u  %u\n", result->data, result->width, result->height, data_size);
+
+	// write(1, result->data, data_size);
+
+	glGenTextures(1, &result->index);
+	glBindTexture(GL_TEXTURE_2D, result->index);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, result->width, result->height, 0, GL_BGR, GL_UNSIGNED_BYTE, result->data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+
 	return (result);
 }
 
-int				delete_texture(t_texture *texture)
+int				delete_texture(t_texture **texture)
 {
-	if (texture == NULL)
+	if (texture == NULL || *texture == NULL)
 		return (0);
-	if (texture->data != NULL)
-		free(texture->data);
-	free(texture);
+	if ((*texture)->data != NULL)
+		free((*texture)->data);
+	free(*texture);
+	*texture = NULL;
 	return (1);
 }
 
 void			bind_texture(t_texture *texture)
 {
-
+	glBindTexture(GL_TEXTURE_2D, texture->index);
 }
 
 void			unbind_texture()
 {
-
+	glBindTexture(GL_TEXTURE_2D, (unsigned int)0);
 }

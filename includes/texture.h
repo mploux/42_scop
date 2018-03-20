@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 21:25:09 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/20 22:28:15 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/20 22:53:37 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct		s_texture
 }					t_texture;
 
 t_texture			*new_texture(const char *path);
-int					delete_texture(t_texture *texture);
+int					delete_texture(t_texture **texture);
 
 void				bind_texture(t_texture *texture);
 void				unbind_texture();
