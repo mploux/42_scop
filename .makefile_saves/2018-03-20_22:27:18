@@ -16,7 +16,6 @@ FILES =\
 graphics/shader.c\
 graphics/mesh.c\
 graphics/model.c\
-graphics/texture.c\
 error.c\
 utils/buffers.c\
 maths/projection.c\

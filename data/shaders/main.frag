@@ -3,7 +3,8 @@
 out	vec4 out_color;
 
 in vec3 frag_pos;
-in vec3 v_normals;
+in vec3 v_normal;
+in vec3 v_texcoord;
 
 void main()
 {
@@ -12,5 +13,5 @@ void main()
 		fog = 1;
 	if (fog < 0)
 		fog = 0;
-	out_color = vec4(1, 1, 0, 1);// * fog * dot(vec3(0, 0, 1), v_normals);
+	out_color = vec4(1, 1, 0, 1) * fog * dot(vec3(0, 0, -1), v_normal);
 }

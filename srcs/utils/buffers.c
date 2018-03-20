@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 20:57:29 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/04 15:51:51 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/20 17:51:11 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,22 @@ t_gluintbuffer		ltib(t_list *list)
 		list = list->next;
 	}
 	return (result);
+}
+
+void 				buff_push_float(t_glfloatbuffer *buff, GLfloat v)
+{
+	buff->length++;
+	buff->size += sizeof(GLfloat);
+	buff->buffer = ft_realloc(buff->buffer, buff->size);
+	buff->buffer[buff->length - 1] = v;
+}
+
+void 				buff_push_uint(t_gluintbuffer *buff, GLuint v)
+{
+	buff->length++;
+	buff->size += sizeof(GLuint);
+	buff->buffer = ft_realloc(buff->buffer, buff->size);
+	buff->buffer[buff->length - 1] = v;
 }
 
 void				free_ltfb(t_glfloatbuffer *buff)

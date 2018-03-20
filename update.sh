@@ -1,3 +1,4 @@
+#!/bin/bash
 CURRENT=$1
 if [ -e "$CURRENT" ] && [ ! -z "$CURRENT" ]; then
 	SAVE_DIR=".makefile_saves"

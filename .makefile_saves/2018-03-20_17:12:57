@@ -6,7 +6,7 @@
 #    By: mploux <mploux@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/06 18:10:48 by mploux            #+#    #+#              #
-#    Updated: 2018/03/20 17:42:09 by mploux           ###   ########.fr        #
+#    Updated: 2018/03/20 17:11:58 by mploux           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,6 @@ FILES =\
 graphics/shader.c\
 graphics/mesh.c\
 graphics/model.c\
-graphics/texture.c\
 error.c\
 utils/buffers.c\
 maths/projection.c\
@@ -26,6 +25,7 @@ maths/vec2.c\
 maths/vec3.c\
 maths/vec4.c\
 maths/transform.c\
+arrays/array.c\
 main.c
 
 SRC = srcs/

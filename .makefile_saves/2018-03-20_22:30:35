@@ -26,6 +26,7 @@ maths/vec2.c\
 maths/vec3.c\
 maths/vec4.c\
 maths/transform.c\
+arrays/array.c\
 main.c
 
 SRC = srcs/

@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 21:06:53 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/04 17:19:10 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/20 20:38:52 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,24 @@
 #include "buffers.h"
 #include "mesh.h"
 
-typedef struct	s_mesh t_mesh;
+typedef struct		s_mesh t_mesh;
 
-typedef struct	s_model_data
+typedef struct		s_model_data
 {
-	t_list	*positions;
-	t_list	*normals;
-	t_list	*indices;
-	int		positions_size;
-	int		normals_size;
-	int		size;
-}				t_model_data;
+	t_glfloatbuffer	positions;
+	t_glfloatbuffer	texcoords;
+	t_glfloatbuffer	normals;
+	t_gluintbuffer	indices;
+	int				size;
+}					t_model_data;
 
-typedef struct	s_model_index
+typedef struct		s_model_index
 {
-	int		position;
-	int		normal;
-	int		texture;
-}				t_model_index;
+	int				position;
+	int				normal;
+	int				texture;
+}					t_model_index;
 
-t_mesh			*new_model(char *file);
+t_mesh				*new_model(char *file);
 
 #endif
