@@ -48,7 +48,7 @@ ifeq (SYSTEM, Darwin)
 	DEPSFLAGS = -lft -lglfw3 -lGLEW -framework Cocoa -framework OpenGL\
 				-framework IOKit -framework CoreVideo
 else
-	DEPSFLAGS = -lft -lglfw3 -lmesa -lGL -lm -lGLU -lGLEW -lXrandr -lXi -lX11\
+	DEPSFLAGS = -lft -lglfw3 -lGL -lm -lGLU -lGLEW -lXrandr -lXi -lX11\
 				-lXxf86vm -lpthread -ldl -lXinerama -lXcursor -lrt
 endif
 

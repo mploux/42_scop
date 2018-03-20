@@ -3,6 +3,7 @@ deps/glew/build/cmake/build/
 deps/glfw/build/
 deps/libft/bin/
 deps/libft/libft.a
+.idea/
 
 *.o
 *.d

@@ -105,7 +105,7 @@ static t_mesh	*convert_to_mesh(t_glfloatbuffer *v, t_glfloatbuffer *n, t_model_i
 	if (!(indices.buffer = (GLuint *)malloc(indices.size)))
 		return (NULL);
 
-	while (++j < size)
+	while (++j < size / 3)
 	{
 		vertices.buffer[j * 3 + 0] = v->buffer[i[j * 3 + 0].position];
 		vertices.buffer[j * 3 + 1] = v->buffer[i[j * 3 + 1].position];
@@ -140,7 +140,7 @@ static t_model_index *get_indices(t_list *indices, int size)
 	list = indices;
 	i = 0;
 	ft_putstr("\n");
-	while (list->next)
+	while (list)
 	{
 		t_model_index *index = (t_model_index *) list->content;
 		result[i].position = index->position;
