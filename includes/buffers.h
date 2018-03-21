@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 19:27:52 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/20 17:43:18 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/21 14:05:50 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,19 @@
 # include <libft.h>
 # include "error.h"
 
+# define MAX_BUFF_SIZE (size_t)(4096)
+
 typedef struct		s_glfloatbuffer
 {
-	int				length;
-	int				size;
+	size_t			length;
+	size_t			size;
 	GLfloat			*buffer;
 }					t_glfloatbuffer;
 
 typedef struct		s_gluintbuffer
 {
-	int				length;
-	int				size;
+	size_t			length;
+	size_t			size;
 	GLuint			*buffer;
 }					t_gluintbuffer;
 

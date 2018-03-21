@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 19:53:55 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/20 21:03:40 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/21 13:47:07 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,16 @@
 static void		parse_line(char *line, t_model_data *data)
 {
 	char			**tokens;
+	char			**toks1;
+	char			**toks2;
+	char			**toks3;
 
 	if (!(tokens = ft_strsplit(line, ' ')))
 		error("Model parser error: Invalid tokens !");
 	if (tokens[0] && ft_strcmp(tokens[0], "v") == 0)
 	{
 		if (!tokens[1] || !tokens[2] || !tokens[3])
-			error("Model parser error: Invalid tokens !");
+			error("Model parser error: Invalid vertices !");
 		buff_push_float(&data->positions, atof(tokens[1]));
 		buff_push_float(&data->positions, atof(tokens[2]));
 		buff_push_float(&data->positions, atof(tokens[3]));
@@ -29,7 +32,7 @@ static void		parse_line(char *line, t_model_data *data)
 	else if (tokens[0] && ft_strcmp(tokens[0], "vn") == 0)
 	{
 		if (!tokens[1] || !tokens[2] || !tokens[3])
-			error("Model parser error: Invalid tokens !");
+			error("Model parser error: Invalid normals !");
 		buff_push_float(&data->normals, atof(tokens[1]));
 		buff_push_float(&data->normals, atof(tokens[2]));
 		buff_push_float(&data->normals, atof(tokens[3]));
@@ -37,17 +40,17 @@ static void		parse_line(char *line, t_model_data *data)
 	else if (tokens[0] && ft_strcmp(tokens[0], "vt") == 0)
 	{
 		if (!tokens[1] || !tokens[2])
-			error("Model parser error: Invalid tokens !");
+			error("Model parser error: Invalid texcoords !");
 		buff_push_float(&data->texcoords, atof(tokens[1]));
 		buff_push_float(&data->texcoords, atof(tokens[2]));
 	}
 	else if (tokens[0] && ft_strcmp(tokens[0], "f") == 0)
 	{
 		if (!tokens[1] || !tokens[2] || !tokens[3])
-			error("Model parser error: Invalid tokens !");
-		char **toks1 = ft_strsplit(tokens[1], '/');
-		char **toks2 = ft_strsplit(tokens[2], '/');
-		char **toks3 = ft_strsplit(tokens[3], '/');
+			error("Model parser error: Invalid indices !");
+		toks1 = ft_strsplit(tokens[1], '/');
+		toks2 = ft_strsplit(tokens[2], '/');
+		toks3 = ft_strsplit(tokens[3], '/');
 		buff_push_uint(&data->indices, ft_atoi(toks1[0]) - 1);
 		buff_push_uint(&data->indices, ft_atoi(toks1[1]) - 1);
 		buff_push_uint(&data->indices, ft_atoi(toks1[2]) - 1);
@@ -57,7 +60,15 @@ static void		parse_line(char *line, t_model_data *data)
 		buff_push_uint(&data->indices, ft_atoi(toks3[0]) - 1);
 		buff_push_uint(&data->indices, ft_atoi(toks3[1]) - 1);
 		buff_push_uint(&data->indices, ft_atoi(toks3[2]) - 1);
+		ft_tabdel(&toks1);
+		ft_tabdel(&toks2);
+		ft_tabdel(&toks3);
 		data->size += 3;
+	}
+	else
+	{
+		ft_putstr(line);
+		ft_putstr("\n");
 	}
 	ft_tabdel(&tokens);
 }
@@ -129,7 +140,8 @@ t_mesh			*new_model(char *file)
 	char			*line;
 	t_model_data	data;
 
-	fd = open(file, O_RDONLY);
+	if ((fd = open(file, O_RDONLY)) < 0)
+		error("Failed to load model !");
 	data.positions = (t_glfloatbuffer){0, 0, NULL};
 	data.texcoords = (t_glfloatbuffer){0, 0, NULL};
 	data.normals = (t_glfloatbuffer){0, 0, NULL};
@@ -140,12 +152,15 @@ t_mesh			*new_model(char *file)
 		parse_line(line, &data);
 		ft_strdel(&line);
 	}
+	close(fd);
 
-	printf("DONE\n");
 	t_model_index *indices = get_indices(&data.indices, data.size);
-
 	ft_putstr("\n");
 	t_mesh *m = convert_to_mesh(&data.positions, &data.texcoords, &data.normals, indices, data.size);
-
+	free(data.positions.buffer);
+	free(data.texcoords.buffer);
+	free(data.normals.buffer);
+	free(data.indices.buffer);
+	free(indices);
 	return (m);
 }

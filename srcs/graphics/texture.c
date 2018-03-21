@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 21:39:10 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/20 23:40:58 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/21 09:41:18 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,13 @@ t_texture		*new_texture(const char *path)
 
 	fd = open(path, O_RDONLY);
 	read(fd, header, 54);
-	write(1, header, 54);
-
-	result->width = *(int *)&(header[0x12]);
-	result->height = *(int *)&(header[0x16]);
-	data_size = (*(int *)&(header[0x22]));
+	// write(1, header, 54);
+	result->width = (int) (header[0x12] | (header[0x13] << 8) | (header[0x14] << 16) | (header[0x15] << 24));
+	result->height = (int) (header[0x16] | (header[0x17] << 8) | (header[0x18] << 16) | (header[0x19] << 24));
+	data_size = (int) (header[0x22] | (header[0x23] << 8) | (header[0x24] << 16) | (header[0x25] << 24));
 	if (!(result->data = (unsigned char *)malloc(data_size)))
 		return (NULL);
 	read(fd, result->data, data_size);
-
 	close(fd);
 
 	// printf("Loading texture %s  %u %u  %u\n", result->data, result->width, result->height, data_size);

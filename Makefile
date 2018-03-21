@@ -6,7 +6,7 @@
 #    By: mploux <mploux@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/06 18:10:48 by mploux            #+#    #+#              #
-#    Updated: 2018/03/20 17:42:09 by mploux           ###   ########.fr        #
+#    Updated: 2018/03/21 13:00:42 by mploux           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,27 +60,8 @@ MKDIR = mkdir -p
 RMDIR = rm -rf
 RM = rm -rf
 
-$(NAME): $(DIRS) $(OBJS)
+$(NAME): $(DIRS) $(OBJS) libft glew glfw
 	@printf "\r$(GREEN)Compiling sources: DONE !                      $(NO_COLOR)\n";
-
-	@printf "Building libFT...\r"
-	@make -C deps/libft > /dev/null
-	@printf "\r$(GREEN)Building libFT: DONE !$(NO_COLOR)\n";
-
-	@printf "Building libGLFW...\r"
-	@$(MKDIR) deps/glfw/build > /dev/null
-	@cd deps/glfw/build && cmake .. > /dev/null
-	@make -C deps/glfw/build/ > /dev/null
-	@printf "\r$(GREEN)Building libGLFW: DONE !$(NO_COLOR)\n";
-
-	@printf "Building libGLEW...\r"
-	@$(MKDIR) deps/glew/build/cmake/build > /dev/null
-	@cd deps/glew/build/cmake/build && cmake .. > /dev/null
-	@make -C deps/glew/build/cmake/build > /dev/null
-	@rm -rf deps/glew/build/cmake/build/lib/*.dylib
-	@rm -rf deps/glew/build/cmake/build/lib/libGLEW.so.2.1.0
-	@printf "\r$(GREEN)Building libGLEW: DONE !$(NO_COLOR)\n";
-
 	@printf "Building objects...\r"
 	@$(CC) -o $(NAME) $(OBJS) $(CFLAGS) $(INCLUDES) $(DEPS) $(DEPSFLAGS)
 	@printf "\r$(GREEN)Building objects: DONE !$(NO_COLOR)\n";
@@ -96,6 +77,27 @@ bin/%.o: srcs/%.c
 .PHONY: all clean clean-libs fclean-libs fclean re
 
 all: $(NAME)
+
+libft:
+	@printf "Building libFT...\r"
+	@make -C deps/libft > /dev/null
+	@printf "\r$(GREEN)Building libFT: DONE !$(NO_COLOR)\n";
+
+glew:
+	@printf "Building libGLFW...\r"
+	@$(MKDIR) deps/glfw/build > /dev/null
+	@cd deps/glfw/build && cmake .. > /dev/null
+	@make -C deps/glfw/build/ > /dev/null
+	@printf "\r$(GREEN)Building libGLFW: DONE !$(NO_COLOR)\n";
+
+glfw:
+	@printf "Building libGLEW...\r"
+	@$(MKDIR) deps/glew/build/cmake/build > /dev/null
+	@cd deps/glew/build/cmake/build && cmake .. > /dev/null
+	@make -C deps/glew/build/cmake/build > /dev/null
+	@rm -rf deps/glew/build/cmake/build/lib/*.dylib
+	@rm -rf deps/glew/build/cmake/build/lib/libGLEW.so.2.1.0
+	@printf "\r$(GREEN)Building libGLEW: DONE !$(NO_COLOR)\n";
 
 clean:
 	@printf "Cleaning objects..."

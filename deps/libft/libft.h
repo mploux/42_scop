@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 17:37:53 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/20 16:38:36 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/21 09:17:20 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,6 @@ int				ft_htoi(char *hex);
 char			*load_file(const char *path);
 t_list			*ft_lstrev(t_list **lst);
 void			ft_tabdel(char ***mytab);
+void			ft_delsplit(char ***split);
 
 #endif
