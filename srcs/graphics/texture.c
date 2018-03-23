@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 21:39:10 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/21 09:41:18 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/21 21:50:27 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_texture		*new_texture(const char *path)
 
 	glGenTextures(1, &result->index);
 	glBindTexture(GL_TEXTURE_2D, result->index);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, result->width, result->height, 0, GL_BGR, GL_UNSIGNED_BYTE, result->data);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, result->width, result->height, 0, GL_BGR, GL_UNSIGNED_BYTE, result->data);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

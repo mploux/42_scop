@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 17:51:41 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/21 14:17:54 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/23 11:16:37 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "buffers.h"
 #include "model.h"
 #include "texture.h"
+#include "input.h"
 
 int main(int av, char **ac)
 {
@@ -51,13 +52,16 @@ int main(int av, char **ac)
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
 
+	t_input input = init_input(window);
 	t_shader *mainShader = new_shader("data/shaders/main.vert", "data/shaders/main.frag");
-	// // t_mesh *model_42 = new_model("data/models/42.obj");
 	t_texture *tex = new_texture(ac[2]);
 	t_mesh *box = new_model(ac[1]);
 
 
 	int x, y, z;
+
+	int use_texcoord = 0;
+	float use_texture = 0.0f;
 
 	x = 0;
 	y = 0;
@@ -65,8 +69,20 @@ int main(int av, char **ac)
 
 	while (!glfwWindowShouldClose(window))
 	{
+		input_update(&input);
+		if (get_key_down(&input, GLFW_KEY_ESCAPE) && !input.focused)
+			break;
+		input_handle_focus(&input);
+		if (get_key_up(&input, GLFW_KEY_1))
+			use_texture = 1.0f - use_texture;
+		if (get_key_up(&input, GLFW_KEY_2))
+			use_texcoord = 1 - use_texcoord;
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glUseProgram(mainShader->program);
+
+		glUniform1i(glGetUniformLocation(mainShader->program, "use_texcoord"), use_texcoord);
+		glUniform1f(glGetUniformLocation(mainShader->program, "use_texture"), use_texture);
 
 		x++;
 		y++;
@@ -76,28 +92,27 @@ int main(int av, char **ac)
 
 		glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "projectionMatrix"), 1, GL_FALSE, mat4_persp(70.0f, 1280.0f / 720.0f, 0.1f, 100.0f).m);
 
-		glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "viewMatrix"), 1, GL_TRUE, mat4_mul(mat4_translate(vec3(0, 0, 3)), mat4_rotate_xyz(x * 0.03f, y * 0.00f, z * 0.00f)).m);
+		glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "viewMatrix"), 1, GL_TRUE, mat4_mul(mat4_translate(vec3(0, 0, 5)), mat4_rotate_xyz(x * 0.0f, y * 0.3f, z * 0.00f)).m);
 		draw(box);
 
-		glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "viewMatrix"), 1, GL_TRUE, mat4_mul(mat4_translate(vec3(-2, 0, 3)), mat4_rotate_xyz(x * 0.00f, y * 0.03f, z * 0.00f)).m);
-		draw(box);
+		// glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "viewMatrix"), 1, GL_TRUE, mat4_mul(mat4_translate(vec3(-2, 0, 3)), mat4_rotate_xyz(x * 0.00f, y * 0.3f, z * 0.00f)).m);
+		// draw(box);
+		//
+		// glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "viewMatrix"), 1, GL_TRUE, mat4_mul(mat4_translate(vec3(2, 0, 3)), mat4_rotate_xyz(x * 0.00f, y * 0.00f, z * 0.3f)).m);
+		// draw(box);
 
-		glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "viewMatrix"), 1, GL_TRUE, mat4_mul(mat4_translate(vec3(2, 0, 3)), mat4_rotate_xyz(x * 0.00f, y * 0.00f, z * 0.03f)).m);
-		draw(box);
-
-		if (glfwGetKey(window, GLFW_KEY_ESCAPE))
-			break;
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+
+		usleep(1000000 / 60);
 	}
 
-	// delete_mesh(&model_42);
 	delete_shader(&mainShader);
 	delete_mesh(&box);
 	delete_texture(&tex);
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
-	return 0;
+	return (EXIT_SUCCESS);
 }

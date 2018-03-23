@@ -15,11 +15,8 @@ CC = gcc
 FILES =\
 graphics/shader.c\
 graphics/mesh.c\
-graphics/models/model.c\
+graphics/model.c\
 graphics/texture.c\
-inputs/keyboard.c\
-inputs/mouse.c\
-inputs/input.c\
 error.c\
 utils/buffers.c\
 maths/projection.c\
