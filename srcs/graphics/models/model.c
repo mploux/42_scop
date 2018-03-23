@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 19:53:55 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/23 16:05:57 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/23 23:30:49 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,28 @@
 
 static void		parse_vertices(t_model_data *data, char **tokens)
 {
+	t_vec3	v;
+
 	if (!tokens[1] || !tokens[2] || !tokens[3])
 		error("Model parser error: Invalid vertices !");
-	buff_push_float(&data->positions, atof(tokens[1]));
-	buff_push_float(&data->positions, atof(tokens[2]));
-	buff_push_float(&data->positions, atof(tokens[3]));
+	v.x = atof(tokens[1]);
+	v.y = atof(tokens[2]);
+	v.z = atof(tokens[3]);
+	buff_push_float(&data->positions, v.x);
+	buff_push_float(&data->positions, v.y);
+	buff_push_float(&data->positions, v.z);
+	if (v.x < data->min_vertices.x)
+		data->min_vertices.x = v.x;
+	if (v.y < data->min_vertices.y)
+		data->min_vertices.y = v.y;
+	if (v.z < data->min_vertices.z)
+		data->min_vertices.z = v.z;
+	if (v.x > data->max_vertices.x)
+		data->max_vertices.x = v.x;
+	if (v.y > data->max_vertices.y)
+		data->max_vertices.y = v.y;
+	if (v.z > data->max_vertices.z)
+		data->max_vertices.z = v.z;
 }
 
 static void		parse_normals(t_model_data *data, char **tokens)
@@ -253,41 +270,44 @@ t_gluintbuffer init_indices(t_model_index *i, int size)
 	return (result);
 }
 
-static t_mesh	*convert_to_mesh(t_glfloatbuffer *v, t_glfloatbuffer *t, t_glfloatbuffer *n, t_model_index *i, int size)
+static t_mesh	*convert_to_mesh(t_model_data *data, t_model_index *i, int size)
 {
 	int				j;
-	t_glfloatbuffer	vertices;
-	t_glfloatbuffer	texcoords;
-	t_glfloatbuffer	normals;
-	t_gluintbuffer	indices;
+	t_mesh_data		mesh_data;
 
 	j = -1;
-	vertices = init_vertices(v, size);
-	texcoords = init_texcoords(t, size);
-	normals = init_normals(n, size);
-	indices = init_indices(i, size);
+	mesh_data.vertices = init_vertices(&data->positions, size);
+	mesh_data.texcoords = init_texcoords(&data->texcoords, size);
+	mesh_data.normals = init_normals(&data->normals, size);
+	mesh_data.indices = init_indices(i, size);
+	mesh_data.dimension.x = data->max_vertices.x - data->min_vertices.x;
+	mesh_data.dimension.y = data->max_vertices.y - data->min_vertices.y;
+	mesh_data.dimension.z = data->max_vertices.z - data->min_vertices.z;
+	mesh_data.center.x = data->max_vertices.x - mesh_data.dimension.x / 2.0f;
+	mesh_data.center.y = data->max_vertices.y - mesh_data.dimension.y / 2.0f;
+	mesh_data.center.z = data->max_vertices.z - mesh_data.dimension.z / 2.0f;
 
 	while (++j < size)
 	{
-		vertices.buffer[j * 3 + 0] = v->buffer[i[j].position * 3 + 0];
-		vertices.buffer[j * 3 + 1] = v->buffer[i[j].position * 3 + 1];
-		vertices.buffer[j * 3 + 2] = v->buffer[i[j].position * 3 + 2];
+		mesh_data.vertices.buffer[j * 3 + 0] = data->positions.buffer[i[j].position * 3 + 0];
+		mesh_data.vertices.buffer[j * 3 + 1] = data->positions.buffer[i[j].position * 3 + 1];
+		mesh_data.vertices.buffer[j * 3 + 2] = data->positions.buffer[i[j].position * 3 + 2];
 
-		if (t->buffer != NULL)
+		if (data->texcoords.buffer != NULL)
 		{
-			texcoords.buffer[j * 2 + 0] = t->buffer[i[j].texture * 2 + 0];
-			texcoords.buffer[j * 2 + 1] = t->buffer[i[j].texture * 2 + 1];
+			mesh_data.texcoords.buffer[j * 2 + 0] = data->texcoords.buffer[i[j].texture * 2 + 0];
+			mesh_data.texcoords.buffer[j * 2 + 1] = data->texcoords.buffer[i[j].texture * 2 + 1];
 		}
-		if (n->buffer != NULL)
+		if (data->normals.buffer != NULL)
 		{
-			normals.buffer[j * 3 + 0] = n->buffer[i[j].normal * 3 + 0];
-			normals.buffer[j * 3 + 1] = n->buffer[i[j].normal * 3 + 1];
-			normals.buffer[j * 3 + 2] = n->buffer[i[j].normal * 3 + 2];
+			mesh_data.normals.buffer[j * 3 + 0] = data->normals.buffer[i[j].normal * 3 + 0];
+			mesh_data.normals.buffer[j * 3 + 1] = data->normals.buffer[i[j].normal * 3 + 1];
+			mesh_data.normals.buffer[j * 3 + 2] = data->normals.buffer[i[j].normal * 3 + 2];
 		}
 
-		indices.buffer[j] = j;
+		mesh_data.indices.buffer[j] = j;
 	}
-	return new_mesh(&vertices, &texcoords, &normals, &indices);
+	return new_mesh(&mesh_data);
 }
 
 static t_model_index *get_indices(t_model_data *data, int size)
@@ -324,6 +344,8 @@ t_mesh			*new_model(char *file)
 	data.positions_i = (t_gluintbuffer){0, 0, NULL};
 	data.texcoords_i = (t_gluintbuffer){0, 0, NULL};
 	data.normals_i = (t_gluintbuffer){0, 0, NULL};
+	data.min_vertices = vec3(FLT_MAX, FLT_MAX, FLT_MAX);
+	data.max_vertices = vec3(FLT_MIN, FLT_MIN, FLT_MIN);
 	data.size = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
@@ -331,12 +353,14 @@ t_mesh			*new_model(char *file)
 		ft_strdel(&line);
 	}
 	close(fd);
-	t_model_index *positions_i = get_indices(&data, data.size);
-	t_mesh *m = convert_to_mesh(&data.positions, &data.texcoords, &data.normals, positions_i, data.size);
+	t_model_index *indices = get_indices(&data, data.size);
+	t_mesh *m = convert_to_mesh(&data, indices, data.size);
 	free(data.positions.buffer);
 	free(data.texcoords.buffer);
 	free(data.normals.buffer);
 	free(data.positions_i.buffer);
-	free(positions_i);
+	free(data.normals_i.buffer);
+	free(data.texcoords_i.buffer);
+	free(indices);
 	return (m);
 }

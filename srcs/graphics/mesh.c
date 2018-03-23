@@ -6,31 +6,33 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 19:22:31 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/23 10:49:12 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/23 23:25:29 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mesh.h"
 
-t_mesh			*new_mesh(t_glfloatbuffer *v, t_glfloatbuffer *t, t_glfloatbuffer *n, t_gluintbuffer *i)
+t_mesh			*new_mesh(t_mesh_data *data)
 {
 	t_mesh	*result;
 
 	if (!(result = (t_mesh *)malloc(sizeof(t_mesh))))
 		error("Malloc error !");
 
-	result->vertices = *v;
-	result->texcoords = *t;
-	result->normals = *n;
-	result->colors = generate_colors(v);
-	result->indices = *i;
+	result->vertices = data->vertices;
+	result->texcoords = data->texcoords;
+	result->normals = data->normals;
+	result->colors = generate_colors(&data->vertices);
+	result->indices = data->indices;
+	result->dimension = data->dimension;
+	result->center = data->center;
 
 	glGenVertexArrays(1, &result->vao);
 
 	glGenBuffers(1, &result->vbo);
-	if (t->length > 0)
+	if (data->texcoords.length > 0)
 		glGenBuffers(1, &result->tbo);
-	if (n->length > 0)
+	if (data->normals.length > 0)
 		glGenBuffers(1, &result->nbo);
 	glGenBuffers(1, &result->cbo);
 	glGenBuffers(1, &result->ibo);
@@ -39,21 +41,21 @@ t_mesh			*new_mesh(t_glfloatbuffer *v, t_glfloatbuffer *t, t_glfloatbuffer *n, t
 
 		glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, result->vbo);
-		glBufferData(GL_ARRAY_BUFFER, v->size, v->buffer, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, result->vertices.size, result->vertices.buffer, GL_STATIC_DRAW);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
 
-		if (t->length > 0)
+		if (result->texcoords.length > 0)
 		{
 			glEnableVertexAttribArray(1);
 			glBindBuffer(GL_ARRAY_BUFFER, result->tbo);
-			glBufferData(GL_ARRAY_BUFFER, t->size, t->buffer, GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, result->texcoords.size, result->texcoords.buffer, GL_STATIC_DRAW);
 			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void *)0);
 		}
-		if (n->length > 0)
+		if (result->normals.length > 0)
 		{
 			glEnableVertexAttribArray(2);
 			glBindBuffer(GL_ARRAY_BUFFER, result->nbo);
-			glBufferData(GL_ARRAY_BUFFER, n->size, n->buffer, GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, result->normals.size, result->normals.buffer, GL_STATIC_DRAW);
 			glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
 		}
 
@@ -63,7 +65,7 @@ t_mesh			*new_mesh(t_glfloatbuffer *v, t_glfloatbuffer *t, t_glfloatbuffer *n, t
 		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, result->ibo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, i->size, i->buffer, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, result->indices.size, result->indices.buffer, GL_STATIC_DRAW);
 
 	glBindVertexArray(0);
 
@@ -80,6 +82,7 @@ void			delete_mesh(t_mesh **mesh)
 	free((*mesh)->vertices.buffer);
 	free((*mesh)->texcoords.buffer);
 	free((*mesh)->normals.buffer);
+	free((*mesh)->colors.buffer);
 	free((*mesh)->indices.buffer);
 	free(*mesh);
 	*mesh = NULL;

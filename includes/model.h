@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 21:06:53 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/23 00:51:15 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/23 23:17:21 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <libft.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <float.h>
 
 # include "error.h"
 # include "maths.h"
@@ -33,6 +34,8 @@ typedef struct		s_model_data
 	t_gluintbuffer	positions_i;
 	t_gluintbuffer	texcoords_i;
 	t_gluintbuffer	normals_i;
+	t_vec3			min_vertices;
+	t_vec3			max_vertices;
 	int				size;
 }					t_model_data;
 

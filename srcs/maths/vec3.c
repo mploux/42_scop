@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/18 14:27:37 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/09 20:06:08 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/23 23:33:48 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,14 @@ t_vec3		vec3_add(t_vec3 *a, t_vec3 b)
 	a->y += b.y;
 	a->z += b.z;
 	return (*a);
+}
+
+t_vec3		vec3_negate(t_vec3 v)
+{
+	t_vec3	result;
+
+	result.x = -v.x;
+	result.y = -v.y;
+	result.z = -v.z;
+	return (result);
 }

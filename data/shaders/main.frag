@@ -24,7 +24,7 @@ void main()
 	if (use_texcoord == 1)
 		texcoord = v_texcoord;
 	vec4 texture_color = texture(tex, texcoord);
-	vec4 vertex_color = vec4(v_color * 0.8, 1.0);
+	vec4 vertex_color = vec4(v_color * 0.5, 1.0);
 	vec4 final_color = mix(vertex_color, texture_color, use_texture);
 	out_color = final_color * fog;// * dot(vec3(0, 0, -1), v_normal);
 }

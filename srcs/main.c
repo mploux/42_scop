@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 17:51:41 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/23 11:16:37 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/23 23:34:35 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ int main(int av, char **ac)
 
 		glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "projectionMatrix"), 1, GL_FALSE, mat4_persp(70.0f, 1280.0f / 720.0f, 0.1f, 100.0f).m);
 
-		glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "viewMatrix"), 1, GL_TRUE, mat4_mul(mat4_translate(vec3(0, 0, 5)), mat4_rotate_xyz(x * 0.0f, y * 0.3f, z * 0.00f)).m);
+		t_mat4 transformation = mat4_mul(mat4_mul(mat4_translate(vec3(0, 0, 5)), mat4_rotate_xyz(x * 0.0f, y * 0.3f, z * 0.00f)), mat4_translate(vec3_negate(box->center)));
+		glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "viewMatrix"), 1, GL_TRUE, transformation.m);
 		draw(box);
 
 		// glUniformMatrix4fv(glGetUniformLocation(mainShader->program, "viewMatrix"), 1, GL_TRUE, mat4_mul(mat4_translate(vec3(-2, 0, 3)), mat4_rotate_xyz(x * 0.00f, y * 0.3f, z * 0.00f)).m);

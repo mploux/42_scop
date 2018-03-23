@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/18 14:27:50 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/09 20:15:47 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/23 23:34:08 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int				balance(int min, int max, int v);
 t_vec2			vec2(float x, float y);
 t_vec3			vec3(float x, float y, float z);
 t_vec3			vec3_add(t_vec3 *a, t_vec3 b);
+t_vec3			vec3_negate(t_vec3 v);
 t_vec3			mat4_mul_vec3(t_mat4 a, t_vec3 b);
 t_vec4			vec4(float x, float y, float z, float w);
 t_vec4			vec2_2(t_vec2 a, t_vec2 b);
