@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 17:51:41 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/23 23:34:35 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/18 15:46:12 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@
 
 int main(int av, char **ac)
 {
+	if (av != 3)
+	{
+		ft_putstr("Usage: ./scop model [texture]\n");
+		return 0;
+	}
+
 	GLFWwindow* window;
 
 	if (!glfwInit())
@@ -56,7 +62,6 @@ int main(int av, char **ac)
 	t_shader *mainShader = new_shader("data/shaders/main.vert", "data/shaders/main.frag");
 	t_texture *tex = new_texture(ac[2]);
 	t_mesh *box = new_model(ac[1]);
-
 
 	int x, y, z;
 

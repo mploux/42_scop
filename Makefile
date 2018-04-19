@@ -6,7 +6,7 @@
 #    By: mploux <mploux@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/06 18:10:48 by mploux            #+#    #+#              #
-#    Updated: 2018/03/21 13:00:42 by mploux           ###   ########.fr        #
+#    Updated: 2018/04/19 19:59:03 by mploux           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,16 +45,20 @@ NO_COLOR = \033[m
 
 OBJS = $(addprefix bin/,$(FILES:.c=.o))
 
+LIBFT = deps/libft/libft.a
+GLFW = deps/GLFW/build/src/libglfw3.a
+GLEW = deps/GLEW/build/cmake/build/lib/libGLEW.a
+
 DEPS = -L deps/libft -L deps/glfw/build/src/ -L deps/glew/build/cmake/build/lib/
 INCLUDES = -I includes/ -I deps/libft/ -I deps/glfw/include/ -I deps/glew/include/
 
-ifeq (SYSTEM, Darwin)
+# ifeq (SYSTEM, Darwin)
 	DEPSFLAGS = -lft -lglfw3 -lGLEW -framework Cocoa -framework OpenGL\
 				-framework IOKit -framework CoreVideo
-else
-	DEPSFLAGS = -lft -lglfw3 -lGL -lm -lGLU -lGLEW -lXrandr -lXi -lX11\
-				-lXxf86vm -lpthread -ldl -lXinerama -lXcursor -lrt
-endif
+# else
+# 	DEPSFLAGS = -lft -lglfw3 -lGL -lm -lGLU -lGLEW -lXrandr -lXi -lX11\
+# 				-lXxf86vm -lpthread -ldl -lXinerama -lXcursor -lrt
+# endif
 
 CFLAGS = -Wall -Wextra -g
 FLAGS = $(CFLAGS) $(INCLUDES)
@@ -63,12 +67,14 @@ MKDIR = mkdir -p
 RMDIR = rm -rf
 RM = rm -rf
 
-$(NAME): $(DIRS) $(OBJS) libft glew glfw
+$(NAME): $(LIBFT) $(GLFW) $(GLEW) $(DIRS) $(OBJS)
 	@printf "\r$(GREEN)Compiling sources: DONE !                      $(NO_COLOR)\n";
 	@printf "Building objects...\r"
-	@$(CC) -o $(NAME) $(OBJS) $(CFLAGS) $(INCLUDES) $(DEPS) $(DEPSFLAGS)
+	@$(CC) -o $(NAME) $(OBJS) $(CFLAGS) $(INCLUDES) $(DEPS) $(DEPSFLAGS) -g
 	@printf "\r$(GREEN)Building objects: DONE !$(NO_COLOR)\n";
 	@printf "\n$(GREEN)Building done: $(GREEN_BG)$(NAME)$(NO_COLOR)\n"
+
+all: $(NAME)
 
 $(DIRS):
 	@$(MKDIR) $(dir $(OBJS))
@@ -79,21 +85,19 @@ bin/%.o: srcs/%.c
 
 .PHONY: all clean clean-libs fclean-libs fclean re
 
-all: $(NAME)
-
-libft:
+$(LIBFT):
 	@printf "Building libFT...\r"
 	@make -C deps/libft > /dev/null
 	@printf "\r$(GREEN)Building libFT: DONE !$(NO_COLOR)\n";
 
-glew:
+$(GLFW):
 	@printf "Building libGLFW...\r"
 	@$(MKDIR) deps/glfw/build > /dev/null
 	@cd deps/glfw/build && cmake .. > /dev/null
 	@make -C deps/glfw/build/ > /dev/null
 	@printf "\r$(GREEN)Building libGLFW: DONE !$(NO_COLOR)\n";
 
-glfw:
+$(GLEW):
 	@printf "Building libGLEW...\r"
 	@$(MKDIR) deps/glew/build/cmake/build > /dev/null
 	@cd deps/glew/build/cmake/build && cmake .. > /dev/null
