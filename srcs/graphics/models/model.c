@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 19:53:55 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/25 13:48:06 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 00:27:18 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,135 +109,240 @@ static void		push_tri_index_data(t_gluintbuffer *buff, char ***toks, int i, int 
 	buff_push_uint(buff, v[2]);
 }
 
+static int		parse_index_pos(char *index)
+{
+	int 	result;
+	char 	*data;
+	int 	size;
+	int		i;
+
+	if (index == NULL)
+		return (-1);
+	size = 0;
+	while (index[size] != '/' && index[size] != '\n' && index[size] != 0)
+		size++;
+	if (size == 0)
+		return (-1);
+	if (!(data = ft_strnew(size)))
+		error("Malloc error !");
+	i = -1;
+	while (++i < size)
+		data[i] = index[i];
+	result = ft_atoi(data);
+	ft_strdel(&data);
+	return (result);
+}
+
+static int		parse_index_uv(char *index)
+{
+	int 	result;
+	char 	*data;
+	char	*start;
+	int 	size;
+	int		i;
+
+	if (index == NULL)
+		return (-1);
+	size = 1;
+	if (!(start = ft_strchr(index, '/')))
+		return -1;
+	while (start[size] != '/' && start[size] != '\n' && start[size] != 0)
+		size++;
+	size--;
+	if (size == 0)
+		return (-1);
+	if (!(data = ft_strnew(size)))
+		error("Malloc error !");
+	i = -1;
+	while (++i < size)
+		data[i] = start[i + 1];
+	result = ft_atoi(data);
+	ft_strdel(&data);
+	return (result);
+}
+
+static int		parse_index_normal(char *index)
+{
+	int 	result;
+	char 	*data;
+	char	*start;
+	int 	size;
+	int		i;
+
+	if (index == NULL)
+		return (-1);
+	size = 1;
+	if (!(start = ft_strchrl(index, '/')))
+		return -1;
+	while (start[size] != '/' && start[size] != '\n' && start[size] != 0)
+		size++;
+	size--;
+	if (size == 0)
+		return (-1);
+	if (!(data = ft_strnew(size)))
+		error("Malloc error !");
+	i = -1;
+	while (++i < size)
+		data[i] = start[i + 1];
+	result = ft_atoi(data);
+	ft_strdel(&data);
+	return (result);
+}
+
 static void		parse_indces(t_model_data *data, char **tokens)
 {
-	char		**toks[4];
+	int			id[3];
 	int			index_count[4];
-	int			max;
+	int			size;
+	int			i;
+	int			j;
 
-	if (tokens[1] && tokens[2] && tokens[3] && !tokens[4])
+	size = -1;
+	i = 0;
+	while (tokens[++size])
+		if (i > 4)
+			error("Model parser error: Invalid indices count !");
+	while (i < size - 1)
 	{
-		index_count[0] = get_index_count(tokens[1]);
-		index_count[1] = get_index_count(tokens[2]);
-		index_count[2] = get_index_count(tokens[3]);
+		id[0] = (i / 6) + 1;
+		id[1] = (i / 3) + 2;
+		id[2] = (i / 3) + 3;
 
-		if (index_count[0] != index_count[1] ||
-			index_count[1] != index_count[2] ||
-			index_count[0] != index_count[2])
-			error("Model parser error: Unconsistent indices !");
-		if (index_count[0] == 1)
+		j = -1;
+		while (++j < 3)
 		{
-			max = data->positions.length;
-			buff_push_uint(&data->positions_i, ft_atoi(tokens[1]) - 1);
-			buff_push_uint(&data->positions_i, ft_atoi(tokens[2]) - 1);
-			buff_push_uint(&data->positions_i, ft_atoi(tokens[3]) - 1);
+			int index = parse_index_pos(tokens[id[j]]) - 1;
+			if (index >= 0)
+				buff_push_uint(&data->positions_i, index);
 		}
-		else if (index_count[0] == 2)
+
+		j = -1;
+		while (++j < 3)
 		{
-			toks[0] = ft_strsplit(tokens[1], '/');
-			toks[1] = ft_strsplit(tokens[2], '/');
-			toks[2] = ft_strsplit(tokens[3], '/');
-			max = data->positions.length;
-			push_tri_index_data(&data->positions_i, toks, 0, max);
-			if (data->texcoords.length > 0)
-			{
-				max = data->texcoords.length;
-				push_tri_index_data(&data->texcoords_i, toks, 1, max);
-			}
-			else if (data->normals.length > 0)
-			{
-				max = data->normals.length;
-				push_tri_index_data(&data->normals_i, toks, 1, max);
-			}
-			else
-				error("Model parser error: Invalid normals or texcoords !");
-			ft_tabdel(&toks[0]);
-			ft_tabdel(&toks[1]);
-			ft_tabdel(&toks[2]);
+			int index = parse_index_uv(tokens[id[j]]) - 1;
+			if (index >= 0)
+				buff_push_uint(&data->texcoords_i, index);
 		}
-		else if (index_count[0] == 3)
+
+		j = -1;
+		while (++j < 3)
 		{
-			toks[0] = ft_strsplit(tokens[1], '/');
-			toks[1] = ft_strsplit(tokens[2], '/');
-			toks[2] = ft_strsplit(tokens[3], '/');
-			max = data->positions.length;
-			push_tri_index_data(&data->positions_i, toks, 0, max);
-			max = data->texcoords.length;
-			push_tri_index_data(&data->texcoords_i, toks, 1, max);
-			max = data->normals.length;
-			push_tri_index_data(&data->normals_i, toks, 2, max);
-			ft_tabdel(&toks[0]);
-			ft_tabdel(&toks[1]);
-			ft_tabdel(&toks[2]);
+			int index = parse_index_pos(tokens[id[j]]) - 1;
+			if (index >= 0)
+				buff_push_uint(&data->normals_i, index);
 		}
-		else
-			error("Model parser error: Invalid indices format !");
+
 		data->size += 3;
+		i += 3;
 	}
-	else if (tokens[1] && tokens[2] && tokens[3] && tokens[4])
-	{
-		index_count[0] = get_index_count(tokens[1]);
 
-		printf("Lol: %i\n", index_count[0]);
+	// buff_push_uint(&data->positions_i, ft_atoi(tokens[1]) - 1);
+	// buff_push_uint(&data->positions_i, ft_atoi(tokens[2]) - 1);
+	// buff_push_uint(&data->positions_i, ft_atoi(tokens[3]) - 1);
+	// buff_push_uint(&data->positions_i, ft_atoi(tokens[1]) - 1);
+	// buff_push_uint(&data->positions_i, ft_atoi(tokens[3]) - 1);
+	// buff_push_uint(&data->positions_i, ft_atoi(tokens[4]) - 1);
 
-		if (index_count[0] == 1)
-		{
-			max = data->positions.length;
-			buff_push_uint(&data->positions_i, ft_atoi(tokens[1]) - 1);
-			buff_push_uint(&data->positions_i, ft_atoi(tokens[2]) - 1);
-			buff_push_uint(&data->positions_i, ft_atoi(tokens[3]) - 1);
-			buff_push_uint(&data->positions_i, ft_atoi(tokens[1]) - 1);
-			buff_push_uint(&data->positions_i, ft_atoi(tokens[3]) - 1);
-			buff_push_uint(&data->positions_i, ft_atoi(tokens[4]) - 1);
-		}
-		else if (index_count[0] == 2)
-		{
-			toks[0] = ft_strsplit(tokens[1], '/');
-			toks[1] = ft_strsplit(tokens[2], '/');
-			toks[2] = ft_strsplit(tokens[3], '/');
-			toks[3] = ft_strsplit(tokens[4], '/');
-			max = data->positions.length;
-			push_quad_index_data(&data->positions_i, toks, 0, max);
-			if (data->texcoords.length > 0)
-			{
-				max = data->texcoords.length;
-				push_quad_index_data(&data->texcoords_i, toks, 1, max);
-			}
-			else if (data->normals.length > 0)
-			{
-				max = data->normals.length;
-				push_quad_index_data(&data->normals_i, toks, 1, max);
-			}
-			else
-				error("Model parser error: Invalid normals or texcoords !");
-			ft_tabdel(&toks[0]);
-			ft_tabdel(&toks[1]);
-			ft_tabdel(&toks[2]);
-			ft_tabdel(&toks[3]);
-		}
-		else if (index_count[0] == 3)
-		{
-			toks[0] = ft_strsplit(tokens[1], '/');
-			toks[1] = ft_strsplit(tokens[2], '/');
-			toks[2] = ft_strsplit(tokens[3], '/');
-			toks[3] = ft_strsplit(tokens[4], '/');
-			max = data->positions.length;
-			push_quad_index_data(&data->positions_i, toks, 0, max);
-			max = data->texcoords.length;
-			push_quad_index_data(&data->texcoords_i, toks, 1, max);
-			max = data->normals.length;
-			push_quad_index_data(&data->normals_i, toks, 2, max);
-			ft_tabdel(&toks[0]);
-			ft_tabdel(&toks[1]);
-			ft_tabdel(&toks[2]);
-			ft_tabdel(&toks[3]);
-		}
-		else
-			error("Model parser error: Invalid indices format !");
-		data->size += 6;
-	}
-	else
-		error("Model parser error: Invalid indices !");
+	// data->size += 6;
+
+	// if (tokens[1] && tokens[2] && tokens[3] && !tokens[4])
+	// {
+	// 	index_count[0] = get_index_count(tokens[1]);
+	// 	index_count[1] = get_index_count(tokens[2]);
+	// 	index_count[2] = get_index_count(tokens[3]);
+    //
+	// 	if (index_count[0] != index_count[1] ||
+	// 		index_count[1] != index_count[2] ||
+	// 		index_count[0] != index_count[2])
+	// 		error("Model parser error: Unconsistent indices !");
+	// 	if (index_count[0] == 1)
+	// 	{
+	// 		buff_push_uint(&data->positions_i, ft_atoi(tokens[1]) - 1);
+	// 		buff_push_uint(&data->positions_i, ft_atoi(tokens[2]) - 1);
+	// 		buff_push_uint(&data->positions_i, ft_atoi(tokens[3]) - 1);
+	// 	}
+	// 	else if (index_count[0] == 2)
+	// 	{
+	// 		toks[0] = ft_strsplit(tokens[1], '/');
+	// 		toks[1] = ft_strsplit(tokens[2], '/');
+	// 		toks[2] = ft_strsplit(tokens[3], '/');
+	// 		push_tri_index_data(&data->positions_i, toks, 0);
+	// 		if (data->texcoords.length > 0)
+	// 			push_tri_index_data(&data->texcoords_i, toks, 1);
+	// 		else if (data->normals.length > 0)
+	// 			push_tri_index_data(&data->normals_i, toks, 1);
+	// 		else
+	// 			error("Model parser error: Invalid normals or texcoords !");
+	// 		ft_tabdel(&toks[0]);
+	// 		ft_tabdel(&toks[1]);
+	// 		ft_tabdel(&toks[2]);
+	// 	}
+	// 	else if (index_count[0] == 3)
+	// 	{
+	// 		toks[0] = ft_strsplit(tokens[1], '/');
+	// 		toks[1] = ft_strsplit(tokens[2], '/');
+	// 		toks[2] = ft_strsplit(tokens[3], '/');
+	// 		push_tri_index_data(&data->positions_i, toks, 0);
+	// 		push_tri_index_data(&data->texcoords_i, toks, 1);
+	// 		push_tri_index_data(&data->normals_i, toks, 2);
+	// 		ft_tabdel(&toks[0]);
+	// 		ft_tabdel(&toks[1]);
+	// 		ft_tabdel(&toks[2]);
+	// 	}
+	// 	else
+	// 		error("Model parser error: Invalid indices format !");
+	// 	data->size += 3;
+	// }
+	// else if (tokens[1] && tokens[2] && tokens[3] && tokens[4])
+	// {
+	// 	index_count[0] = get_index_count(tokens[1]);
+	// 	if (index_count[0] == 1)
+	// 	{
+	// 		buff_push_uint(&data->positions_i, ft_atoi(tokens[1]) - 1);
+	// 		buff_push_uint(&data->positions_i, ft_atoi(tokens[2]) - 1);
+	// 		buff_push_uint(&data->positions_i, ft_atoi(tokens[3]) - 1);
+	// 		buff_push_uint(&data->positions_i, ft_atoi(tokens[1]) - 1);
+	// 		buff_push_uint(&data->positions_i, ft_atoi(tokens[3]) - 1);
+	// 		buff_push_uint(&data->positions_i, ft_atoi(tokens[4]) - 1);
+	// 	}
+	// 	else if (index_count[0] == 2)
+	// 	{
+	// 		toks[0] = ft_strsplit(tokens[1], '/');
+	// 		toks[1] = ft_strsplit(tokens[2], '/');
+	// 		toks[2] = ft_strsplit(tokens[3], '/');
+	// 		toks[3] = ft_strsplit(tokens[4], '/');
+	// 		push_quad_index_data(&data->positions_i, toks, 0);
+	// 		if (data->texcoords.length > 0)
+	// 			push_quad_index_data(&data->texcoords_i, toks, 1);
+	// 		else if (data->normals.length > 0)
+	// 			push_quad_index_data(&data->normals_i, toks, 1);
+	// 		else
+	// 			error("Model parser error: Invalid normals or texcoords !");
+	// 		ft_tabdel(&toks[0]);
+	// 		ft_tabdel(&toks[1]);
+	// 		ft_tabdel(&toks[2]);
+	// 		ft_tabdel(&toks[3]);
+	// 	}
+	// 	else if (index_count[0] == 3)
+	// 	{
+	// 		toks[0] = ft_strsplit(tokens[1], '/');
+	// 		toks[1] = ft_strsplit(tokens[2], '/');
+	// 		toks[2] = ft_strsplit(tokens[3], '/');
+	// 		toks[3] = ft_strsplit(tokens[4], '/');
+	// 		push_quad_index_data(&data->positions_i, toks, 0);
+	// 		push_quad_index_data(&data->texcoords_i, toks, 1);
+	// 		push_quad_index_data(&data->normals_i, toks, 2);
+	// 		ft_tabdel(&toks[0]);
+	// 		ft_tabdel(&toks[1]);
+	// 		ft_tabdel(&toks[2]);
+	// 		ft_tabdel(&toks[3]);
+	// 	}
+	// 	else
+	// 		error("Model parser error: Invalid indices format !");
+	// 	data->size += 6;
+	// }
+	// else
+	// 	error("Model parser error: Invalid indices !");
 }
 
 static void		parse_line(char *line, t_model_data *data)
@@ -343,16 +448,18 @@ static t_mesh	*convert_to_mesh(t_model_data *data, t_model_index *i, int size)
 
 	while (++j < size)
 	{
+		// ft_putnbr(i[j].position);
+		// printf("    %f\n", data->positions.buffer[i[j].position * 3 + 0]);
 		mesh_data.vertices.buffer[j * 3 + 0] = data->positions.buffer[i[j].position * 3 + 0];
 		mesh_data.vertices.buffer[j * 3 + 1] = data->positions.buffer[i[j].position * 3 + 1];
 		mesh_data.vertices.buffer[j * 3 + 2] = data->positions.buffer[i[j].position * 3 + 2];
 
-		if (data->texcoords.buffer != NULL)
+		if (data->texcoords_i.buffer != NULL && data->texcoords.buffer != NULL)
 		{
 			mesh_data.texcoords.buffer[j * 2 + 0] = data->texcoords.buffer[i[j].texture * 2 + 0];
 			mesh_data.texcoords.buffer[j * 2 + 1] = data->texcoords.buffer[i[j].texture * 2 + 1];
 		}
-		if (data->normals.buffer != NULL)
+		if (data->normals_i.buffer != NULL && data->normals.buffer != NULL)
 		{
 			mesh_data.normals.buffer[j * 3 + 0] = data->normals.buffer[i[j].normal * 3 + 0];
 			mesh_data.normals.buffer[j * 3 + 1] = data->normals.buffer[i[j].normal * 3 + 1];
@@ -374,10 +481,11 @@ static t_model_index *get_indices(t_model_data *data, int size)
 	i = 0;
 	while (i < size)
 	{
-		result[i].position = data->positions_i.buffer[i];
-		if (data->normals_i.buffer)
+		if (i < data->positions_i.size)
+			result[i].position = data->positions_i.buffer[i];
+		if (data->normals_i.buffer && i < data->normals_i.size)
 			result[i].normal = data->normals_i.buffer[i];
-		if (data->texcoords_i.buffer)
+		if (data->texcoords_i.buffer && i < data->texcoords_i.size)
 			result[i].texture = data->texcoords_i.buffer[i];
 		i++;
 	}
@@ -401,14 +509,23 @@ t_mesh			*new_model(char *file)
 	data.min_vertices = vec3(FLT_MAX, FLT_MAX, FLT_MAX);
 	data.max_vertices = vec3(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 	data.size = 0;
+	int i = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
+		// ft_putnbr(i);
+		// ft_putstr(": ");
+		// ft_putstr(line);
+		// ft_putstr("\n");
 		parse_line(line, &data);
 		ft_strdel(&line);
+		i++;
 	}
 	close(fd);
+	ft_putstr("Finished\n");
 	t_model_index *indices = get_indices(&data, data.size);
+	ft_putstr("Indices\n");
 	t_mesh *m = convert_to_mesh(&data, indices, data.size);
+	ft_putstr("Mesh\n");
 	free(data.positions.buffer);
 	free(data.texcoords.buffer);
 	free(data.normals.buffer);
