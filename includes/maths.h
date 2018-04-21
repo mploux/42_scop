@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/18 14:27:50 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/23 23:34:08 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/24 20:35:13 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ t_mat4			mat4_scale(t_vec3 v);
 t_mat4			mat4_ortho(t_vec2 w, t_vec2 h, t_vec2 d);
 t_mat4			mat4_persp(float fov, float aspect, float near, float far);
 t_mat4			mat4_screen_space(float h_width, float h_height);
+t_mat4			mat4_transform(t_vec3 pos, t_vec3 rot, t_vec3 scale);
 
 #endif

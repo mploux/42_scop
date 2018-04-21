@@ -16,12 +16,10 @@ FILES =\
 graphics/shader.c\
 graphics/mesh.c\
 graphics/models/model.c\
-graphics/display.c\
 graphics/texture.c\
 inputs/keyboard.c\
 inputs/mouse.c\
 inputs/input.c\
-core.c\
 error.c\
 utils/buffers.c\
 maths/projection.c\

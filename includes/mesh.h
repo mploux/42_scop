@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/07 18:35:53 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/23 23:15:40 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/24 20:35:38 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "maths.h"
 # include "buffers.h"
 # include "model.h"
+# include "shader.h"
 
 struct		s_mesh
 {
@@ -52,6 +53,7 @@ typedef struct		s_mesh t_mesh;
 t_mesh				*new_mesh(t_mesh_data *data);
 t_glfloatbuffer		generate_colors(t_glfloatbuffer *v);
 void				delete_mesh(t_mesh **mesh);
+void				transform(t_mat4 *transform, t_shader *shader);
 void				draw(t_mesh *mesh);
 
 #endif

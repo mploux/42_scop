@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 19:53:55 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/23 23:30:49 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/25 13:48:06 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void		parse_vertices(t_model_data *data, char **tokens)
 		data->max_vertices.y = v.y;
 	if (v.z > data->max_vertices.z)
 		data->max_vertices.z = v.z;
+
 }
 
 static void		parse_normals(t_model_data *data, char **tokens)
@@ -63,33 +64,56 @@ static int		get_index_count(char *index)
 	i = -1;
 	result = 0;
 	while (index[++i])
-		if (index[i] == '/')
+		if (index[i] != '/' && (index[i + 1] == '/' || index[i + 1] == 0))
 			result++;
-	result++;
 	return (result);
 }
 
-static void		push_quad_index_data(t_gluintbuffer *buff, char ***toks, int i)
+static void		push_quad_index_data(t_gluintbuffer *buff, char ***toks, int i, int max)
 {
-	buff_push_uint(buff, ft_atoi(toks[0][i]) - 1);
-	buff_push_uint(buff, ft_atoi(toks[1][i]) - 1);
-	buff_push_uint(buff, ft_atoi(toks[2][i]) - 1);
-	buff_push_uint(buff, ft_atoi(toks[0][i]) - 1);
-	buff_push_uint(buff, ft_atoi(toks[2][i]) - 1);
-	buff_push_uint(buff, ft_atoi(toks[3][i]) - 1);
+	int			v[4];
+
+	if (!toks || !toks[0] || !toks[1] || !toks[2] || !toks[3] ||
+		!toks[0][i] || !toks[1][i] || !toks[2][i] || !toks[3][i])
+		error("Model parser error: Null indices !");
+	v[0] = ft_atoi(toks[0][i]) - 1;
+	v[1] = ft_atoi(toks[1][i]) - 1;
+	v[2] = ft_atoi(toks[2][i]) - 1;
+	v[3] = ft_atoi(toks[3][i]) - 1;
+	if (v[0] < 0 || v[1] < 0 || v[2] < 0 || v[3] < 0 ||
+		v[0] >= max || v[1] >= max || v[2] >= max || v[3] >= max)
+		error("Model parser error: Invalid index value !");
+	buff_push_uint(buff, v[0]);
+	buff_push_uint(buff, v[1]);
+	buff_push_uint(buff, v[2]);
+	buff_push_uint(buff, v[0]);
+	buff_push_uint(buff, v[2]);
+	buff_push_uint(buff, v[3]);
 }
 
-static void		push_tri_index_data(t_gluintbuffer *buff, char ***toks, int i)
+static void		push_tri_index_data(t_gluintbuffer *buff, char ***toks, int i, int max)
 {
-	buff_push_uint(buff, ft_atoi(toks[0][i]) - 1);
-	buff_push_uint(buff, ft_atoi(toks[1][i]) - 1);
-	buff_push_uint(buff, ft_atoi(toks[2][i]) - 1);
+	int			v[3];
+
+	if (!toks || !toks[0] || !toks[1] || !toks[2] ||
+		!toks[0][i] || !toks[1][i] || !toks[2][i])
+		error("Model parser error: Null indices !");
+	v[0] = ft_atoi(toks[0][i]) - 1;
+	v[1] = ft_atoi(toks[1][i]) - 1;
+	v[2] = ft_atoi(toks[2][i]) - 1;
+	if (v[0] < 0 || v[1] < 0 || v[2] < 0 ||
+		v[0] >= max || v[1] >= max || v[2] >= max)
+		error("Model parser error: Invalid index value !");
+	buff_push_uint(buff, v[0]);
+	buff_push_uint(buff, v[1]);
+	buff_push_uint(buff, v[2]);
 }
 
 static void		parse_indces(t_model_data *data, char **tokens)
 {
 	char		**toks[4];
 	int			index_count[4];
+	int			max;
 
 	if (tokens[1] && tokens[2] && tokens[3] && !tokens[4])
 	{
@@ -103,6 +127,7 @@ static void		parse_indces(t_model_data *data, char **tokens)
 			error("Model parser error: Unconsistent indices !");
 		if (index_count[0] == 1)
 		{
+			max = data->positions.length;
 			buff_push_uint(&data->positions_i, ft_atoi(tokens[1]) - 1);
 			buff_push_uint(&data->positions_i, ft_atoi(tokens[2]) - 1);
 			buff_push_uint(&data->positions_i, ft_atoi(tokens[3]) - 1);
@@ -112,11 +137,18 @@ static void		parse_indces(t_model_data *data, char **tokens)
 			toks[0] = ft_strsplit(tokens[1], '/');
 			toks[1] = ft_strsplit(tokens[2], '/');
 			toks[2] = ft_strsplit(tokens[3], '/');
-			push_tri_index_data(&data->positions_i, toks, 0);
+			max = data->positions.length;
+			push_tri_index_data(&data->positions_i, toks, 0, max);
 			if (data->texcoords.length > 0)
-				push_tri_index_data(&data->texcoords_i, toks, 1);
+			{
+				max = data->texcoords.length;
+				push_tri_index_data(&data->texcoords_i, toks, 1, max);
+			}
 			else if (data->normals.length > 0)
-				push_tri_index_data(&data->normals_i, toks, 1);
+			{
+				max = data->normals.length;
+				push_tri_index_data(&data->normals_i, toks, 1, max);
+			}
 			else
 				error("Model parser error: Invalid normals or texcoords !");
 			ft_tabdel(&toks[0]);
@@ -128,9 +160,12 @@ static void		parse_indces(t_model_data *data, char **tokens)
 			toks[0] = ft_strsplit(tokens[1], '/');
 			toks[1] = ft_strsplit(tokens[2], '/');
 			toks[2] = ft_strsplit(tokens[3], '/');
-			push_tri_index_data(&data->positions_i, toks, 0);
-			push_tri_index_data(&data->texcoords_i, toks, 1);
-			push_tri_index_data(&data->normals_i, toks, 2);
+			max = data->positions.length;
+			push_tri_index_data(&data->positions_i, toks, 0, max);
+			max = data->texcoords.length;
+			push_tri_index_data(&data->texcoords_i, toks, 1, max);
+			max = data->normals.length;
+			push_tri_index_data(&data->normals_i, toks, 2, max);
 			ft_tabdel(&toks[0]);
 			ft_tabdel(&toks[1]);
 			ft_tabdel(&toks[2]);
@@ -142,8 +177,12 @@ static void		parse_indces(t_model_data *data, char **tokens)
 	else if (tokens[1] && tokens[2] && tokens[3] && tokens[4])
 	{
 		index_count[0] = get_index_count(tokens[1]);
+
+		printf("Lol: %i\n", index_count[0]);
+
 		if (index_count[0] == 1)
 		{
+			max = data->positions.length;
 			buff_push_uint(&data->positions_i, ft_atoi(tokens[1]) - 1);
 			buff_push_uint(&data->positions_i, ft_atoi(tokens[2]) - 1);
 			buff_push_uint(&data->positions_i, ft_atoi(tokens[3]) - 1);
@@ -157,11 +196,18 @@ static void		parse_indces(t_model_data *data, char **tokens)
 			toks[1] = ft_strsplit(tokens[2], '/');
 			toks[2] = ft_strsplit(tokens[3], '/');
 			toks[3] = ft_strsplit(tokens[4], '/');
-			push_quad_index_data(&data->positions_i, toks, 0);
+			max = data->positions.length;
+			push_quad_index_data(&data->positions_i, toks, 0, max);
 			if (data->texcoords.length > 0)
-				push_quad_index_data(&data->texcoords_i, toks, 1);
+			{
+				max = data->texcoords.length;
+				push_quad_index_data(&data->texcoords_i, toks, 1, max);
+			}
 			else if (data->normals.length > 0)
-				push_quad_index_data(&data->normals_i, toks, 1);
+			{
+				max = data->normals.length;
+				push_quad_index_data(&data->normals_i, toks, 1, max);
+			}
 			else
 				error("Model parser error: Invalid normals or texcoords !");
 			ft_tabdel(&toks[0]);
@@ -175,9 +221,12 @@ static void		parse_indces(t_model_data *data, char **tokens)
 			toks[1] = ft_strsplit(tokens[2], '/');
 			toks[2] = ft_strsplit(tokens[3], '/');
 			toks[3] = ft_strsplit(tokens[4], '/');
-			push_quad_index_data(&data->positions_i, toks, 0);
-			push_quad_index_data(&data->texcoords_i, toks, 1);
-			push_quad_index_data(&data->normals_i, toks, 2);
+			max = data->positions.length;
+			push_quad_index_data(&data->positions_i, toks, 0, max);
+			max = data->texcoords.length;
+			push_quad_index_data(&data->texcoords_i, toks, 1, max);
+			max = data->normals.length;
+			push_quad_index_data(&data->normals_i, toks, 2, max);
 			ft_tabdel(&toks[0]);
 			ft_tabdel(&toks[1]);
 			ft_tabdel(&toks[2]);
@@ -287,6 +336,11 @@ static t_mesh	*convert_to_mesh(t_model_data *data, t_model_index *i, int size)
 	mesh_data.center.y = data->max_vertices.y - mesh_data.dimension.y / 2.0f;
 	mesh_data.center.z = data->max_vertices.z - mesh_data.dimension.z / 2.0f;
 
+	printf("Center:%f %f %f\n", mesh_data.center.x, mesh_data.center.y, mesh_data.center.z);
+	printf("Dim:   %f %f %f\n", mesh_data.dimension.x, mesh_data.dimension.y, mesh_data.dimension.z);
+	printf("Min:   %f %f %f\n", data->min_vertices.x, data->min_vertices.y, data->min_vertices.z);
+	printf("Max:   %f %f %f\n", data->max_vertices.x, data->max_vertices.y, data->max_vertices.z);
+
 	while (++j < size)
 	{
 		mesh_data.vertices.buffer[j * 3 + 0] = data->positions.buffer[i[j].position * 3 + 0];
@@ -345,7 +399,7 @@ t_mesh			*new_model(char *file)
 	data.texcoords_i = (t_gluintbuffer){0, 0, NULL};
 	data.normals_i = (t_gluintbuffer){0, 0, NULL};
 	data.min_vertices = vec3(FLT_MAX, FLT_MAX, FLT_MAX);
-	data.max_vertices = vec3(FLT_MIN, FLT_MIN, FLT_MIN);
+	data.max_vertices = vec3(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 	data.size = 0;
 	while (get_next_line(fd, &line) > 0)
 	{

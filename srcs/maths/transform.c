@@ -6,11 +6,25 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 08:03:44 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/11 19:25:34 by mploux           ###   ########.fr       */
+/*   Updated: 2018/03/24 20:43:29 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "maths.h"
+
+t_mat4		mat4_transform(t_vec3 pos, t_vec3 rot, t_vec3 scale)
+{
+	t_mat4	result;
+	t_mat4	translation;
+	t_mat4	rotation;
+	t_mat4	scaling;
+
+	translation = mat4_translate(pos);
+	rotation = mat4_rotate_xyz(rot.x, rot.y, rot.z);
+	scaling = mat4_scale(scale);
+	result = mat4_mul(translation, mat4_mul(rotation, scaling));
+	return (result);
+}
 
 t_mat4		mat4_translate(t_vec3 v)
 {

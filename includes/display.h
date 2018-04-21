@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   display.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/06 17:51:41 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/24 22:34:31 by mploux           ###   ########.fr       */
+/*   Created: 2018/03/24 21:07:04 by mploux            #+#    #+#             */
+/*   Updated: 2018/03/24 22:23:19 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "core.h"
+#ifndef DISPLAY_H
+# define DISPLAY_H
 
-int main(int av, char **ac)
+# include <GL/glew.h>
+# include <GLFW/glfw3.h>
+
+# include "error.h"
+
+typedef struct	s_display
 {
-	t_core	core;
+	GLFWwindow	*window;
+	const char	*title;
+	int			width;
+	int			height;
+}				t_display;
 
-	if (av != 2 && av != 3)
-		error("Usage: ./scop obj_model [texture]");
-	core = init_core(av, ac);
-	run_core(&core);
-	clean_core(&core);
-	return (EXIT_SUCCESS);
-}
+t_display		init_display(const char *title, int width, int height);
+void			clean_display(t_display *display);
+
+#endif
