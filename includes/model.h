@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 21:06:53 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 17:29:21 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 18:20:57 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct			s_model_data
 	t_gluintbuffer		normals_i;
 	t_vec3				min_vertices;
 	t_vec3				max_vertices;
+	float				max_dim;
 	int					size;
 	int					index_count;
 }						t_model_data;

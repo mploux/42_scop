@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 19:22:31 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 16:56:10 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 18:11:21 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_mesh			*new_mesh(t_mesh_data *data)
 	result->indices = data->indices;
 	result->dimension = data->dimension;
 	result->center = data->center;
+	result->max_dim = data->max_dim;
 	create_vao(data, result);
 	return (result);
 }

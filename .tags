@@ -1,15 +1,5 @@
-init_core	/Users/mploux/dev/ft_scop/srcs/core.c	/^t_core		init_core(int av, char **ac)$/;"	function	line:15	signature:(int av, char **ac)
-clean_core	/Users/mploux/dev/ft_scop/srcs/core.c	/^void		clean_core(t_core *core)$/;"	function	line:33	signature:(t_core *core)
-run_core	/Users/mploux/dev/ft_scop/srcs/core.c	/^void		run_core(t_core *c)$/;"	function	line:41	signature:(t_core *c)
-update	/Users/mploux/dev/ft_scop/srcs/core.c	/^void		update(t_core *c)$/;"	function	line:61	signature:(t_core *c)
-render	/Users/mploux/dev/ft_scop/srcs/core.c	/^void		render(t_core *core)$/;"	function	line:68	signature:(t_core *core)
 init_display	/Users/mploux/dev/ft_scop/srcs/graphics/display.c	/^t_display		init_display(const char *title, int width, int height)$/;"	function	line:15	signature:(const char *title, int width, int height)
 clean_display	/Users/mploux/dev/ft_scop/srcs/graphics/display.c	/^void			clean_display(t_display *display)$/;"	function	line:43	signature:(t_display *display)
-new_mesh	/Users/mploux/dev/ft_scop/srcs/graphics/meshes/mesh.c	/^t_mesh			*new_mesh(t_mesh_data *data)$/;"	function	line:15	signature:(t_mesh_data *data)
-delete_mesh	/Users/mploux/dev/ft_scop/srcs/graphics/meshes/mesh.c	/^void			delete_mesh(t_mesh **mesh)$/;"	function	line:32	signature:(t_mesh **mesh)
-generate_colors	/Users/mploux/dev/ft_scop/srcs/graphics/meshes/mesh.c	/^t_glfloatbuffer	generate_colors(t_glfloatbuffer *v)$/;"	function	line:48	signature:(t_glfloatbuffer *v)
-transform	/Users/mploux/dev/ft_scop/srcs/graphics/meshes/mesh.c	/^void			transform(t_mat4 *transform, t_shader *shader)$/;"	function	line:71	signature:(t_mat4 *transform, t_shader *shader)
-draw	/Users/mploux/dev/ft_scop/srcs/graphics/meshes/mesh.c	/^void			draw(t_mesh *mesh)$/;"	function	line:79	signature:(t_mesh *mesh)
 create_vertices	/Users/mploux/dev/ft_scop/srcs/graphics/meshes/mesh_vao.c	/^static void	create_vertices(t_mesh *mesh)$/;"	function	line:15	file:	signature:(t_mesh *mesh)
 create_texcoords	/Users/mploux/dev/ft_scop/srcs/graphics/meshes/mesh_vao.c	/^static void	create_texcoords(t_mesh *mesh)$/;"	function	line:24	file:	signature:(t_mesh *mesh)
 create_normals	/Users/mploux/dev/ft_scop/srcs/graphics/meshes/mesh_vao.c	/^static void	create_normals(t_mesh *mesh)$/;"	function	line:36	file:	signature:(t_mesh *mesh)
@@ -61,6 +51,50 @@ title	/Users/mploux/dev/ft_scop/includes/display.h	/^	const char	*title;$/;"	mem
 width	/Users/mploux/dev/ft_scop/includes/display.h	/^	int			width;$/;"	member	line:25	struct:s_display
 height	/Users/mploux/dev/ft_scop/includes/display.h	/^	int			height;$/;"	member	line:26	struct:s_display
 t_display	/Users/mploux/dev/ft_scop/includes/display.h	/^}				t_display;$/;"	typedef	line:27	typeref:struct:s_display
+SHADER_H	/Users/mploux/dev/ft_scop/includes/shader.h	/^# define SHADER_H$/;"	macro	line:14
+s_shader	/Users/mploux/dev/ft_scop/includes/shader.h	/^typedef struct	s_shader$/;"	struct	line:23
+program	/Users/mploux/dev/ft_scop/includes/shader.h	/^	GLuint		program;$/;"	member	line:25	struct:s_shader
+t_shader	/Users/mploux/dev/ft_scop/includes/shader.h	/^}				t_shader;$/;"	typedef	line:26	typeref:struct:s_shader
+init_indices	/Users/mploux/dev/ft_scop/srcs/graphics/models/model_indices.c	/^t_gluintbuffer	init_indices(t_model_index *i, int size)$/;"	function	line:15	signature:(t_model_index *i, int size)
+get_indices	/Users/mploux/dev/ft_scop/srcs/graphics/models/model_indices.c	/^t_model_index	*get_indices(t_model_data *data, size_t size)$/;"	function	line:28	signature:(t_model_data *data, size_t size)
+push_positions	/Users/mploux/dev/ft_scop/srcs/graphics/models/model_indices_parser.c	/^static void	push_positions(t_model_data *data, char **tokens, int id[3])$/;"	function	line:15	file:	signature:(t_model_data *data, char **tokens, int id[3])
+push_texcoords	/Users/mploux/dev/ft_scop/srcs/graphics/models/model_indices_parser.c	/^static void	push_texcoords(t_model_data *data, char **tokens, int id[3])$/;"	function	line:29	file:	signature:(t_model_data *data, char **tokens, int id[3])
+push_normals	/Users/mploux/dev/ft_scop/srcs/graphics/models/model_indices_parser.c	/^static void	push_normals(t_model_data *data, char **tokens, int id[3])$/;"	function	line:43	file:	signature:(t_model_data *data, char **tokens, int id[3])
+parse_indces	/Users/mploux/dev/ft_scop/srcs/graphics/models/model_indices_parser.c	/^void		parse_indces(t_model_data *data, char **tokens)$/;"	function	line:57	signature:(t_model_data *data, char **tokens)
+new_mesh	/Users/mploux/dev/ft_scop/srcs/graphics/meshes/mesh.c	/^t_mesh			*new_mesh(t_mesh_data *data)$/;"	function	line:15	signature:(t_mesh_data *data)
+delete_mesh	/Users/mploux/dev/ft_scop/srcs/graphics/meshes/mesh.c	/^void			delete_mesh(t_mesh **mesh)$/;"	function	line:33	signature:(t_mesh **mesh)
+generate_colors	/Users/mploux/dev/ft_scop/srcs/graphics/meshes/mesh.c	/^t_glfloatbuffer	generate_colors(t_glfloatbuffer *v)$/;"	function	line:49	signature:(t_glfloatbuffer *v)
+transform	/Users/mploux/dev/ft_scop/srcs/graphics/meshes/mesh.c	/^void			transform(t_mat4 *transform, t_shader *shader)$/;"	function	line:72	signature:(t_mat4 *transform, t_shader *shader)
+draw	/Users/mploux/dev/ft_scop/srcs/graphics/meshes/mesh.c	/^void			draw(t_mesh *mesh)$/;"	function	line:80	signature:(t_mesh *mesh)
+parse_line	/Users/mploux/dev/ft_scop/srcs/graphics/models/model.c	/^void		parse_line(char *line, t_model_data *data)$/;"	function	line:15	signature:(char *line, t_model_data *data)
+init_model	/Users/mploux/dev/ft_scop/srcs/graphics/models/model.c	/^static void	init_model(t_model_data *data)$/;"	function	line:32	file:	signature:(t_model_data *data)
+new_model	/Users/mploux/dev/ft_scop/srcs/graphics/models/model.c	/^t_mesh		*new_model(char *file)$/;"	function	line:46	signature:(char *file)
+clamp	/Users/mploux/dev/ft_scop/srcs/maths/maths.c	/^float		clamp(float a, float min, float max)$/;"	function	line:15	signature:(float a, float min, float max)
+balance	/Users/mploux/dev/ft_scop/srcs/maths/maths.c	/^int			balance(int min, int max, int v)$/;"	function	line:24	signature:(int min, int max, int v)
+max_val	/Users/mploux/dev/ft_scop/srcs/maths/maths.c	/^float		max_val(float a, float b)$/;"	function	line:38	signature:(float a, float b)
+min_val	/Users/mploux/dev/ft_scop/srcs/maths/maths.c	/^float		min_val(float a, float b)$/;"	function	line:45	signature:(float a, float b)
+MATHS_H	/Users/mploux/dev/ft_scop/includes/maths.h	/^# define MATHS_H$/;"	macro	line:14
+ABS	/Users/mploux/dev/ft_scop/includes/maths.h	/^# define ABS(/;"	macro	line:18
+DTR	/Users/mploux/dev/ft_scop/includes/maths.h	/^# define DTR(/;"	macro	line:19
+LERP	/Users/mploux/dev/ft_scop/includes/maths.h	/^# define LERP(/;"	macro	line:20
+s_vec2	/Users/mploux/dev/ft_scop/includes/maths.h	/^typedef struct	s_vec2$/;"	struct	line:22
+x	/Users/mploux/dev/ft_scop/includes/maths.h	/^	float		x;$/;"	member	line:24	struct:s_vec2
+y	/Users/mploux/dev/ft_scop/includes/maths.h	/^	float		y;$/;"	member	line:25	struct:s_vec2
+t_vec2	/Users/mploux/dev/ft_scop/includes/maths.h	/^}				t_vec2;$/;"	typedef	line:26	typeref:struct:s_vec2
+s_vec3	/Users/mploux/dev/ft_scop/includes/maths.h	/^typedef struct	s_vec3$/;"	struct	line:28
+x	/Users/mploux/dev/ft_scop/includes/maths.h	/^	float		x;$/;"	member	line:30	struct:s_vec3
+y	/Users/mploux/dev/ft_scop/includes/maths.h	/^	float		y;$/;"	member	line:31	struct:s_vec3
+z	/Users/mploux/dev/ft_scop/includes/maths.h	/^	float		z;$/;"	member	line:32	struct:s_vec3
+t_vec3	/Users/mploux/dev/ft_scop/includes/maths.h	/^}				t_vec3;$/;"	typedef	line:33	typeref:struct:s_vec3
+s_vec4	/Users/mploux/dev/ft_scop/includes/maths.h	/^typedef struct	s_vec4$/;"	struct	line:35
+x	/Users/mploux/dev/ft_scop/includes/maths.h	/^	float		x;$/;"	member	line:37	struct:s_vec4
+y	/Users/mploux/dev/ft_scop/includes/maths.h	/^	float		y;$/;"	member	line:38	struct:s_vec4
+z	/Users/mploux/dev/ft_scop/includes/maths.h	/^	float		z;$/;"	member	line:39	struct:s_vec4
+w	/Users/mploux/dev/ft_scop/includes/maths.h	/^	float		w;$/;"	member	line:40	struct:s_vec4
+t_vec4	/Users/mploux/dev/ft_scop/includes/maths.h	/^}				t_vec4;$/;"	typedef	line:41	typeref:struct:s_vec4
+s_mat4	/Users/mploux/dev/ft_scop/includes/maths.h	/^typedef struct	s_mat4$/;"	struct	line:43
+m	/Users/mploux/dev/ft_scop/includes/maths.h	/^	float		m[16];$/;"	member	line:45	struct:s_mat4
+t_mat4	/Users/mploux/dev/ft_scop/includes/maths.h	/^}				t_mat4;$/;"	typedef	line:46	typeref:struct:s_mat4
 MESH_H	/Users/mploux/dev/ft_scop/includes/mesh.h	/^# define MESH_H$/;"	macro	line:14
 s_mesh	/Users/mploux/dev/ft_scop/includes/mesh.h	/^struct					s_mesh$/;"	struct	line:24
 vao	/Users/mploux/dev/ft_scop/includes/mesh.h	/^	GLuint				vao;$/;"	member	line:26	struct:s_mesh
@@ -76,15 +110,20 @@ colors	/Users/mploux/dev/ft_scop/includes/mesh.h	/^	t_glfloatbuffer		colors;$/;"
 indices	/Users/mploux/dev/ft_scop/includes/mesh.h	/^	t_gluintbuffer		indices;$/;"	member	line:36	struct:s_mesh
 dimension	/Users/mploux/dev/ft_scop/includes/mesh.h	/^	t_vec3				dimension;$/;"	member	line:37	struct:s_mesh
 center	/Users/mploux/dev/ft_scop/includes/mesh.h	/^	t_vec3				center;$/;"	member	line:38	struct:s_mesh
-s_mesh_data	/Users/mploux/dev/ft_scop/includes/mesh.h	/^typedef struct			s_mesh_data$/;"	struct	line:41
-vertices	/Users/mploux/dev/ft_scop/includes/mesh.h	/^	t_glfloatbuffer		vertices;$/;"	member	line:43	struct:s_mesh_data
-texcoords	/Users/mploux/dev/ft_scop/includes/mesh.h	/^	t_glfloatbuffer		texcoords;$/;"	member	line:44	struct:s_mesh_data
-normals	/Users/mploux/dev/ft_scop/includes/mesh.h	/^	t_glfloatbuffer		normals;$/;"	member	line:45	struct:s_mesh_data
-indices	/Users/mploux/dev/ft_scop/includes/mesh.h	/^	t_gluintbuffer		indices;$/;"	member	line:46	struct:s_mesh_data
-dimension	/Users/mploux/dev/ft_scop/includes/mesh.h	/^	t_vec3				dimension;$/;"	member	line:47	struct:s_mesh_data
-center	/Users/mploux/dev/ft_scop/includes/mesh.h	/^	t_vec3				center;$/;"	member	line:48	struct:s_mesh_data
-t_mesh_data	/Users/mploux/dev/ft_scop/includes/mesh.h	/^}						t_mesh_data;$/;"	typedef	line:49	typeref:struct:s_mesh_data
-t_mesh	/Users/mploux/dev/ft_scop/includes/mesh.h	/^typedef struct s_mesh	t_mesh;$/;"	typedef	line:51	typeref:struct:s_mesh
+max_dim	/Users/mploux/dev/ft_scop/includes/mesh.h	/^	float				max_dim;$/;"	member	line:39	struct:s_mesh
+s_mesh_data	/Users/mploux/dev/ft_scop/includes/mesh.h	/^typedef struct			s_mesh_data$/;"	struct	line:42
+vertices	/Users/mploux/dev/ft_scop/includes/mesh.h	/^	t_glfloatbuffer		vertices;$/;"	member	line:44	struct:s_mesh_data
+texcoords	/Users/mploux/dev/ft_scop/includes/mesh.h	/^	t_glfloatbuffer		texcoords;$/;"	member	line:45	struct:s_mesh_data
+normals	/Users/mploux/dev/ft_scop/includes/mesh.h	/^	t_glfloatbuffer		normals;$/;"	member	line:46	struct:s_mesh_data
+indices	/Users/mploux/dev/ft_scop/includes/mesh.h	/^	t_gluintbuffer		indices;$/;"	member	line:47	struct:s_mesh_data
+dimension	/Users/mploux/dev/ft_scop/includes/mesh.h	/^	t_vec3				dimension;$/;"	member	line:48	struct:s_mesh_data
+center	/Users/mploux/dev/ft_scop/includes/mesh.h	/^	t_vec3				center;$/;"	member	line:49	struct:s_mesh_data
+max_dim	/Users/mploux/dev/ft_scop/includes/mesh.h	/^	float				max_dim;$/;"	member	line:50	struct:s_mesh_data
+t_mesh_data	/Users/mploux/dev/ft_scop/includes/mesh.h	/^}						t_mesh_data;$/;"	typedef	line:51	typeref:struct:s_mesh_data
+t_mesh	/Users/mploux/dev/ft_scop/includes/mesh.h	/^typedef struct s_mesh	t_mesh;$/;"	typedef	line:53	typeref:struct:s_mesh
+init_vertices	/Users/mploux/dev/ft_scop/srcs/graphics/models/model_v_position.c	/^t_glfloatbuffer	init_vertices(t_glfloatbuffer *v, int size)$/;"	function	line:15	signature:(t_glfloatbuffer *v, int size)
+parse_vertices	/Users/mploux/dev/ft_scop/srcs/graphics/models/model_v_position.c	/^void			parse_vertices(t_model_data *data, char **tokens)$/;"	function	line:28	signature:(t_model_data *data, char **tokens)
+parse_index_pos	/Users/mploux/dev/ft_scop/srcs/graphics/models/model_v_position.c	/^int				parse_index_pos(char *index)$/;"	function	line:54	signature:(char *index)
 MODEL_H	/Users/mploux/dev/ft_scop/includes/model.h	/^# define MODEL_H$/;"	macro	line:14
 t_mesh	/Users/mploux/dev/ft_scop/includes/model.h	/^typedef struct s_mesh	t_mesh;$/;"	typedef	line:26	typeref:struct:s_mesh
 s_model_data	/Users/mploux/dev/ft_scop/includes/model.h	/^typedef struct			s_model_data$/;"	struct	line:28
@@ -97,15 +136,42 @@ texcoords_i	/Users/mploux/dev/ft_scop/includes/model.h	/^	t_gluintbuffer		texcoo
 normals_i	/Users/mploux/dev/ft_scop/includes/model.h	/^	t_gluintbuffer		normals_i;$/;"	member	line:36	struct:s_model_data
 min_vertices	/Users/mploux/dev/ft_scop/includes/model.h	/^	t_vec3				min_vertices;$/;"	member	line:37	struct:s_model_data
 max_vertices	/Users/mploux/dev/ft_scop/includes/model.h	/^	t_vec3				max_vertices;$/;"	member	line:38	struct:s_model_data
-size	/Users/mploux/dev/ft_scop/includes/model.h	/^	int					size;$/;"	member	line:39	struct:s_model_data
-index_count	/Users/mploux/dev/ft_scop/includes/model.h	/^	int					index_count;$/;"	member	line:40	struct:s_model_data
-t_model_data	/Users/mploux/dev/ft_scop/includes/model.h	/^}						t_model_data;$/;"	typedef	line:41	typeref:struct:s_model_data
-s_model_index	/Users/mploux/dev/ft_scop/includes/model.h	/^typedef struct			s_model_index$/;"	struct	line:43
-position	/Users/mploux/dev/ft_scop/includes/model.h	/^	int					position;$/;"	member	line:45	struct:s_model_index
-normal	/Users/mploux/dev/ft_scop/includes/model.h	/^	int					normal;$/;"	member	line:46	struct:s_model_index
-texture	/Users/mploux/dev/ft_scop/includes/model.h	/^	int					texture;$/;"	member	line:47	struct:s_model_index
-t_model_index	/Users/mploux/dev/ft_scop/includes/model.h	/^}						t_model_index;$/;"	typedef	line:48	typeref:struct:s_model_index
-SHADER_H	/Users/mploux/dev/ft_scop/includes/shader.h	/^# define SHADER_H$/;"	macro	line:14
-s_shader	/Users/mploux/dev/ft_scop/includes/shader.h	/^typedef struct	s_shader$/;"	struct	line:23
-program	/Users/mploux/dev/ft_scop/includes/shader.h	/^	GLuint		program;$/;"	member	line:25	struct:s_shader
-t_shader	/Users/mploux/dev/ft_scop/includes/shader.h	/^}				t_shader;$/;"	typedef	line:26	typeref:struct:s_shader
+max_dim	/Users/mploux/dev/ft_scop/includes/model.h	/^	float				max_dim;$/;"	member	line:39	struct:s_model_data
+size	/Users/mploux/dev/ft_scop/includes/model.h	/^	int					size;$/;"	member	line:40	struct:s_model_data
+index_count	/Users/mploux/dev/ft_scop/includes/model.h	/^	int					index_count;$/;"	member	line:41	struct:s_model_data
+t_model_data	/Users/mploux/dev/ft_scop/includes/model.h	/^}						t_model_data;$/;"	typedef	line:42	typeref:struct:s_model_data
+s_model_index	/Users/mploux/dev/ft_scop/includes/model.h	/^typedef struct			s_model_index$/;"	struct	line:44
+position	/Users/mploux/dev/ft_scop/includes/model.h	/^	int					position;$/;"	member	line:46	struct:s_model_index
+normal	/Users/mploux/dev/ft_scop/includes/model.h	/^	int					normal;$/;"	member	line:47	struct:s_model_index
+texture	/Users/mploux/dev/ft_scop/includes/model.h	/^	int					texture;$/;"	member	line:48	struct:s_model_index
+t_model_index	/Users/mploux/dev/ft_scop/includes/model.h	/^}						t_model_index;$/;"	typedef	line:49	typeref:struct:s_model_index
+convert_vertices	/Users/mploux/dev/ft_scop/srcs/graphics/models/model_mesh.c	/^static void	convert_vertices(t_mesh_data *m, t_model_data *d, t_model_index *i,$/;"	function	line:15	file:	signature:(t_mesh_data *m, t_model_data *d, t_model_index *i, int j)
+convert_coords	/Users/mploux/dev/ft_scop/srcs/graphics/models/model_mesh.c	/^static void	convert_coords(t_mesh_data *m, t_model_data *d, t_model_index *i,$/;"	function	line:33	file:	signature:(t_mesh_data *m, t_model_data *d, t_model_index *i, int j)
+convert_normals	/Users/mploux/dev/ft_scop/srcs/graphics/models/model_mesh.c	/^static void	convert_normals(t_mesh_data *m, t_model_data *d, t_model_index *i,$/;"	function	line:51	file:	signature:(t_mesh_data *m, t_model_data *d, t_model_index *i, int j)
+convert_to_mesh	/Users/mploux/dev/ft_scop/srcs/graphics/models/model_mesh.c	/^t_mesh		*convert_to_mesh(t_model_data *data, t_model_index *i, int size)$/;"	function	line:69	signature:(t_model_data *data, t_model_index *i, int size)
+CORE_H	/Users/mploux/dev/ft_scop/includes/core.h	/^# define CORE_H$/;"	macro	line:14
+s_core	/Users/mploux/dev/ft_scop/includes/core.h	/^struct					s_core$/;"	struct	line:29
+display	/Users/mploux/dev/ft_scop/includes/core.h	/^	t_display			display;$/;"	member	line:31	struct:s_core
+input	/Users/mploux/dev/ft_scop/includes/core.h	/^	t_input				input;$/;"	member	line:32	struct:s_core
+shader	/Users/mploux/dev/ft_scop/includes/core.h	/^	t_shader			*shader;$/;"	member	line:33	struct:s_core
+texture	/Users/mploux/dev/ft_scop/includes/core.h	/^	t_texture			*texture;$/;"	member	line:34	struct:s_core
+model	/Users/mploux/dev/ft_scop/includes/core.h	/^	t_mesh				*model;$/;"	member	line:35	struct:s_core
+model_pos	/Users/mploux/dev/ft_scop/includes/core.h	/^	t_vec3				model_pos;$/;"	member	line:36	struct:s_core
+model_rot	/Users/mploux/dev/ft_scop/includes/core.h	/^	t_vec3				model_rot;$/;"	member	line:37	struct:s_core
+model_scale	/Users/mploux/dev/ft_scop/includes/core.h	/^	t_vec3				model_scale;$/;"	member	line:38	struct:s_core
+model_trs	/Users/mploux/dev/ft_scop/includes/core.h	/^	t_mat4				model_trs;$/;"	member	line:39	struct:s_core
+model_centered_trs	/Users/mploux/dev/ft_scop/includes/core.h	/^	t_mat4				model_centered_trs;$/;"	member	line:40	struct:s_core
+rot_factor	/Users/mploux/dev/ft_scop/includes/core.h	/^	t_vec3				rot_factor;$/;"	member	line:41	struct:s_core
+use_texcoord	/Users/mploux/dev/ft_scop/includes/core.h	/^	float				use_texcoord;$/;"	member	line:42	struct:s_core
+use_texture	/Users/mploux/dev/ft_scop/includes/core.h	/^	float				use_texture;$/;"	member	line:43	struct:s_core
+use_normal	/Users/mploux/dev/ft_scop/includes/core.h	/^	float				use_normal;$/;"	member	line:44	struct:s_core
+t_core	/Users/mploux/dev/ft_scop/includes/core.h	/^typedef struct s_core	t_core;$/;"	typedef	line:47	typeref:struct:s_core
+CONTROLS_H	/Users/mploux/dev/ft_scop/includes/controls.h	/^# define CONTROLS_H$/;"	macro	line:14
+t_core	/Users/mploux/dev/ft_scop/includes/controls.h	/^typedef struct s_core	t_core;$/;"	typedef	line:18	typeref:struct:s_core
+init_core	/Users/mploux/dev/ft_scop/srcs/core.c	/^t_core		init_core(int av, char **ac)$/;"	function	line:15	signature:(int av, char **ac)
+clean_core	/Users/mploux/dev/ft_scop/srcs/core.c	/^void		clean_core(t_core *core)$/;"	function	line:36	signature:(t_core *core)
+run_core	/Users/mploux/dev/ft_scop/srcs/core.c	/^void		run_core(t_core *c)$/;"	function	line:44	signature:(t_core *c)
+update	/Users/mploux/dev/ft_scop/srcs/core.c	/^void		update(t_core *c)$/;"	function	line:64	signature:(t_core *c)
+render	/Users/mploux/dev/ft_scop/srcs/core.c	/^void		render(t_core *core)$/;"	function	line:75	signature:(t_core *core)
+handle_controls	/Users/mploux/dev/ft_scop/srcs/controls.c	/^void	handle_controls(t_core *c, float speed)$/;"	function	line:15	signature:(t_core *c, float speed)
+handle_rotation_controls	/Users/mploux/dev/ft_scop/srcs/controls.c	/^void	handle_rotation_controls(t_core *c, float speed)$/;"	function	line:33	signature:(t_core *c, float speed)

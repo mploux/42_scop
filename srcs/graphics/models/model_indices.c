@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/22 15:49:27 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 16:20:36 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 17:51:46 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ t_model_index	*get_indices(t_model_data *data, size_t size)
 	i = 0;
 	while (i < size)
 	{
-		if (i < data->positions_i.size)
+		if (i < data->positions_i.length)
 			result[i].position = data->positions_i.buffer[i];
-		if (data->normals_i.buffer && i < data->normals_i.size)
+		if (data->normals_i.buffer && i < data->normals_i.length)
 			result[i].normal = data->normals_i.buffer[i];
-		if (data->texcoords_i.buffer && i < data->texcoords_i.size)
+		if (data->texcoords_i.buffer && i < data->texcoords_i.length)
 			result[i].texture = data->texcoords_i.buffer[i];
 		i++;
 	}

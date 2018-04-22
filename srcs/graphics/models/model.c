@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 19:53:55 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 16:20:07 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 18:12:09 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void	init_model(t_model_data *data)
 	data->normals_i = (t_gluintbuffer){0, 0, NULL};
 	data->min_vertices = vec3(FLT_MAX, FLT_MAX, FLT_MAX);
 	data->max_vertices = vec3(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+	data->max_dim = FLT_MAX;
 	data->size = 0;
 }
 

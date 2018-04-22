@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 21:03:07 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 16:48:28 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 18:41:45 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 t_core		init_core(int av, char **ac)
 {
 	t_core	c;
+	float	scale;
 
 	c.display = init_display("scop - 42 - mploux", 1280, 720);
 	c.input = init_input(c.display.window);
@@ -23,7 +24,9 @@ t_core		init_core(int av, char **ac)
 	c.model = new_model(ac[1]);
 	c.model_pos = vec3(0, 0, 5);
 	c.model_rot = vec3(0.0f, 270.0f, 0.0f);
-	c.model_scale = vec3(1, 1, 1);
+	scale = 3.0f / c.model->max_dim;
+	c.model_scale = vec3(scale, scale, scale);
+	c.rot_factor = vec3(0, 1, 0);
 	c.use_normal = 0;
 	c.use_texture = 0;
 	c.use_texcoord = 0;
@@ -60,9 +63,13 @@ void		run_core(t_core *c)
 
 void		update(t_core *c)
 {
-	c->model_rot.y++;
+	c->model_rot.x += c->rot_factor.x;
+	c->model_rot.y += c->rot_factor.y;
+	c->model_rot.z += c->rot_factor.z;
 	c->model_trs = mat4_transform(c->model_pos, c->model_rot, c->model_scale);
 	c->model_centered_trs = mat4_translate(vec3_negate(c->model->center));
+	handle_controls(c, 0.1f);
+	handle_rotation_controls(c, 0.1f);
 }
 
 void		render(t_core *core)

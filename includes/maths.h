@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/18 14:27:50 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/24 20:35:13 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 18:15:29 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ typedef struct	s_mat4
 
 float			clamp(float a, float min, float max);
 int				balance(int min, int max, int v);
+float			max_val(float a, float b);
+float			min_val(float a, float b);
 t_vec2			vec2(float x, float y);
 t_vec3			vec3(float x, float y, float z);
 t_vec3			vec3_add(t_vec3 *a, t_vec3 b);

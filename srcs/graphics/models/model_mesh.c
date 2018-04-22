@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/22 15:36:25 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 16:44:13 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 18:23:10 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,43 +15,54 @@
 static void	convert_vertices(t_mesh_data *m, t_model_data *d, t_model_index *i,
 																		int j)
 {
+	int k;
 	int index[3];
 
-	index[0] = i[j].position * 3 + 0;
-	index[1] = i[j].position * 3 + 1;
-	index[2] = i[j].position * 3 + 2;
-	m->vertices.buffer[j * 3 + 0] = d->positions.buffer[index[0]];
-	m->vertices.buffer[j * 3 + 1] = d->positions.buffer[index[1]];
-	m->vertices.buffer[j * 3 + 2] = d->positions.buffer[index[2]];
+	k = -1;
+	if (d->positions_i.buffer != NULL && d->positions.buffer != NULL)
+	{
+		while (++k < 3)
+		{
+			index[k] = i[j].position * 3 + k;
+			if (index[k] >= 0 && (size_t)index[k] < d->positions.length)
+			m->vertices.buffer[j * 3 + k] = d->positions.buffer[index[k]];
+		}
+	}
 }
 
 static void	convert_coords(t_mesh_data *m, t_model_data *d, t_model_index *i,
 																		int j)
 {
+	int k;
 	int index[2];
 
+	k = -1;
 	if (d->texcoords_i.buffer != NULL && d->texcoords.buffer != NULL)
 	{
-		index[0] = i[j].texture * 2 + 0;
-		index[1] = i[j].texture * 2 + 1;
-		m->texcoords.buffer[j * 2 + 0] = d->texcoords.buffer[index[0]];
-		m->texcoords.buffer[j * 2 + 1] = d->texcoords.buffer[index[1]];
+		while (++k < 2)
+		{
+			index[k] = i[j].texture * 2 + k;
+			if (index[k] >= 0 && (size_t)index[k] < d->texcoords.length)
+				m->texcoords.buffer[j * 2 + k] = d->texcoords.buffer[index[k]];
+		}
 	}
 }
 
 static void	convert_normals(t_mesh_data *m, t_model_data *d, t_model_index *i,
 																		int j)
 {
+	int k;
 	int index[3];
 
+	k = -1;
 	if (d->normals_i.buffer != NULL && d->normals.buffer != NULL)
 	{
-		index[0] = i[j].normal * 3 + 0;
-		index[1] = i[j].normal * 3 + 1;
-		index[2] = i[j].normal * 3 + 2;
-		m->normals.buffer[j * 3 + 0] = d->normals.buffer[index[0]];
-		m->normals.buffer[j * 3 + 1] = d->normals.buffer[index[1]];
-		m->normals.buffer[j * 3 + 2] = d->normals.buffer[index[2]];
+		while (++k < 3)
+		{
+			index[k] = i[j].normal * 3 + k;
+			if (index[k] >= 0 && (size_t)index[k] < d->normals.length)
+				m->normals.buffer[j * 3 + k] = d->normals.buffer[index[k]];
+		}
 	}
 }
 
@@ -71,6 +82,8 @@ t_mesh		*convert_to_mesh(t_model_data *data, t_model_index *i, int size)
 	mesh_data.center.x = data->max_vertices.x - mesh_data.dimension.x / 2.0f;
 	mesh_data.center.y = data->max_vertices.y - mesh_data.dimension.y / 2.0f;
 	mesh_data.center.z = data->max_vertices.z - mesh_data.dimension.z / 2.0f;
+	mesh_data.max_dim = max_val(mesh_data.dimension.x,
+						max_val(mesh_data.dimension.y, mesh_data.dimension.z));
 	while (++j < size)
 	{
 		convert_vertices(&mesh_data, data, i, j);

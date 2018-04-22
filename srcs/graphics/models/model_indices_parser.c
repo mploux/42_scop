@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/22 15:59:18 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 16:30:54 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 18:04:49 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void		parse_indces(t_model_data *data, char **tokens)
 	size = -1;
 	i = 0;
 	while (tokens[++size])
-		if (i > 4)
+		if (i > 16)
 			error("Model parser error: Invalid indices count !");
 	while (i < size - 1)
 	{

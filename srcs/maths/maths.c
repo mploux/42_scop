@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/08 15:53:47 by mploux            #+#    #+#             */
-/*   Updated: 2016/12/13 16:26:28 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 18:15:02 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,18 @@ int			balance(int min, int max, int v)
 	if (r < min)
 		r = -r;
 	return (r);
+}
+
+float		max_val(float a, float b)
+{
+	if (a > b)
+		return (a);
+	return (b);
+}
+
+float		min_val(float a, float b)
+{
+	if (a < b)
+		return (a);
+	return (b);
 }

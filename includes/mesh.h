@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/07 18:35:53 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 17:28:14 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 18:16:21 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ struct					s_mesh
 	t_gluintbuffer		indices;
 	t_vec3				dimension;
 	t_vec3				center;
+	float				max_dim;
 };
 
 typedef struct			s_mesh_data
@@ -46,6 +47,7 @@ typedef struct			s_mesh_data
 	t_gluintbuffer		indices;
 	t_vec3				dimension;
 	t_vec3				center;
+	float				max_dim;
 }						t_mesh_data;
 
 typedef struct s_mesh	t_mesh;
