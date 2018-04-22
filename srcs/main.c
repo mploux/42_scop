@@ -6,13 +6,13 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 17:51:41 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 00:05:56 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 17:23:43 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "core.h"
 
-int main(int av, char **ac)
+int		main(int av, char **ac)
 {
 	t_core	core;
 

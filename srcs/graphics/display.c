@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 21:06:20 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/24 23:17:01 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 16:49:16 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ t_display		init_display(const char *title, int width, int height)
 
 void			clean_display(t_display *display)
 {
-	(void) display;
 	glfwDestroyWindow(display->window);
 	glfwTerminate();
 }

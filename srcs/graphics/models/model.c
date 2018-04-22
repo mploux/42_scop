@@ -6,184 +6,15 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 19:53:55 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 02:27:15 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 16:20:07 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "model.h"
 
-static void		parse_vertices(t_model_data *data, char **tokens)
+void		parse_line(char *line, t_model_data *data)
 {
-	t_vec3	v;
-
-	if (!tokens[1] || !tokens[2] || !tokens[3])
-		error("Model parser error: Invalid vertices !");
-	v.x = atof(tokens[1]);
-	v.y = atof(tokens[2]);
-	v.z = atof(tokens[3]);
-	buff_push_float(&data->positions, v.x);
-	buff_push_float(&data->positions, v.y);
-	buff_push_float(&data->positions, v.z);
-	if (v.x < data->min_vertices.x)
-		data->min_vertices.x = v.x;
-	if (v.y < data->min_vertices.y)
-		data->min_vertices.y = v.y;
-	if (v.z < data->min_vertices.z)
-		data->min_vertices.z = v.z;
-	if (v.x > data->max_vertices.x)
-		data->max_vertices.x = v.x;
-	if (v.y > data->max_vertices.y)
-		data->max_vertices.y = v.y;
-	if (v.z > data->max_vertices.z)
-		data->max_vertices.z = v.z;
-
-}
-
-static void		parse_normals(t_model_data *data, char **tokens)
-{
-	if (!tokens[1] || !tokens[2] || !tokens[3])
-		error("Model parser error: Invalid normals !");
-	buff_push_float(&data->normals, atof(tokens[1]));
-	buff_push_float(&data->normals, atof(tokens[2]));
-	buff_push_float(&data->normals, atof(tokens[3]));
-}
-
-static void		parse_texcoords(t_model_data *data, char **tokens)
-{
-	if (!tokens[1] || !tokens[2])
-		error("Model parser error: Invalid texcoords !");
-	buff_push_float(&data->texcoords, atof(tokens[1]));
-	buff_push_float(&data->texcoords, atof(tokens[2]));
-}
-
-static int		parse_index_pos(char *index)
-{
-	int 	result;
-	char 	*data;
-	int 	size;
-	int		i;
-
-	if (index == NULL)
-		return (-1);
-	size = 0;
-	while (index[size] != '/' && index[size] != '\n' && index[size] != 0)
-		size++;
-	if (size == 0)
-		return (-1);
-	if (!(data = ft_strnew(size)))
-		error("Malloc error !");
-	i = -1;
-	while (++i < size)
-		data[i] = index[i];
-	result = ft_atoi(data);
-	ft_strdel(&data);
-	return (result);
-}
-
-static int		parse_index_uv(char *index)
-{
-	int 	result;
-	char 	*data;
-	char	*start;
-	int 	size;
-	int		i;
-
-	if (index == NULL)
-		return (-1);
-	size = 1;
-	if (!(start = ft_strchr(index, '/')))
-		return -1;
-	while (start[size] != '/' && start[size] != '\n' && start[size] != 0)
-		size++;
-	size--;
-	if (size == 0)
-		return (-1);
-	if (!(data = ft_strnew(size)))
-		error("Malloc error !");
-	i = -1;
-	while (++i < size)
-		data[i] = start[i + 1];
-	result = ft_atoi(data);
-	ft_strdel(&data);
-	return (result);
-}
-
-static int		parse_index_normal(char *index)
-{
-	int 	result;
-	char 	*data;
-	char	*start;
-	int 	size;
-	int		i;
-
-	if (index == NULL)
-		return (-1);
-	size = 1;
-	if (!(start = ft_strchrl(index, '/')))
-		return -1;
-	while (start[size] != '/' && start[size] != '\n' && start[size] != 0)
-		size++;
-	size--;
-	if (size == 0)
-		return (-1);
-	if (!(data = ft_strnew(size)))
-		error("Malloc error !");
-	i = -1;
-	while (++i < size)
-		data[i] = start[i + 1];
-	result = ft_atoi(data);
-	ft_strdel(&data);
-	return (result);
-}
-
-static void		parse_indces(t_model_data *data, char **tokens)
-{
-	int			id[3];
-	int			size;
-	int			i;
-	int			j;
-
-	size = -1;
-	i = 0;
-	while (tokens[++size])
-		if (i > 4)
-			error("Model parser error: Invalid indices count !");
-	while (i < size - 1)
-	{
-		id[0] = (i / 6) + 1;
-		id[1] = (i / 3) + 2;
-		id[2] = (i / 3) + 3;
-
-		j = -1;
-		while (++j < 3)
-		{
-			int index = parse_index_pos(tokens[id[j]]) - 1;
-			if (index >= 0)
-				buff_push_uint(&data->positions_i, index);
-		}
-		j = -1;
-		while (++j < 3)
-		{
-			int index = parse_index_uv(tokens[id[j]]) - 1;
-			if (index >= 0)
-				buff_push_uint(&data->texcoords_i, index);
-		}
-		j = -1;
-		while (++j < 3)
-		{
-			int index = parse_index_normal(tokens[id[j]]) - 1;
-			if (index >= 0)
-				buff_push_uint(&data->normals_i, index);
-		}
-
-		data->size += 3;
-		i += 3;
-	}
-}
-
-static void		parse_line(char *line, t_model_data *data)
-{
-	char			**tokens;
+	char	**tokens;
 
 	if (!(tokens = ft_strsplit(line, ' ')))
 		error("Model parser error: Invalid tokens !");
@@ -198,159 +29,38 @@ static void		parse_line(char *line, t_model_data *data)
 	ft_tabdel(&tokens);
 }
 
-t_glfloatbuffer init_vertices(t_glfloatbuffer *v, int size)
+static void	init_model(t_model_data *data)
 {
-	t_glfloatbuffer result;
-
-	if (!v->buffer)
-		error("Model parser error: Invalid loaded vertices !");
-	result.length = size * 3;
-	result.size = sizeof(GLfloat) * result.length;
-	if (!(result.buffer = (GLfloat *)malloc(result.size)))
-		error("Malloc error !");
-	return (result);
+	data->positions = (t_glfloatbuffer){0, 0, NULL};
+	data->texcoords = (t_glfloatbuffer){0, 0, NULL};
+	data->normals = (t_glfloatbuffer){0, 0, NULL};
+	data->positions_i = (t_gluintbuffer){0, 0, NULL};
+	data->texcoords_i = (t_gluintbuffer){0, 0, NULL};
+	data->normals_i = (t_gluintbuffer){0, 0, NULL};
+	data->min_vertices = vec3(FLT_MAX, FLT_MAX, FLT_MAX);
+	data->max_vertices = vec3(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+	data->size = 0;
 }
 
-t_glfloatbuffer init_texcoords(t_glfloatbuffer *t, int size)
-{
-	t_glfloatbuffer result;
-
-	if (t->buffer)
-	{
-		result.length = size * 2;
-		result.size = sizeof(GLfloat) * result.length;
-		if (!(result.buffer = (GLfloat *)malloc(result.size)))
-			error("Malloc error !");
-		return (result);
-	}
-	result.length = 0;
-	result.size = 0;
-	result.buffer = NULL;
-	return (result);
-}
-
-t_glfloatbuffer init_normals(t_glfloatbuffer *n, int size)
-{
-	t_glfloatbuffer result;
-
-	if (n->buffer)
-	{
-		result.length = size * 3;
-		result.size = sizeof(GLfloat) * result.length;
-		if (!(result.buffer = (GLfloat *)malloc(result.size)))
-			error("Malloc error !");
-		return (result);
-	}
-	result.length = 0;
-	result.size = 0;
-	result.buffer = NULL;
-	return (result);
-}
-
-t_gluintbuffer init_indices(t_model_index *i, int size)
-{
-	t_gluintbuffer result;
-
-	if (!i)
-		error("Model parser error: Invalid loaded indices !");
-	result.length = size;
-	result.size = sizeof(GLfloat) * result.length;
-	if (!(result.buffer = (GLuint *)malloc(result.size)))
-		error("Malloc error !");
-	return (result);
-}
-
-static t_mesh	*convert_to_mesh(t_model_data *data, t_model_index *i, int size)
-{
-	int				j;
-	t_mesh_data		mesh_data;
-
-	j = -1;
-	mesh_data.vertices = init_vertices(&data->positions, size);
-	mesh_data.texcoords = init_texcoords(&data->texcoords, size);
-	mesh_data.normals = init_normals(&data->normals, size);
-	mesh_data.indices = init_indices(i, size);
-	mesh_data.dimension.x = data->max_vertices.x - data->min_vertices.x;
-	mesh_data.dimension.y = data->max_vertices.y - data->min_vertices.y;
-	mesh_data.dimension.z = data->max_vertices.z - data->min_vertices.z;
-	mesh_data.center.x = data->max_vertices.x - mesh_data.dimension.x / 2.0f;
-	mesh_data.center.y = data->max_vertices.y - mesh_data.dimension.y / 2.0f;
-	mesh_data.center.z = data->max_vertices.z - mesh_data.dimension.z / 2.0f;
-
-	while (++j < size)
-	{
-		mesh_data.vertices.buffer[j * 3 + 0] = data->positions.buffer[i[j].position * 3 + 0];
-		mesh_data.vertices.buffer[j * 3 + 1] = data->positions.buffer[i[j].position * 3 + 1];
-		mesh_data.vertices.buffer[j * 3 + 2] = data->positions.buffer[i[j].position * 3 + 2];
-
-		if (data->texcoords_i.buffer != NULL && data->texcoords.buffer != NULL)
-		{
-			mesh_data.texcoords.buffer[j * 2 + 0] = data->texcoords.buffer[i[j].texture * 2 + 0];
-			mesh_data.texcoords.buffer[j * 2 + 1] = data->texcoords.buffer[i[j].texture * 2 + 1];
-		}
-		if (data->normals_i.buffer != NULL && data->normals.buffer != NULL)
-		{
-			mesh_data.normals.buffer[j * 3 + 0] = data->normals.buffer[i[j].normal * 3 + 0];
-			mesh_data.normals.buffer[j * 3 + 1] = data->normals.buffer[i[j].normal * 3 + 1];
-			mesh_data.normals.buffer[j * 3 + 2] = data->normals.buffer[i[j].normal * 3 + 2];
-		}
-
-		mesh_data.indices.buffer[j] = j;
-	}
-	return new_mesh(&mesh_data);
-}
-
-static t_model_index *get_indices(t_model_data *data, size_t size)
-{
-	t_model_index	*result;
-	size_t			i;
-
-	if (!(result = (t_model_index *)malloc(sizeof(t_model_index) * (size))))
-		return (NULL);
-	i = 0;
-	while (i < size)
-	{
-		if (i < data->positions_i.size)
-			result[i].position = data->positions_i.buffer[i];
-		if (data->normals_i.buffer && i < data->normals_i.size)
-			result[i].normal = data->normals_i.buffer[i];
-		if (data->texcoords_i.buffer && i < data->texcoords_i.size)
-			result[i].texture = data->texcoords_i.buffer[i];
-		i++;
-	}
-	return (result);
-}
-
-t_mesh			*new_model(char *file)
+t_mesh		*new_model(char *file)
 {
 	int				fd;
 	char			*line;
 	t_model_data	data;
+	t_model_index	*indices;
+	t_mesh			*m;
 
 	if ((fd = open(file, O_RDONLY)) < 0)
 		error("Failed to load model !");
-	data.positions = (t_glfloatbuffer){0, 0, NULL};
-	data.texcoords = (t_glfloatbuffer){0, 0, NULL};
-	data.normals = (t_glfloatbuffer){0, 0, NULL};
-	data.positions_i = (t_gluintbuffer){0, 0, NULL};
-	data.texcoords_i = (t_gluintbuffer){0, 0, NULL};
-	data.normals_i = (t_gluintbuffer){0, 0, NULL};
-	data.min_vertices = vec3(FLT_MAX, FLT_MAX, FLT_MAX);
-	data.max_vertices = vec3(-FLT_MAX, -FLT_MAX, -FLT_MAX);
-	data.size = 0;
-	int i = 0;
+	init_model(&data);
 	while (get_next_line(fd, &line) > 0)
 	{
 		parse_line(line, &data);
 		ft_strdel(&line);
-		i++;
 	}
 	close(fd);
-	ft_putstr("Finished\n");
-	t_model_index *indices = get_indices(&data, data.size);
-	ft_putstr("Indices\n");
-	t_mesh *m = convert_to_mesh(&data, indices, data.size);
-	ft_putstr("Mesh\n");
+	indices = get_indices(&data, data.size);
+	m = convert_to_mesh(&data, indices, data.size);
 	free(data.positions.buffer);
 	free(data.texcoords.buffer);
 	free(data.normals.buffer);

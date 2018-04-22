@@ -16,8 +16,7 @@ FILES =\
 core.c\
 error.c\
 graphics/display.c\
-graphics/meshes/mesh.c\
-graphics/meshes/mesh_vao.c\
+graphics/mesh.c\
 graphics/models/model.c\
 graphics/models/model_indices.c\
 graphics/models/model_indices_parser.c\
@@ -39,8 +38,7 @@ maths/transform.c\
 maths/vec2.c\
 maths/vec3.c\
 maths/vec4.c\
-utils/buffers.c\
-utils/int_utils.c
+utils/buffers.c
 
 SRC = srcs/
 DIRS = bin

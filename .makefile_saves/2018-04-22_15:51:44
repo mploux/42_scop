@@ -6,41 +6,33 @@
 #    By: mploux <mploux@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/06 18:10:48 by mploux            #+#    #+#              #
-#    Updated: 2018/04/22 16:03:52 by mploux           ###   ########.fr        #
+#    Updated: 2018/04/22 15:21:49 by mploux           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = scop
 CC = gcc
 FILES =\
-core.c\
-error.c\
-graphics/display.c\
-graphics/meshes/mesh.c\
-graphics/meshes/mesh_vao.c\
+graphics/mesh.c\
 graphics/models/model.c\
-graphics/models/model_indices.c\
-graphics/models/model_indices_parser.c\
-graphics/models/model_mesh.c\
-graphics/models/model_v_normal.c\
-graphics/models/model_v_position.c\
-graphics/models/model_v_texcoord.c\
+graphics/display.c\
+graphics/texture.c\
 graphics/shaders/shader.c\
 graphics/shaders/uniforms.c\
-graphics/texture.c\
-inputs/input.c\
 inputs/keyboard.c\
 inputs/mouse.c\
-main.c\
+inputs/input.c\
+core.c\
+error.c\
+utils/buffers.c\
+maths/projection.c\
 maths/mat4.c\
 maths/maths.c\
-maths/projection.c\
-maths/transform.c\
 maths/vec2.c\
 maths/vec3.c\
 maths/vec4.c\
-utils/buffers.c\
-utils/int_utils.c
+maths/transform.c\
+main.c
 
 SRC = srcs/
 DIRS = bin
@@ -95,7 +87,7 @@ $(DIRS):
 
 bin/%.o: srcs/%.c
 	@printf "\rCompiling sources: $^                          \r";
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $^ -o $@
+	@$(CC) $(CFLAGS) $(INCLUDES) -MMD -c $^ -o $@
 
 $(LIBFT):
 	@printf "Building libFT...\r"
@@ -146,4 +138,4 @@ re: fclean-src all
 
 re-libs: fclean all
 
-# -include $(HDRS)
+-include $(HDRS)

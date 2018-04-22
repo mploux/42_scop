@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/07 15:28:48 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/11 19:32:45 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 17:23:10 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ GLuint			create_shader(const char *source, int type)
 	return (shader);
 }
 
-void 			delete_shader(t_shader **shader)
+void			delete_shader(t_shader **shader)
 {
 	glDeleteShader((*shader)->program);
 	free(*shader);

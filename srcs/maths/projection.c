@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:57:27 by mploux            #+#    #+#             */
-/*   Updated: 2018/01/09 20:25:38 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 17:24:10 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ t_mat4		mat4_ortho(t_vec2 w, t_vec2 h, t_vec2 d)
 
 t_mat4		mat4_persp(float fov, float aspect, float near, float far)
 {
-	t_mat4 result;
-	float tfov;
+	t_mat4	result;
+	float	tfov;
 
 	tfov = tan(DTR(fov) / 2.0);
 	result = mat4_identity();
@@ -41,20 +41,6 @@ t_mat4		mat4_persp(float fov, float aspect, float near, float far)
 	result.m[3 + 3 * 4] = 0;
 	return (result);
 }
-
-// mat4 result = identity();
-//
-// float FOV = TAN(TO_RADIANS(fov / 2));
-// float r = near - far;
-//
-// result.m_matrix[0 + 0 * 4] = 1.0f / (FOV * aspect);
-// result.m_matrix[1 + 1 * 4] = 1.0f / FOV;
-//
-// result.m_matrix[2 + 2 * 4] = (-near - far) / r;
-// result.m_matrix[2 + 3 * 4] = 2 * far * near / r;
-//
-// result.m_matrix[3 + 2 * 4] = 1;
-// result.m_matrix[3 + 3 * 4] = 0;
 
 t_mat4		mat4_screen_space(float h_width, float h_height)
 {

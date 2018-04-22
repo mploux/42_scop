@@ -6,13 +6,13 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 20:57:29 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/23 00:34:09 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 17:24:55 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "buffers.h"
 
-void 				buff_push_float(t_glfloatbuffer *buff, GLfloat v)
+void				buff_push_float(t_glfloatbuffer *buff, GLfloat v)
 {
 	GLfloat	*new;
 
@@ -30,7 +30,7 @@ void 				buff_push_float(t_glfloatbuffer *buff, GLfloat v)
 	buff->buffer[buff->length - 1] = v;
 }
 
-void 				buff_push_uint(t_gluintbuffer *buff, GLuint v)
+void				buff_push_uint(t_gluintbuffer *buff, GLuint v)
 {
 	GLuint	*new;
 

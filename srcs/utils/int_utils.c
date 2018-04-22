@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.h                                            :+:      :+:    :+:   */
+/*   int_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/07 16:28:34 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 17:26:35 by mploux           ###   ########.fr       */
+/*   Created: 2018/04/22 17:12:29 by mploux            #+#    #+#             */
+/*   Updated: 2018/04/22 17:15:02 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERROR_H
-# define ERROR_H
+#include "int_utils.h"
 
-# include <libft.h>
-# include <stdlib.h>
-
-int		error(const char *error);
-
-#endif
+int		as_int(t_uchar c1, t_uchar c2, t_uchar c3, t_uchar c4)
+{
+	return ((int)(c1 |
+			(c2 << 8) |
+			(c3 << 16) |
+			(c4 << 24)));
+}

@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 19:22:31 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/24 20:36:18 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 16:56:10 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ t_mesh			*new_mesh(t_mesh_data *data)
 
 	if (!(result = (t_mesh *)malloc(sizeof(t_mesh))))
 		error("Malloc error !");
-
 	result->vertices = data->vertices;
 	result->texcoords = data->texcoords;
 	result->normals = data->normals;
@@ -26,49 +25,7 @@ t_mesh			*new_mesh(t_mesh_data *data)
 	result->indices = data->indices;
 	result->dimension = data->dimension;
 	result->center = data->center;
-
-	glGenVertexArrays(1, &result->vao);
-
-	glGenBuffers(1, &result->vbo);
-	if (data->texcoords.length > 0)
-		glGenBuffers(1, &result->tbo);
-	if (data->normals.length > 0)
-		glGenBuffers(1, &result->nbo);
-	glGenBuffers(1, &result->cbo);
-	glGenBuffers(1, &result->ibo);
-
-	glBindVertexArray(result->vao);
-
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, result->vbo);
-		glBufferData(GL_ARRAY_BUFFER, result->vertices.size, result->vertices.buffer, GL_STATIC_DRAW);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
-
-		if (result->texcoords.length > 0)
-		{
-			glEnableVertexAttribArray(1);
-			glBindBuffer(GL_ARRAY_BUFFER, result->tbo);
-			glBufferData(GL_ARRAY_BUFFER, result->texcoords.size, result->texcoords.buffer, GL_STATIC_DRAW);
-			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void *)0);
-		}
-		if (result->normals.length > 0)
-		{
-			glEnableVertexAttribArray(2);
-			glBindBuffer(GL_ARRAY_BUFFER, result->nbo);
-			glBufferData(GL_ARRAY_BUFFER, result->normals.size, result->normals.buffer, GL_STATIC_DRAW);
-			glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
-		}
-
-		glEnableVertexAttribArray(3);
-		glBindBuffer(GL_ARRAY_BUFFER, result->cbo);
-		glBufferData(GL_ARRAY_BUFFER, result->colors.size, result->colors.buffer, GL_STATIC_DRAW);
-		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, result->ibo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, result->indices.size, result->indices.buffer, GL_STATIC_DRAW);
-
-	glBindVertexArray(0);
-
+	create_vao(data, result);
 	return (result);
 }
 
@@ -93,6 +50,7 @@ t_glfloatbuffer	generate_colors(t_glfloatbuffer *v)
 	size_t			i;
 	int				j;
 	t_glfloatbuffer	result;
+	int				size;
 
 	i = -1;
 	result.length = v->size / sizeof(GLfloat);
@@ -100,7 +58,7 @@ t_glfloatbuffer	generate_colors(t_glfloatbuffer *v)
 	result.buffer = (GLfloat *)malloc(result.size);
 	if (!result.buffer)
 		error("Malloc error !");
-	int size = 9;
+	size = 9;
 	while (++i < result.length / size)
 	{
 		j = -1;

@@ -6,19 +6,19 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/07 15:24:55 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 01:10:49 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 17:29:41 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SHADER_H
 # define SHADER_H
 
-#include <libft.h>
-#include <GL/glew.h>
-#include <stdlib.h>
+# include <libft.h>
+# include <GL/glew.h>
+# include <stdlib.h>
 
-#include "error.h"
-#include "maths.h"
+# include "error.h"
+# include "maths.h"
 
 typedef struct	s_shader
 {
