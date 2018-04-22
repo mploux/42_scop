@@ -6,12 +6,13 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 21:07:04 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/24 22:23:19 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 02:00:43 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DISPLAY_H
 # define DISPLAY_H
+
 
 # include <GL/glew.h>
 # include <GLFW/glfw3.h>

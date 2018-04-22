@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 21:03:07 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/25 13:09:44 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 01:16:49 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ t_core		init_core(int av, char **ac)
 	c.model_pos = vec3(0, 0, 5);
 	c.model_rot = vec3(0.0f, 270.0f, 0.0f);
 	c.model_scale = vec3(1, 1, 1);
+	c.use_normal = 0;
+	c.use_texture = 0;
+	c.use_texcoord = 0;
 	return (c);
 }
 
@@ -69,9 +72,12 @@ void		render(t_core *core)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(core->shader->program);
 	glUniformMatrix4fv(glGetUniformLocation(core->shader->program, "projectionMatrix"), 1, GL_FALSE, mat4_persp(70.0f, 1280.0f / 720.0f, 0.1f, 100.0f).m);
-	glUniform1f(glGetUniformLocation(core->shader->program, "use_texcoord"), core->use_texcoord);
-	glUniform1f(glGetUniformLocation(core->shader->program, "use_texture"), core->use_texture);
-	glUniform1f(glGetUniformLocation(core->shader->program, "use_normal"), core->use_normal);
+	// glUniform1f(glGetUniformLocation(core->shader->program, "use_texcoord"), core->use_texcoord);
+	// glUniform1f(glGetUniformLocation(core->shader->program, "use_texture"), core->use_texture);
+	// glUniform1f(glGetUniformLocation(core->shader->program, "use_normal"), core->use_normal);
+	shader_uniform_1f(core->shader, "use_texcoord", core->use_texcoord);
+	shader_uniform_1f(core->shader, "use_texture", core->use_texture);
+	shader_uniform_1f(core->shader, "use_normal", core->use_normal);
 	transformation = mat4_mul(core->model_trs, core->model_centered_trs);
 	bind_texture(core->texture);
 	transform(&transformation, core->shader);

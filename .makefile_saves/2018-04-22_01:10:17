@@ -6,7 +6,7 @@
 #    By: mploux <mploux@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/06 18:10:48 by mploux            #+#    #+#              #
-#    Updated: 2018/04/22 02:04:16 by mploux           ###   ########.fr        #
+#    Updated: 2018/04/22 00:41:31 by mploux           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,11 +47,10 @@ GRAY = \033[7;49;90m
 NO_COLOR = \033[m
 
 OBJS = $(addprefix bin/,$(FILES:.c=.o))
-HDRS = $(addprefix bin/,$(FILES:.c=.d))
 
 LIBFT = deps/libft/libft.a
-GLFW = deps/glfw/build/src/libglfw3.a
-GLEW = deps/glew/build/cmake/build/lib/libGLEW.a
+GLFW = deps/GLFW/build/src/libglfw3.a
+GLEW = deps/GLEW/build/cmake/build/lib/libGLEW.a
 
 DEPS = -L deps/libft -L deps/glfw/build/src/ -L deps/glew/build/cmake/build/lib/
 INCLUDES = -I includes/ -I deps/libft/ -I deps/glfw/include/ -I deps/glew/include/
@@ -71,23 +70,23 @@ MKDIR = mkdir -p
 RMDIR = rm -rf
 RM = rm -rf
 
-.PHONY: all clean clean-libs fclean-libs fclean re
-
-all: $(NAME)
-
 $(NAME): $(LIBFT) $(GLFW) $(GLEW) $(DIRS) $(OBJS)
 	@printf "\r$(GREEN)Compiling sources: DONE !                      $(NO_COLOR)\n";
 	@printf "Building objects...\r"
-	@$(CC) -o $(NAME) $(OBJS) $(CFLAGS) $(INCLUDES) $(DEPS) $(DEPSFLAGS)
+	@$(CC) -o $(NAME) $(OBJS) $(CFLAGS) $(INCLUDES) $(DEPS) $(DEPSFLAGS) -g
 	@printf "\r$(GREEN)Building objects: DONE !$(NO_COLOR)\n";
 	@printf "\n$(GREEN)Building done: $(GREEN_BG)$(NAME)$(NO_COLOR)\n"
+
+all: $(NAME)
 
 $(DIRS):
 	@$(MKDIR) $(dir $(OBJS))
 
 bin/%.o: srcs/%.c
 	@printf "\rCompiling sources: $^                          \r";
-	@$(CC) $(CFLAGS) $(INCLUDES) -MMD -c $^ -o $@
+	@$(CC) -MMD -c $^ -o $@ $(CFLAGS) $(INCLUDES)
+
+.PHONY: all clean clean-libs fclean-libs fclean re
 
 $(LIBFT):
 	@printf "Building libFT...\r"
@@ -137,5 +136,3 @@ fclean-src: clean
 re: fclean-src all
 
 re-libs: fclean all
-
--include $(HDRS)

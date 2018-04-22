@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 14:54:10 by mploux            #+#    #+#             */
-/*   Updated: 2016/11/26 23:38:36 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 00:51:36 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char			**ft_strsplit(char const *s, char c)
 		return (NULL);
 	while (s[i])
 	{
-		if (s[i] != c && (s[i - 1] == c || i == 0))
+		if (s[i] != c && ((i > 1 && s[i - 1] == c) || i == 0))
 			result[k++] = ft_getword(s, c, i);
 		result[k] = NULL;
 		i++;
