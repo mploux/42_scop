@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 21:13:33 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/23 13:41:13 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 16:43:46 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,16 @@ struct					s_core
 	float				use_texcoord;
 	float				use_texture;
 	float				use_normal;
+	float				use_specular;
 	int					show_ground;
 	t_vec3				light_pos;
+	t_mat4				ground_trs;
 };
 
 typedef struct s_core	t_core;
 
-t_core					init_core(int av, char **ac);
-void					clean_core(t_core *core);
+t_core					*new_core(char *model, char *texture);
+void					delete_core(t_core **core);
 void					run_core(t_core *core);
 void					update(t_core *core);
 void					render(t_core *core);

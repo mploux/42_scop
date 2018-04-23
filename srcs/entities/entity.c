@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 01:28:06 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/23 13:40:35 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 16:40:53 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void		delete_entity(t_entity **e)
 
 void		entity_update(t_entity	*e)
 {
-
+	(void)e;
 }
 
 void		entity_render(t_entity	*e, t_shader *s)

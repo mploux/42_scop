@@ -6,7 +6,7 @@
 #    By: mploux <mploux@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/06 18:10:48 by mploux            #+#    #+#              #
-#    Updated: 2018/04/22 21:28:23 by mploux           ###   ########.fr        #
+#    Updated: 2018/04/23 17:11:37 by mploux           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,7 @@ GRAY = \033[7;49;90m
 NO_COLOR = \033[m
 
 OBJS = $(addprefix bin/,$(FILES:.c=.o))
-HDRS = $(addprefix bin/,$(FILES:.c=.d))
+HDRS = $(OBJS:.o=.d)
 
 LIBFT = deps/libft/libft.a
 GLFW = deps/glfw/build/src/libglfw3.a
@@ -68,7 +68,7 @@ GLEW = deps/glew/build/cmake/build/lib/libGLEW.a
 DEPS = -L deps/libft -L deps/glfw/build/src/ -L deps/glew/build/cmake/build/lib/
 INCLUDES = -I includes/ -I deps/libft/ -I deps/glfw/include/ -I deps/glew/include/
 
-ifeq (SYSTEM, darwin)
+ifeq ($(SYSTEM), Darwin)
 	DEPSFLAGS = -lft -lglfw3 -lGLEW -framework Cocoa -framework OpenGL\
 				-framework IOKit -framework CoreVideo
 else
@@ -76,14 +76,12 @@ else
 				-lXxf86vm -lpthread -ldl -lXinerama -lXcursor -lrt
 endif
 
-CFLAGS = -Wall -Wextra -pedantic -g
+CFLAGS = -Wall -Wextra -Werror -pedantic -g
 FLAGS = $(CFLAGS) $(INCLUDES)
 
 MKDIR = mkdir -p
 RMDIR = rm -rf
 RM = rm -rf
-
-.PHONY: all clean clean-libs fclean-libs fclean re
 
 all: $(NAME)
 
@@ -98,8 +96,8 @@ $(DIRS):
 	@$(MKDIR) $(dir $(OBJS))
 
 bin/%.o: srcs/%.c
-	@printf "\rCompiling sources: $^                          \r";
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $^ -o $@
+	@printf "\rCompiling sources: $<                          \r";
+	@$(CC) $(CFLAGS) -MMD -c $< -o $@ $(INCLUDES)
 
 $(LIBFT):
 	@printf "Building libFT...\r"
@@ -124,6 +122,8 @@ $(GLEW):
 
 clean:
 	@printf "Cleaning objects..."
+	@$(RM) $(OBJS)
+	@$(RM) $(HDRS)
 	@$(RMDIR) bin
 	@printf "\r$(GREEN)Cleaning objects: DONE !$(NO_COLOR)\n";
 
@@ -150,4 +150,6 @@ re: fclean-src all
 
 re-libs: fclean all
 
-# -include $(HDRS)
+.PHONY: all clean clean-libs fclean-libs fclean re
+
+-include $(HDRS)

@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/22 18:25:18 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/23 01:17:43 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 15:47:32 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	handle_controls(t_core *c, float speed)
 	if (get_key(&c->input, GLFW_KEY_KP_4))
 		c->model_pos.y += speed;
 	if (get_key(&c->input, GLFW_KEY_R))
-		c->model_pos = vec3(0, 0, 5);
+		c->model_pos = vec3(0, 0, 0);
 }
 
 void	handle_mouse_controls(t_core *c, float speed)

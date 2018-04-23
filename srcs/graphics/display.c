@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 21:06:20 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 16:49:16 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 15:05:05 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_display		init_display(const char *title, int width, int height)
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
 		error("Unable to init glfw window !");
-	glfwSwapInterval(1);
+	glfwSwapInterval(0);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);

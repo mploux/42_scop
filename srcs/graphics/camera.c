@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/22 21:46:59 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/23 00:29:38 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 16:40:23 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,23 @@ void		camera_proj(t_camera *cam, float fov, float near, float far)
 	cam->near = near;
 	cam->far = far;
 	cam->projection = mat4_persp(cam->fov, cam->aspect, cam->near, cam->far);
+}
+
+void		resize(t_display *disp, t_camera *cam)
+{
+	int w;
+	int h;
+
+	w = 0;
+	h = 0;
+	glfwGetWindowSize(disp->window, &w, &h);
+	if (w != disp->width || h != disp->height)
+	{
+		disp->width = w;
+		disp->height = h;
+		glViewport(0, 0, disp->width, disp->height);
+		camera_proj(cam, cam->fov, cam->near, cam->far);
+	}
 }
 
 void		camera_update(t_camera *cam)
