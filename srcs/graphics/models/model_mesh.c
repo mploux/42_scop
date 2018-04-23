@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/22 15:36:25 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/23 20:33:16 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 20:59:36 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ t_mesh		*convert_to_mesh(t_model_data *data, t_model_index *i, int size)
 {
 	int				j;
 	t_mesh_data		mesh_data;
+	t_mesh			*result;
 
 	j = -1;
 	mesh_data.vertices = init_vertices(&data->positions, size);
@@ -91,5 +92,6 @@ t_mesh		*convert_to_mesh(t_model_data *data, t_model_index *i, int size)
 		convert_normals(&mesh_data, data, i, j);
 		mesh_data.indices.buffer[j] = j;
 	}
-	return (new_mesh(&mesh_data));
+	result = new_mesh(&mesh_data);
+	return (result);
 }

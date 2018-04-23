@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 13:20:00 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/23 20:35:21 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 20:53:03 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void		scene_add(t_scene *s, t_entity *e)
 
 	new = ft_lstnew(e, sizeof(t_entity));
 	ft_lstadd(&s->entities, new);
+	delete_entity(&e);
 }
 
 void		scene_update(t_scene *s)

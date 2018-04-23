@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/08 15:53:47 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 18:15:02 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 20:47:09 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 
 float		clamp(float a, float min, float max)
 {
-	if (a < min)
-		a = min;
-	if (a > max)
-		a = max;
-	return (a);
+	float r;
+
+	r = a;
+	if (r < min)
+		r = min;
+	if (r > max)
+		r = max;
+	return (r);
 }
 
 int			balance(int min, int max, int v)
