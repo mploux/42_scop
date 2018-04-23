@@ -6,12 +6,11 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 19:53:55 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/23 19:39:21 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 20:38:56 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "model.h"
-#include <stdio.h>
 
 void		parse_line(char *line, t_model_data *data)
 {

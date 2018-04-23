@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/22 18:25:18 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/23 18:18:24 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 20:31:55 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	handle_controls(t_core *c, float speed)
 
 void	handle_render_controls(t_core *c, float speed)
 {
-	(void) speed;
 	if (get_key_up(&c->input, GLFW_KEY_1))
 		c->use_texture = 1 - c->use_texture;
 	if (get_key_up(&c->input, GLFW_KEY_2) && c->model->texcoords.length > 0)
@@ -89,7 +88,6 @@ void	handle_camera_controls(t_core *c, float speed)
 	c->camera.position.y += m.y;
 	c->camera.position.z += m.z * cos(yrot) + m.x * sin(yrot);
 }
-
 
 void	handle_rotation_controls(t_core *c, float speed)
 {

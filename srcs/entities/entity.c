@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 01:28:06 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/23 18:38:16 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 20:29:41 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,18 @@ void		delete_entity(t_entity **e)
 		free(*e);
 }
 
-void		entity_update(t_entity	*e)
+void		entity_update(t_entity *e)
 {
 	(void)e;
 }
 
-void		entity_render(t_entity	*e, t_shader *s)
+void		entity_render(t_entity *e, t_shader *s)
 {
-	t_mat4 trs;
-	t_mat4 ctr;
-	t_mat4 rotx;
-	t_mat4 roty;
-	t_mat4 final_trs;
-
+	t_mat4	trs;
+	t_mat4	ctr;
+	t_mat4	rotx;
+	t_mat4	roty;
+	t_mat4	final_trs;
 
 	rotx = mat4_rotate(vec3(1, 0, 0), -e->rot.x);
 	roty = mat4_rotate(vec3(0, 1, 0), -e->rot.y);

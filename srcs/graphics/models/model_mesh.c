@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/22 15:36:25 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 18:23:10 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 20:33:16 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	convert_vertices(t_mesh_data *m, t_model_data *d, t_model_index *i,
 		{
 			index[k] = i[j].position * 3 + k;
 			if (index[k] >= 0 && (size_t)index[k] < d->positions.length)
-			m->vertices.buffer[j * 3 + k] = d->positions.buffer[index[k]];
+				m->vertices.buffer[j * 3 + k] = d->positions.buffer[index[k]];
 		}
 	}
 }

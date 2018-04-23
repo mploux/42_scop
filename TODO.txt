@@ -5,6 +5,8 @@ OK Entity takes only a transform
 OK Entity rotation on spawn
 OK Entity correct spawn pos
 OK Handle texture loading errors
-- Handle 2/3 arguments
-- Fullscreen button
-- Norme
+OK Handle 2/3 arguments
+OK Norme
+OK Leaks
+- Valgrind
+- Remove -g
