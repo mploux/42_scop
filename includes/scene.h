@@ -1,36 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   entity.h                                           :+:      :+:    :+:   */
+/*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/23 01:21:41 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/23 13:40:14 by mploux           ###   ########.fr       */
+/*   Created: 2018/04/23 13:20:15 by mploux            #+#    #+#             */
+/*   Updated: 2018/04/23 13:45:21 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENTITY_H
-# define ENTITY_H
+#ifndef SCENE_H
+# define SCENE_H
 
-# include "mesh.h"
-# include "maths.h"
+# include <libft.h>
 
-typedef struct	s_entity
+# include "entity.h"
+# include "shader.h"
+
+typedef struct		s_scene
 {
-	t_mesh		*mesh;
-	t_vec3		pos;
-	t_vec2		rot;
-	t_vec3		scale;
-	t_mat4		transform;
-	t_mat4		center;
-	t_vec3		rot_factor;
-}				t_entity;
+	t_list			*entities;
+}					t_scene;
 
-t_entity		*new_entity(t_mesh *m, t_vec3 pos, t_vec2 rot);
-void			delete_entity(t_entity **e);
+t_scene				init_scene();
+void				clean_scene(t_scene *s);
 
-void			entity_update(t_entity	*e);
-void			entity_render(t_entity	*e, t_shader *s);
+void 				scene_add(t_scene *s, t_entity *e);
+
+void				scene_update(t_scene *s);
+void				scene_render(t_scene *s, t_shader *sh);
 
 #endif

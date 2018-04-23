@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 21:13:33 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/23 02:03:29 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 13:41:13 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include "controls.h"
 # include "camera.h"
 # include "entity.h"
+# include "scene.h"
 
 struct					s_core
 {
@@ -39,6 +40,7 @@ struct					s_core
 	t_mesh				*model;
 	t_mesh				*ground;
 	t_list				*entities;
+	t_scene				scene;
 	t_vec3				model_pos;
 	t_vec3				model_rot;
 	t_vec3				model_scale;

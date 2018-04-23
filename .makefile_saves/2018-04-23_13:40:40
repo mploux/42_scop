@@ -35,7 +35,6 @@ controls.c\
 error.c\
 utils/buffers.c\
 utils/int_utils.c\
-scene.c\
 maths/projection.c\
 maths/mat4.c\
 maths/maths.c\

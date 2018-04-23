@@ -6,13 +6,13 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 01:28:06 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/23 02:20:18 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 13:40:35 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "entity.h"
 
-t_entity	*new_entity(t_mesh *mesh, t_vec3 pos, t_vec2 rot, t_vec3 scale)
+t_entity	*new_entity(t_mesh *mesh, t_vec3 pos, t_vec2 rot)
 {
 	t_entity	*result;
 
@@ -21,7 +21,7 @@ t_entity	*new_entity(t_mesh *mesh, t_vec3 pos, t_vec2 rot, t_vec3 scale)
 	result->mesh = mesh;
 	result->pos = pos;
 	result->rot = vec2(rot.x, rot.y);
-	result->scale = scale;
+	result->scale = vec3(1, 1, 1);
 	return (result);
 }
 

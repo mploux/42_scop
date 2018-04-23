@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 21:03:07 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/23 02:17:38 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 13:45:59 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_core		init_core(int av, char **ac)
 	c.texture = new_texture(ac[2]);
 	c.model = new_model(ac[1]);
 	c.ground = new_model("data/models/plane.obj");
-	c.entities = NULL;
+	c.scene = init_scene();
 	c.show_ground = 0;
 	c.model_pos = vec3(0, 0, 0);
 	c.model_rot = vec3(0.0f, 270.0f, 0.0f);
@@ -40,6 +40,7 @@ t_core		init_core(int av, char **ac)
 
 void		clean_core(t_core *core)
 {
+	clean_scene(&core->scene);
 	delete_shader(&core->shader);
 	delete_mesh(&core->model);
 	delete_texture(&core->texture);
@@ -85,7 +86,7 @@ void		update(t_core *c)
 	if (get_key_up(&c->input, GLFW_KEY_5))
 		c->light_pos = c->camera.position;
 	if (get_key_up(&c->input, GLFW_KEY_Q))
-		ft_lstadd(&c->entities, ft_lstnew(new_entity(c->model, c->camera.position, c->camera.rotation, vec3(1, 1, 1)), sizeof(t_entity)));
+		scene_add(&c->scene, new_entity(c->model, c->camera.position, c->camera.rotation));
 	c->model_rot.x += c->rot_factor.x;
 	c->model_rot.y += c->rot_factor.y;
 	c->model_rot.z += c->rot_factor.z;
@@ -95,6 +96,7 @@ void		update(t_core *c)
 	handle_mouse_controls(c, 0.4f);
 	handle_camera_controls(c, 0.1f);
 	handle_rotation_controls(c, 0.1f);
+	scene_update(&c->scene);
 }
 
 void		render(t_core *c)
@@ -120,11 +122,12 @@ void		render(t_core *c)
 		shader_uniform_16f(c->shader, "modelMatrix", mat4_translate(vec3(0, -2, 0)));
 		draw(c->ground);
 	}
-	list = c->entities;
-	while (list)
-	{
-		t_entity *e = (t_entity *)list->content;
-		entity_render(e, c->shader);
-		list = list->next;
-	}
+	scene_render(&c->scene, c->shader);
+	// list = c->entities;
+	// while (list)
+	// {
+	// 	t_entity *e = (t_entity *)list->content;
+	// 	entity_render(e, c->shader);
+	// 	list = list->next;
+	// }
 }
