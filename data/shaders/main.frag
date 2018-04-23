@@ -7,6 +7,8 @@ uniform sampler2D tex;
 uniform float use_texcoord;
 uniform float use_texture;
 uniform float use_normal;
+uniform vec3 light_pos;
+uniform vec3 camera_pos;
 
 in vec3 frag_pos;
 in vec3 v_position;
@@ -16,7 +18,7 @@ in vec3 v_color;
 
 void main()
 {
-	float fog = 1.0 / distance(frag_pos, vec3(0,0,0)) * 5;
+	float fog = 1.0 / distance(camera_pos, vec3(0,0,0)) * 5;
 	if (fog > 1)
 		fog = 1;
 	if (fog < 0)
@@ -27,10 +29,13 @@ void main()
 	vec4 texture_poscoord = texture(tex, v_position.yz);
 	vec4 texture_texcoord = texture(tex, texcoord);
 	vec4 vertex_color = vec4(v_color * 0.5, 1.0);
-	float light = dot(vec3(0, 0, -1), v_normal);
+
+	float light_intensity = 1.0 / distance(frag_pos, light_pos) * 2;
+	float light = dot(normalize(frag_pos - light_pos), -v_normal) * light_intensity;
 
 	vec4 final_texture = mix(texture_poscoord, texture_texcoord, use_texture);
 	vec4 final_color = mix(vertex_color, final_texture, use_texture);
 	float final_light = mix(1.0, light, use_normal);
+
 	out_color = final_color * fog * final_light;
 }

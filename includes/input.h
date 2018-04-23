@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 13:20:10 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/22 21:22:35 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 23:59:26 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_input			init_input(GLFWwindow *window);
 
 void			input_update(t_input *input);
 void			input_handle_focus(t_input *input);
+void			input_handle_mouse(t_input *input, float x, float y);
 
 void			read_keys(t_input *input);
 void			read_buttons(t_input *input);

@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 21:13:33 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 18:39:32 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 02:03:29 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <libft.h>
 # include <GL/glew.h>
 # include <GLFW/glfw3.h>
+# include <time.h>
 
 # include "display.h"
 # include "shader.h"
@@ -25,14 +26,19 @@
 # include "texture.h"
 # include "input.h"
 # include "controls.h"
+# include "camera.h"
+# include "entity.h"
 
 struct					s_core
 {
 	t_display			display;
 	t_input				input;
+	t_camera			camera;
 	t_shader			*shader;
 	t_texture			*texture;
 	t_mesh				*model;
+	t_mesh				*ground;
+	t_list				*entities;
 	t_vec3				model_pos;
 	t_vec3				model_rot;
 	t_vec3				model_scale;
@@ -42,6 +48,8 @@ struct					s_core
 	float				use_texcoord;
 	float				use_texture;
 	float				use_normal;
+	int					show_ground;
+	t_vec3				light_pos;
 };
 
 typedef struct s_core	t_core;

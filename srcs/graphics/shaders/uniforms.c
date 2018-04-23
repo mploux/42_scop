@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/22 01:01:22 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 01:59:24 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 23:33:54 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ void	shader_uniform_16f(t_shader *shader, const char *name, t_mat4 val)
 	GLint location;
 
 	location = glGetUniformLocation(shader->program, name);
-	glUniformMatrix4fv(location, 1, GL_FALSE, val.m);
+	glUniformMatrix4fv(location, 1, GL_TRUE, val.m);
 }

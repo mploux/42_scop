@@ -42,8 +42,7 @@ maths/vec2.c\
 maths/vec3.c\
 maths/vec4.c\
 maths/transform.c\
-main.c\
-entities/entity.c
+main.c
 
 SRC = srcs/
 DIRS = bin

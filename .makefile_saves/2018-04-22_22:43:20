@@ -13,37 +13,35 @@
 NAME = scop
 CC = gcc
 FILES =\
-graphics/meshes/mesh_vao.c\
-graphics/meshes/mesh.c\
-graphics/camera.c\
-graphics/models/model_mesh.c\
-graphics/models/model_v_position.c\
-graphics/models/model.c\
-graphics/models/model_v_texcoord.c\
-graphics/models/model_v_normal.c\
-graphics/models/model_indices_parser.c\
-graphics/models/model_indices.c\
+controls.c\
+core.c\
+error.c\
 graphics/display.c\
-graphics/texture.c\
+graphics/meshes/mesh.c\
+graphics/meshes/mesh_vao.c\
+graphics/models/model.c\
+graphics/models/model_indices.c\
+graphics/models/model_indices_parser.c\
+graphics/models/model_mesh.c\
+graphics/models/model_v_normal.c\
+graphics/models/model_v_position.c\
+graphics/models/model_v_texcoord.c\
 graphics/shaders/shader.c\
 graphics/shaders/uniforms.c\
+graphics/texture.c\
+inputs/input.c\
 inputs/keyboard.c\
 inputs/mouse.c\
-inputs/input.c\
-core.c\
-controls.c\
-error.c\
-utils/buffers.c\
-utils/int_utils.c\
-maths/projection.c\
+main.c\
 maths/mat4.c\
 maths/maths.c\
+maths/projection.c\
+maths/transform.c\
 maths/vec2.c\
 maths/vec3.c\
 maths/vec4.c\
-maths/transform.c\
-main.c\
-entities/entity.c
+utils/buffers.c\
+utils/int_utils.c
 
 SRC = srcs/
 DIRS = bin

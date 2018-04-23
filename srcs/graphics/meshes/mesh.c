@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 19:22:31 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 18:11:21 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 23:24:36 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void			transform(t_mat4 *transform, t_shader *shader)
 {
 	GLuint	location;
 
-	location = glGetUniformLocation(shader->program, "viewMatrix");
+	location = glGetUniformLocation(shader->program, "modelMatrix");
 	glUniformMatrix4fv(location, 1, GL_TRUE, transform->m);
 }
 

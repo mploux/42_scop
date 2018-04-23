@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:57:27 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 17:24:10 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 23:43:18 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ t_mat4		mat4_persp(float fov, float aspect, float near, float far)
 	result.m[0 + 0 * 4] = 1.0 / (aspect * tfov);
 	result.m[1 + 1 * 4] = 1.0 / tfov;
 	result.m[2 + 2 * 4] = (-far - near) / (near - far);
-	result.m[2 + 3 * 4] = (2 * far * near) / (near - far);
-	result.m[3 + 2 * 4] = 1;
+	result.m[3 + 2 * 4] = (2 * far * near) / (near - far);
+	result.m[2 + 3 * 4] = 1;
 	result.m[3 + 3 * 4] = 0;
 	return (result);
 }

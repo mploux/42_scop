@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 13:19:58 by mploux            #+#    #+#             */
-/*   Updated: 2018/03/22 21:30:46 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 23:59:03 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void		input_handle_focus(t_input *input)
 	double	x;
 	double	y;
 
+	glfwGetCursorPos(input->window, &x, &y);
 	if (get_mouse_button(input, 0) && !input->focused)
 	{
 		input->focused = 1;
@@ -73,12 +74,21 @@ void		input_handle_focus(t_input *input)
 	}
 	if (input->focused)
 	{
-		glfwGetCursorPos(input->window, &x, &y);
-		input->mouse_position.x = (float)x;
-		input->mouse_position.y = (float)y;
-		input->mouse_velocity.x = (float)x - input->mouse_old_position.x;
-		input->mouse_velocity.y = (float)y - input->mouse_old_position.y;
-		input->mouse_old_position.x = (float)x;
-		input->mouse_old_position.y = (float)y;
+		input_handle_mouse(input, x, y);
 	}
+	else
+	{
+		input->mouse_old_position.x = x;
+		input->mouse_old_position.y = y;
+	}
+}
+
+void		input_handle_mouse(t_input *input, float x, float y)
+{
+	input->mouse_position.x = x;
+	input->mouse_position.y = y;
+	input->mouse_velocity.x = x - input->mouse_old_position.x;
+	input->mouse_velocity.y = y - input->mouse_old_position.y;
+	input->mouse_old_position.x = x;
+	input->mouse_old_position.y = y;
 }

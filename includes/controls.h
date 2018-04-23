@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/22 18:25:37 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 18:41:34 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/22 23:45:56 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 typedef struct s_core	t_core;
 
 void					handle_controls(t_core *c, float speed);
+void					handle_mouse_controls(t_core *c, float speed);
+void					handle_camera_controls(t_core *c, float speed);
 void					handle_rotation_controls(t_core *c, float speed);
 
 #endif
