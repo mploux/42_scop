@@ -6,7 +6,7 @@
 #    By: mploux <mploux@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/06 18:10:48 by mploux            #+#    #+#              #
-#    Updated: 2018/04/23 17:11:37 by mploux           ###   ########.fr        #
+#    Updated: 2018/04/23 21:09:21 by mploux           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,7 @@ else
 				-lXxf86vm -lpthread -ldl -lXinerama -lXcursor -lrt
 endif
 
-CFLAGS = -Wall -Wextra -Werror -pedantic -g
+CFLAGS = -Wall -Wextra -Werror -pedantic
 FLAGS = $(CFLAGS) $(INCLUDES)
 
 MKDIR = mkdir -p

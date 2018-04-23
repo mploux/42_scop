@@ -8,5 +8,5 @@ OK Handle texture loading errors
 OK Handle 2/3 arguments
 OK Norme
 OK Leaks
-- Valgrind
+OK Valgrind
 - Remove -g
