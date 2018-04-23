@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 21:13:33 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/23 16:43:46 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 18:11:48 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,12 @@ struct					s_core
 	t_mat4				model_trs;
 	t_mat4				model_centered_trs;
 	t_vec3				rot_factor;
-	float				use_texcoord;
-	float				use_texture;
-	float				use_normal;
+	int					use_texcoord;
+	int					use_texture;
+	int					use_normal;
+	float				use_texcoord_f;
+	float				use_texture_f;
+	float				use_normal_f;
 	float				use_specular;
 	int					show_ground;
 	t_vec3				light_pos;

@@ -1,0 +1,10 @@
+OK texture mode interpolation
+OK normal mode interpolation
+OK texcoord mode interpolation
+OK Entity takes only a transform
+OK Entity rotation on spawn
+OK Entity correct spawn pos
+OK Handle texture loading errors
+- Handle 2/3 arguments
+- Fullscreen button
+- Norme

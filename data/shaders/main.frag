@@ -25,17 +25,15 @@ void main()
 	if (fog < 0)
 		fog = 0;
 	vec2 texcoord = v_position.yz;
-	if (use_texcoord == 1)
-		texcoord = v_texcoord;
 	vec4 texture_poscoord = texture(tex, v_position.yz);
-	vec4 texture_texcoord = texture(tex, texcoord);
+	vec4 texture_texcoord = texture(tex, v_texcoord);
 	vec4 vertex_color = vec4(v_color * 0.5, 1.0);
 
 	vec3 light_color = vec3(1, 1, 1);
-	float light_intensity = 1.0 / distance(frag_pos, light_pos) * 2;
+	float light_intensity = 1.0 / distance(frag_pos, light_pos) * 5;
 	vec3 light = dot(normalize(frag_pos - light_pos), -v_normal) * light_intensity * light_color;
 
-	vec4 final_texture = mix(texture_poscoord, texture_texcoord, use_texture);
+	vec4 final_texture = mix(texture_poscoord, texture_texcoord, use_texcoord);
 	vec4 final_color = mix(vertex_color, final_texture, use_texture);
 	vec3 final_light = mix(vec3(1), light, use_normal);
 

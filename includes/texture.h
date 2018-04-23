@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 21:25:09 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 17:22:24 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 18:46:02 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <libft.h>
 
 # include "int_utils.h"
+# include "error.h"
 
 typedef struct		s_texture
 {

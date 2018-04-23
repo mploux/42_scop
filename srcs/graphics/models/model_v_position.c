@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/22 15:44:21 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 18:20:14 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 19:16:53 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ int				parse_index_pos(char *index)
 	if (index == NULL)
 		return (-1);
 	size = 0;
-	while (index[size] != '/' && index[size] != '\n' && index[size] != 0)
+	while (index[size] != '/' && index[size] != '\n' && index[size] != 0 &&
+													ft_isdigit(index[size]))
 		size++;
 	if (size == 0)
 		return (-1);

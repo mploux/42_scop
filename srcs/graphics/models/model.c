@@ -6,16 +6,19 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 19:53:55 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/22 18:12:09 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 19:39:21 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "model.h"
+#include <stdio.h>
 
 void		parse_line(char *line, t_model_data *data)
 {
 	char	**tokens;
 
+	if (!ft_isascii(line[0]))
+		error("Model parser error: Invalid format !");
 	if (!(tokens = ft_strsplit(line, ' ')))
 		error("Model parser error: Invalid tokens !");
 	if (tokens[0] && ft_strcmp(tokens[0], "v") == 0)
@@ -43,6 +46,16 @@ static void	init_model(t_model_data *data)
 	data->size = 0;
 }
 
+static void	clean_model(t_model_data *data)
+{
+	free(data->positions.buffer);
+	free(data->texcoords.buffer);
+	free(data->normals.buffer);
+	free(data->positions_i.buffer);
+	free(data->normals_i.buffer);
+	free(data->texcoords_i.buffer);
+}
+
 t_mesh		*new_model(char *file)
 {
 	int				fd;
@@ -51,6 +64,9 @@ t_mesh		*new_model(char *file)
 	t_model_index	*indices;
 	t_mesh			*m;
 
+	ft_putstr("loading: ");
+	ft_putstr(file);
+	ft_putstr("\n");
 	if ((fd = open(file, O_RDONLY)) < 0)
 		error("Failed to load model !");
 	init_model(&data);
@@ -62,12 +78,7 @@ t_mesh		*new_model(char *file)
 	close(fd);
 	indices = get_indices(&data, data.size);
 	m = convert_to_mesh(&data, indices, data.size);
-	free(data.positions.buffer);
-	free(data.texcoords.buffer);
-	free(data.normals.buffer);
-	free(data.positions_i.buffer);
-	free(data.normals_i.buffer);
-	free(data.texcoords_i.buffer);
+	clean_model(&data);
 	free(indices);
 	return (m);
 }

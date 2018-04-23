@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/22 18:25:18 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/23 15:47:32 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 18:18:24 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,32 @@ void	handle_controls(t_core *c, float speed)
 		c->model_pos.y += speed;
 	if (get_key(&c->input, GLFW_KEY_R))
 		c->model_pos = vec3(0, 0, 0);
+}
+
+void	handle_render_controls(t_core *c, float speed)
+{
+	(void) speed;
+	if (get_key_up(&c->input, GLFW_KEY_1))
+		c->use_texture = 1 - c->use_texture;
+	if (get_key_up(&c->input, GLFW_KEY_2) && c->model->texcoords.length > 0)
+		c->use_texcoord = 1 - c->use_texcoord;
+	if (get_key_up(&c->input, GLFW_KEY_4) && c->model->normals.length > 0)
+		c->use_normal = 1 - c->use_normal;
+	if (c->use_texture)
+		c->use_texture_f += speed;
+	else
+		c->use_texture_f -= speed;
+	if (c->use_texcoord)
+		c->use_texcoord_f += speed;
+	else
+		c->use_texcoord_f -= speed;
+	if (c->use_normal)
+		c->use_normal_f += speed;
+	else
+		c->use_normal_f -= speed;
+	c->use_texture_f = clamp(c->use_texture_f, 0.0f, 1.0f);
+	c->use_texcoord_f = clamp(c->use_texcoord_f, 0.0f, 1.0f);
+	c->use_normal_f = clamp(c->use_normal_f, 0.0f, 1.0f);
 }
 
 void	handle_mouse_controls(t_core *c, float speed)

@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 21:03:07 by mploux            #+#    #+#             */
-/*   Updated: 2018/04/23 16:43:52 by mploux           ###   ########.fr       */
+/*   Updated: 2018/04/23 18:28:24 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,20 +81,15 @@ void		run_core(t_core *c)
 void		update(t_core *c)
 {
 	camera_update(&c->camera);
-	if (get_key_up(&c->input, GLFW_KEY_1))
-		c->use_texture = 1.0f - c->use_texture;
-	if (get_key_up(&c->input, GLFW_KEY_2) && c->model->texcoords.length > 0)
-		c->use_texcoord = 1.0f - c->use_texcoord;
+	handle_render_controls(c, 0.05f);
 	if (get_key_up(&c->input, GLFW_KEY_3))
 		c->show_ground = !c->show_ground;
-	if (get_key_up(&c->input, GLFW_KEY_4) && c->model->normals.length > 0)
-		c->use_normal = 1.0f - c->use_normal;
 	if (get_key_up(&c->input, GLFW_KEY_5))
 		c->light_pos = c->camera.position;
 	if (get_key_up(&c->input, GLFW_KEY_6))
 		c->use_specular = 1.0 - c->use_specular;
 	if (get_key_up(&c->input, GLFW_KEY_Q))
-		scene_add(&c->scene, new_entity(c->model, c->camera.position, c->camera.rotation));
+		scene_add(&c->scene, new_entity(c->model, &c->camera));
 	c->model_rot.x += c->rot_factor.x;
 	c->model_rot.y += c->rot_factor.y;
 	c->model_rot.z += c->rot_factor.z;
@@ -113,9 +108,9 @@ void		render(t_core *c)
 	glUseProgram(c->shader->program);
 	shader_uniform_16f(c->shader, "projectionMatrix", c->camera.projection);
 	shader_uniform_16f(c->shader, "viewMatrix", c->camera.transform);
-	shader_uniform_1f(c->shader, "use_texcoord", c->use_texcoord);
-	shader_uniform_1f(c->shader, "use_texture", c->use_texture);
-	shader_uniform_1f(c->shader, "use_normal", c->use_normal);
+	shader_uniform_1f(c->shader, "use_texcoord", c->use_texcoord_f);
+	shader_uniform_1f(c->shader, "use_texture", c->use_texture_f);
+	shader_uniform_1f(c->shader, "use_normal", c->use_normal_f);
 	shader_uniform_3f(c->shader, "light_pos", c->light_pos);
 	shader_uniform_1f(c->shader, "use_specular", c->use_specular);
 	shader_uniform_3f(c->shader, "camera_pos", c->camera.position);
